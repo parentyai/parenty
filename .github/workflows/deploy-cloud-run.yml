@@ -61,6 +61,19 @@ jobs:
           curl -fsS "$SERVICE_URL/health" >/tmp/health.json
           echo "Health OK"
 
+      - name: Notify success (Slack)
+        if: success()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "SLACK_WEBHOOK_URL not set; skipping"
+            exit 0
+          fi
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          payload=$(printf '{"text":"deploy-cloud-run succeeded\nrepo: %s\nrun: %s"}' "$GITHUB_REPOSITORY" "$RUN_URL")
+          curl -sS -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL" >/dev/null
+
       - name: Notify failure (Slack)
         if: failure()
         env:

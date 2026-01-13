@@ -1,6 +1,6 @@
 const https = require('https');
 
-function buildReplyMessage(event) {
+function buildReplyMessage(event, replyText) {
   if (!event || event.type !== 'message') {
     return null;
   }
@@ -9,7 +9,7 @@ function buildReplyMessage(event) {
   }
   return {
     type: 'text',
-    text: 'OK'
+    text: replyText
   };
 }
 
@@ -42,19 +42,20 @@ function sendReply(replyToken, messages, accessToken) {
   });
 }
 
-async function replyToLine(events, accessToken) {
+async function replyToLine(events, accessToken, replyText) {
   if (!accessToken) {
     console.error('[line.reply] missing access token');
     return;
   }
 
+  const text = replyText && replyText.trim() ? replyText.trim() : 'OK';
   const tasks = [];
 
   for (const event of events) {
     if (!event || !event.replyToken) {
       continue;
     }
-    const message = buildReplyMessage(event);
+    const message = buildReplyMessage(event, text);
     if (!message) {
       continue;
     }

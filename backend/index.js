@@ -3,6 +3,7 @@ const { loadEnv } = require('./src/config/env');
 const { verifySignature } = require('./src/line/verifySignature');
 const { normalizeEvents, logEvents } = require('./src/line/handler');
 const { replyToLine } = require('./src/line/reply');
+const { getFirestoreStatus } = require('./src/firestore/preflight');
 
 const env = loadEnv();
 
@@ -15,11 +16,13 @@ const rawBodySaver = (req, res, buf) => {
 app.use(express.json({ verify: rawBodySaver }));
 
 app.get('/health', (req, res) => {
+  const firestore = getFirestoreStatus(env);
   res.status(200).json({
     status: 'ok',
     envName: env.ENV_NAME,
     ts: new Date().toISOString(),
-    baseUrl: env.PUBLIC_BASE_URL
+    baseUrl: env.PUBLIC_BASE_URL,
+    firestore
   });
 });
 
@@ -32,7 +35,7 @@ app.post('/line/webhook', (req, res) => {
   }
 
   const events = normalizeEvents(req.body);
-  replyToLine(events, env.LINE_CHANNEL_ACCESS_TOKEN).catch((error) => {
+  replyToLine(events, env.LINE_CHANNEL_ACCESS_TOKEN, env.LINE_REPLY_TEXT).catch((error) => {
     console.error('[line.reply] error', { message: error.message });
   });
   logEvents(events);

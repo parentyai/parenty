@@ -74,7 +74,7 @@ curl -sS https://<CLOUD_RUN_URL>/health
 ### LINE 実メッセージ疎通（返信あり）
 
 1) LINEアプリからボットに `ping` を送信  
-2) ボットから `OK` の返信が返ることを確認
+2) ボットから `OK` または `LINE_REPLY_TEXT` の返信が返ることを確認
 
 期待結果
 - 返信が `OK` である
