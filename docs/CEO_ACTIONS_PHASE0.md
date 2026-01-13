@@ -48,8 +48,13 @@
   6. Required status checks に integrity を追加する。
   7. Pull request review を必須に設定する。
 - 入力するもの:
-  - <GITHUB_ACTIONS_SECRET_NAMES>
-  - <REQUIRED_STATUS_CHECKS>
+  - GITHUB_ACTIONS_SECRET_NAMES:
+    - GCP_PROJECT_ID
+    - GCP_REGION
+    - CLOUD_RUN_SERVICE
+    - GCP_SA_KEY
+  - REQUIRED_STATUS_CHECKS:
+    - integrity
 - できたか確認:
   - main への直接pushがブロックされる。
   - PRで integrity が必須チェックになる。
@@ -135,4 +140,3 @@
   - キーの保存漏れ: Secret Manager に記録する。
   - 上限値未設定: Usage/Limit で再設定する。
   - モデル名の誤記: Dashboardの表記を確認する。
-
