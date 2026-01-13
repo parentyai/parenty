@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "runDate": "2026-01-08",
+  "fetchedAt": "2026-01-08T05:09:16Z",
+  "sourceFile": "APIRegistry_External.md",
+  "count": 48,
+  "ok": 45,
+  "fail": 3,
+  "entries": [
+    {
+      "url": "https://developers.google.com/maps",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.google.com/maps",
+      "headers": {
+        "last-modified": "Wed, 05 Nov 2025 00:35:15 GMT",
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://developers.google.com/maps/documentation",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.google.com/maps/documentation",
+      "headers": {
+        "last-modified": "Fri, 14 Nov 2025 00:59:37 GMT",
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://cloud.google.com/maps-platform/terms",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://cloud.google.com/maps-platform/terms",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://policies.google.com/privacy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://policies.google.com/privacy",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://developers.google.com/maps/billing-and-pricing",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.google.com/maps/billing-and-pricing",
+      "headers": {
+        "last-modified": "Thu, 06 Nov 2025 20:46:51 GMT",
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://docs.developer.yelp.com/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://docs.developer.yelp.com/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://docs.developer.yelp.com/docs/places-intro",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://docs.developer.yelp.com/docs/places-intro",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.yelp.com/developers/api_terms",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://terms.yelp.com/developers/api_terms/20250909_en_us/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.yelp.com/tos/privacy_policy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://terms.yelp.com/privacy/en_us/20260101_en_us/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.yelp.com/developers",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.yelp.com/developers",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://developers.zocdoc.com/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.zocdoc.com/",
+      "headers": {
+        "last-modified": "Wed, 19 Feb 2020 18:14:48 GMT",
+        "etag": "\"84c3da0bc4e38dbbf22a36c86479b106\"",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.zocdoc.com/about/terms",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": false,
+      "status": 403,
+      "finalUrl": "https://www.zocdoc.com/about/terms",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html;charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.zocdoc.com/about/privacy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": false,
+      "status": 403,
+      "finalUrl": "https://www.zocdoc.com/about/privacy",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html;charset=utf-8"
+      }
+    },
+    {
+      "url": "https://openweathermap.org/api",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://openweathermap.org/api",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://openweathermap.org/terms",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://openweathermap.org/terms",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://openweathermap.org/privacy-policy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://openweathermap.org/privacy-policy",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://openweathermap.org/price",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://openweathermap.org/price",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.eventbrite.com/platform/api",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.eventbrite.com/platform/api",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.eventbrite.com/platform/api#/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.eventbrite.com/platform/api#/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.eventbrite.com/platform/terms-of-service",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.eventbrite.com/platform/terms-of-service",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.eventbrite.com/help/en-us/articles/460838",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.eventbrite.com/help/en-us/articles/460838/",
+      "headers": {
+        "last-modified": "Wed, 07 Jan 2026 23:25:24 GMT",
+        "etag": "\"2f2f74477c7414ea8f8fa10a10363e01\"",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.eventbrite.com/pricing",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.eventbrite.com/organizer/pricing/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/about/openfema",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/reports-and-data/openfema",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 04:23:39 GMT",
+        "etag": "\"1767846219\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/about/openfema/api",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/openfema/api",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 04:47:56 GMT",
+        "etag": "\"1767847676\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/about/openfema/terms-conditions",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/openfema/terms-conditions",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 03:18:21 GMT",
+        "etag": "\"1767842301\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/privacy-policy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/website-information/privacy-policy",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 03:21:59 GMT",
+        "etag": "\"1767842519\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/about/openfema/data-sets",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/openfema/data-sets",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 04:12:14 GMT",
+        "etag": "\"1767845534\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.weather.gov/documentation/services-web-api",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.weather.gov/documentation/services-web-api",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://api.weather.gov",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://api.weather.gov/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.weather.gov/disclaimer",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.weather.gov/disclaimer",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.noaa.gov/privacy-policy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": false,
+      "status": 404,
+      "finalUrl": "https://www.noaa.gov/privacy-policy",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 05:10:31 GMT",
+        "etag": "\"1767849031\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://earthquake.usgs.gov/fdsnws/event/1/",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 05:10:32 GMT",
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.usgs.gov/information-policies-and-instructions",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.usgs.gov/information-policies-and-instructions",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.usgs.gov/privacy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.usgs.gov/office-of-the-director/privacy-policies",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://data.cdc.gov/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://data.cdc.gov/",
+      "headers": {
+        "last-modified": null,
+        "etag": "W/\"d07b0205447b2298b1a08a074f9b9eaf\"",
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.cdc.gov/Other/policies.html",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.cdc.gov/Other/policies.html",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://www.cdc.gov/Other/privacy.html",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.cdc.gov/Other/privacy.html",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://dev.socrata.com/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://dev.socrata.com/",
+      "headers": {
+        "last-modified": null,
+        "etag": "\"4cbbef7725c5747c833eb0905206e542-ssl\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://developers.usps.com/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.usps.com/",
+      "headers": {
+        "last-modified": "Wed, 07 Jan 2026 19:40:08 GMT",
+        "etag": "\"1767814808\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://developers.usps.com/apis",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.usps.com/apis",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 05:10:39 GMT",
+        "etag": "\"1767849039\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://developers.usps.com/terms-and-conditions",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://developers.usps.com/terms-and-conditions",
+      "headers": {
+        "last-modified": "Wed, 07 Jan 2026 19:40:45 GMT",
+        "etag": "\"1767814845\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://www.usps.com/privacypolicy/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.usps.com/privacypolicy/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html"
+      }
+    },
+    {
+      "url": "https://registration.shippingapis.com/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://registration.shippingapis.com/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://opendata.cityofnewyork.us/",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://opendata.cityofnewyork.us/",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "url": "https://data.cityofnewyork.us/browse?category=Education",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://data.cityofnewyork.us/browse?category=Education",
+      "headers": {
+        "last-modified": null,
+        "etag": "W/\"85c0819068e38f03cbe59add30c0460b\"",
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.nyc.gov/main/terms-of-use",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.nyc.gov/main/terms-of-use",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html;charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.nyc.gov/main/nyc-gov-privacy-policy",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.nyc.gov/main/nyc-gov-privacy-policy",
+      "headers": {
+        "last-modified": null,
+        "etag": null,
+        "content-type": "text/html;charset=utf-8"
+      }
+    },
+    {
+      "url": "https://www.fema.gov/about/openfema/developer-resources",
+      "fetchedAt": "2026-01-08T05:09:16Z",
+      "ok": true,
+      "status": 200,
+      "finalUrl": "https://www.fema.gov/about/openfema/developer-resources",
+      "headers": {
+        "last-modified": "Thu, 08 Jan 2026 05:10:51 GMT",
+        "etag": "\"1767849051\"",
+        "content-type": "text/html; charset=UTF-8"
+      }
+    }
+  ]
+}

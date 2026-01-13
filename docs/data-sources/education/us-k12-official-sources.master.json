@@ -1,0 +1,79 @@
+{
+  "version": "1.0",
+  "updatedAt": "2026-01-09",
+  "notes": "sample records only",
+  "records": [
+    {
+      "id": "us-k12-ny-seda-calendar",
+      "name": "NY State Education Department Calendar",
+      "stateCode": "NY",
+      "authority": "state_education_agency",
+      "sourceType": "api",
+      "officialScore": 3,
+      "scope": ["k12", "calendar"],
+      "baseUrl": "https://example.ny.gov/education/api",
+      "terms": {
+        "termsUrl": "https://example.ny.gov/education/terms",
+        "licenseUrl": "https://example.ny.gov/education/license",
+        "commercialUse": "unknown",
+        "redistribution": "unknown",
+        "scraping": "unknown",
+        "rateLimit": "unknown",
+        "notes": ""
+      },
+      "auth": {
+        "method": "api_key",
+        "notes": "sample"
+      },
+      "status": "active"
+    },
+    {
+      "id": "us-k12-ca-cde-closure",
+      "name": "CA Department of Education Closure Notices",
+      "stateCode": "CA",
+      "authority": "state_education_agency",
+      "sourceType": "web_only",
+      "officialScore": 2,
+      "scope": ["k12", "closure", "announcements"],
+      "baseUrl": "https://example.ca.gov/education/closures",
+      "terms": {
+        "termsUrl": "https://example.ca.gov/education/terms",
+        "licenseUrl": null,
+        "commercialUse": "unknown",
+        "redistribution": "unknown",
+        "scraping": "unknown",
+        "rateLimit": "unknown",
+        "notes": ""
+      },
+      "auth": {
+        "method": "none",
+        "notes": ""
+      },
+      "status": "active"
+    },
+    {
+      "id": "us-k12-tx-district-boundary",
+      "name": "TX District Boundary Portal",
+      "stateCode": "TX",
+      "authority": "district",
+      "sourceType": "portal_only",
+      "officialScore": 1,
+      "scope": ["k12", "boundary"],
+      "baseUrl": "https://example.tx.gov/district/boundary",
+      "terms": {
+        "termsUrl": "https://example.tx.gov/district/terms",
+        "licenseUrl": null,
+        "commercialUse": "unknown",
+        "redistribution": "unknown",
+        "scraping": "unknown",
+        "rateLimit": "unknown",
+        "notes": ""
+      },
+      "auth": {
+        "method": "other",
+        "notes": "portal login"
+      },
+      "status": "unknown"
+    }
+  ]
+}
