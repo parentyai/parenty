@@ -53,7 +53,6 @@
     - GCP_REGION
     - CLOUD_RUN_SERVICE
     - GCP_SA_KEY
-    - SLACK_WEBHOOK_URL（任意: 失敗通知）
   - REQUIRED_STATUS_CHECKS:
     - integrity
 - できたか確認:
