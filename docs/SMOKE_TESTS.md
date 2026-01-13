@@ -28,6 +28,7 @@ curl -sS http://localhost:3000/health
 期待結果
 - HTTP 200
 - `status: ok` / `envName` / `ts` / `baseUrl` を含む JSON
+- Firestore 用ENVが入っていれば `firestore.configured: true`
 
 ### 3) 署名不正 webhook が 401
 
@@ -77,7 +78,7 @@ curl -sS https://<CLOUD_RUN_URL>/health
 2) ボットから `OK` または `LINE_REPLY_TEXT` の返信が返ることを確認
 
 期待結果
-- 返信が `OK` である
+- 返信が `OK` または `LINE_REPLY_TEXT` である
 - Cloud Run ログに `line.webhook` の記録が出る
 
 ---
