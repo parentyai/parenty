@@ -62,6 +62,10 @@ Phase 1 はデータ層と権限制御の基盤を固める工程であり、SSO
    - `backend/src/auth/*` を追加し、SSOT 4-4 のロールモデルに一致させる。
 10. **データ層の入口整備**
    - `backend/src/firestore/refs.js` でコレクション名を固定する。
+11. **参照レイヤの整備（UX/管理）**
+    - `backend/src/firestore/ux_refs.js` / `backend/src/firestore/admin_refs.js` を入口にする。
+12. **Rules 運用チェック（dry-run）**
+    - `npm run firestore:rules-audit` を実行する。
 
 ### 3) ブロッカー（判断待ち）
 

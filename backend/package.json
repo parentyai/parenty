@@ -10,7 +10,8 @@
     "lint": "node tools/lint.js",
     "test": "node tools/test.js",
     "firestore:preflight": "node tools/firestore_preflight.js",
-    "firestore:index-audit": "node tools/firestore_index_audit.js"
+    "firestore:index-audit": "node tools/firestore_index_audit.js",
+    "firestore:rules-audit": "node tools/firestore_rules_audit.js"
   },
   "dependencies": {
     "@google-cloud/firestore": "^8.1.0",
