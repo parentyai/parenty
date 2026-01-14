@@ -59,6 +59,12 @@ gcloud logging read \
 firebase deploy --only firestore:rules,firestore:indexes
 ```
 
+整合チェック（任意）
+```
+cd backend
+npm run firestore:index-audit
+```
+
 ## 実作業ログ（運用記録）
 
 - 2026-01-13: Cloud Run 環境変数を整理（LINE_REPLY_TEXT / GCP_PROJECT_ID / FIRESTORE_DATABASE_ID / PUBLIC_BASE_URL）、/health で `firestore.configured: true` を確認。

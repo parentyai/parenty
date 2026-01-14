@@ -60,6 +60,8 @@ Phase 1 はデータ層と権限制御の基盤を固める工程であり、SSO
    - `backend/src/firestore/client.js` を起点に接続を統一する。
 9. **Auth 骨格の整備**
    - `backend/src/auth/*` を追加し、SSOT 4-4 のロールモデルに一致させる。
+10. **データ層の入口整備**
+   - `backend/src/firestore/refs.js` でコレクション名を固定する。
 
 ### 3) ブロッカー（判断待ち）
 
