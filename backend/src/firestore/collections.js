@@ -1,0 +1,32 @@
+const COLLECTIONS = Object.freeze({
+  UX: [
+    'households',
+    'guardians',
+    'children',
+    'consents',
+    'subscriptions',
+    'notifications',
+    'notification_deliveries',
+    'faq_logs',
+    'scenario_states',
+    'roadmaps'
+  ],
+  ADMIN: [
+    'admin_users',
+    'templates',
+    'global_flags',
+    'data_requests',
+    'sources',
+    'experience_sources',
+    'experience_fragments',
+    'experience_usage_logs',
+    'review_sources',
+    'reviews',
+    'ops_configs',
+    'audit_logs',
+    'incident_records',
+    'admin_views'
+  ]
+});
+
+module.exports = { COLLECTIONS };

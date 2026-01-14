@@ -1,6 +1,6 @@
-const { Firestore } = require('@google-cloud/firestore');
 const { loadEnv } = require('../src/config/env');
 const { getFirestoreStatus } = require('../src/firestore/preflight');
+const { createFirestoreClient } = require('../src/firestore/client');
 
 async function main() {
   let env;
@@ -17,10 +17,7 @@ async function main() {
     process.exit(2);
   }
 
-  const firestore = new Firestore({
-    projectId: env.GCP_PROJECT_ID,
-    databaseId: env.FIRESTORE_DATABASE_ID
-  });
+  const firestore = createFirestoreClient(env);
 
   const start = Date.now();
   try {
