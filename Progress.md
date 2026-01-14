@@ -123,3 +123,4 @@
   - Firestore Rules / Index の参照導線を実装成果物に接続（`firestore.rules` / `firestore.indexes.json`）
   - LINE webhook ログのPIIをマスキング（hash + text length）
   - Firestore Rules / Index を Firebase へ反映（default database）
+  - Firestore Index 監査：Firebase 上の定義が `firestore.indexes.json` と一致
