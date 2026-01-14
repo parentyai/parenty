@@ -125,3 +125,4 @@
   - Firestore Rules / Index を Firebase へ反映（default database）
   - Firestore Index 監査：Firebase 上の定義が `firestore.indexes.json` と一致
   - Auth 適用開始：非公開エンドポイントは Firebase ID Token 必須
+  - Firestore Rules 監査（dry-run）：`firestore.rules` のコンパイル成功を確認
