@@ -1,5 +1,6 @@
 const { execSync } = require('child_process');
-const { readFileSync } = require('fs');
+const { readFileSync, existsSync } = require('fs');
+const path = require('path');
 
 function normalize(index) {
   const fields = index.fields.filter((field) => field.fieldPath !== '__name__');
@@ -14,8 +15,25 @@ function serialize(item) {
   return JSON.stringify(item);
 }
 
+function resolveIndexesPath() {
+  const candidates = [
+    path.resolve(process.cwd(), 'firestore.indexes.json'),
+    path.resolve(process.cwd(), '..', 'firestore.indexes.json')
+  ];
+
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  const error = new Error('[firestore.index.audit] firestore.indexes.json not found');
+  error.code = 'FIRESTORE_INDEXES_NOT_FOUND';
+  throw error;
+}
+
 function loadLocalIndexes() {
-  const raw = readFileSync('firestore.indexes.json', 'utf8');
+  const raw = readFileSync(resolveIndexesPath(), 'utf8');
   const data = JSON.parse(raw);
   return data.indexes.map(normalize);
 }
