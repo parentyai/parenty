@@ -30,6 +30,17 @@ curl -sS http://localhost:3000/health
 - `status: ok` / `envName` / `ts` / `baseUrl` を含む JSON
 - Firestore 用ENVが入っていれば `firestore.configured: true`
 
+### 2.5) Firestore preflight（任意 / 読み書きなし）
+
+```bash
+npm run firestore:preflight
+```
+
+期待結果
+- `firestore.preflight` が `ok` で終わる
+- 失敗時は `not configured` または `failed` が出る
+- `ENV_NAME=local` の場合は `GOOGLE_APPLICATION_CREDENTIALS` が必要
+
 ### 3) 署名不正 webhook が 401
 
 ```bash

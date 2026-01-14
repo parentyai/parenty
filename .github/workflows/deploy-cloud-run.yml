@@ -2,6 +2,15 @@ name: deploy-cloud-run
 
 on:
   workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: stg or prod
+        required: true
+        default: stg
+        type: choice
+        options:
+          - stg
+          - prod
   push:
     branches:
       - main
@@ -27,26 +36,43 @@ jobs:
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_REGION: ${{ secrets.GCP_REGION }}
+          CLOUD_RUN_SERVICE_STG: ${{ secrets.CLOUD_RUN_SERVICE_STG }}
+          CLOUD_RUN_SERVICE_PROD: ${{ secrets.CLOUD_RUN_SERVICE_PROD }}
           CLOUD_RUN_SERVICE: ${{ secrets.CLOUD_RUN_SERVICE }}
+          DEPLOY_ENV: ${{ github.event.inputs.deploy_env || 'stg' }}
         run: |
           set -euo pipefail
-          gcloud run deploy "$CLOUD_RUN_SERVICE" \
+          if [ "$DEPLOY_ENV" = "prod" ]; then
+            if [ -z "${CLOUD_RUN_SERVICE_PROD:-}" ]; then
+              echo "CLOUD_RUN_SERVICE_PROD is missing"
+              exit 1
+            fi
+            SERVICE_NAME="$CLOUD_RUN_SERVICE_PROD"
+          else
+            SERVICE_NAME="${CLOUD_RUN_SERVICE_STG:-${CLOUD_RUN_SERVICE:-}}"
+            if [ -z "$SERVICE_NAME" ]; then
+              echo "CLOUD_RUN_SERVICE_STG or CLOUD_RUN_SERVICE is missing"
+              exit 1
+            fi
+          fi
+
+          gcloud run deploy "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
             --source backend \
             --allow-unauthenticated \
-            --set-env-vars ENV_NAME=stg,PUBLIC_BASE_URL=https://placeholder.local \
+            --set-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local \
             --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 
-          SERVICE_URL=$(gcloud run services describe "$CLOUD_RUN_SERVICE" \
+          SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
             --format='value(status.url)')
 
-          gcloud run services update "$CLOUD_RUN_SERVICE" \
+          gcloud run services update "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
-            --set-env-vars ENV_NAME=stg,PUBLIC_BASE_URL="$SERVICE_URL"
+            --set-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL"
 
           echo "SERVICE_URL=$SERVICE_URL" >> "$GITHUB_ENV"
           echo "Deployed: $SERVICE_URL"

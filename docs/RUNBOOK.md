@@ -21,6 +21,7 @@
 - /health が 200 でない: 環境変数・起動ログを確認する。
 - /line/webhook が 401: LINE_CHANNEL_SECRET の不一致を確認する。
 - 200 だがイベントが出力されない: LINE webhook の到達と署名を確認する。
+- Firestore 事前確認: `npm run firestore:preflight` を実行し、`ok`/`failed`/`not configured` を確認する。
 
 ## ログ
 - 署名不正: 401 を返し、イベント内容は記録しない。
