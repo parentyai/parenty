@@ -73,15 +73,25 @@ curl -sS -X POST http://localhost:3000/line/webhook \
 
 ## Cloud Run
 
-### /health が 200
+### stg /health が 200
 
 ```bash
-curl -sS https://<CLOUD_RUN_URL>/health
+curl -sS https://parenty-backend-920294176726.us-east1.run.app/health
 ```
 
 期待結果
 - HTTP 200
-- `status: ok` / `envName` / `ts` / `baseUrl` を含む JSON
+- `envName: "stg"`
+
+### prod /health が 200
+
+```bash
+curl -sS https://parenty-backend-prod-920294176726.us-east1.run.app/health
+```
+
+期待結果
+- HTTP 200
+- `envName: "prod"`
 
 ### LINE 実メッセージ疎通（返信あり）
 
