@@ -101,6 +101,7 @@ curl -sS https://parenty-backend-prod-920294176726.us-east1.run.app/health
 期待結果
 - 返信が `OK` または `LINE_REPLY_TEXT` である
 - Cloud Run ログに `line.webhook` の記録が出る
+- ログ内の userId はハッシュ化され、message.text は長さのみ表示される
 
 ---
 

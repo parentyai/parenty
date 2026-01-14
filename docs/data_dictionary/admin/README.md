@@ -13,21 +13,29 @@
 - Dependencies（依存）: `PARENTY_SSOT.md`
 - Invariants（不変条件）: コレクション名を変更しない
 - Change Impact（変更波及）: security / ops / matrix
-- Open Questions（未決）: TODO
+- Open Questions（未決）: なし
 - Acceptance（受入条件）: 参照導線がリンク切れなし
 - 参照元: `docs/SPEC_INDEX.md`
-- 参照先: SSOT 4章
+- 参照先: `PARENTY_SSOT.md` 4-2-b / 4-3
 
 ### 対象コレクション（入口のみ）
 - admin_users
 - templates
 - global_flags
-- audit_logs
 - data_requests
+- sources
+- experience_sources
+- experience_fragments
+- experience_usage_logs
+- review_sources
+- reviews
+- ops_configs
+- audit_logs
 - incident_records
+- admin_views/*
 
 ## 結論
 - 管理系データ辞書は参照導線のみを持つ。
 
 ## 補足
-- TODO: SSOT該当節へのリンクを確定する。
+- SSOT 4-2-b / 4-3 のコレクション一覧と一致させる。

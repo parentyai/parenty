@@ -13,17 +13,17 @@
 - Dependencies（依存）: `PARENTY_SSOT.md` / `FirestoreSecurityRules.md`
 - Invariants（不変条件）: 権限モデルを変更しない
 - Change Impact（変更波及）: data_dictionary / matrix / ops
-- Open Questions（未決）: TODO
+- Open Questions（未決）: なし
 - Acceptance（受入条件）: 参照導線が明記される
 - 参照元: `docs/SPEC_INDEX.md`
 - 参照先: `FirestoreSecurityRules.md`
 
 ### 本文
-- [仮説] UX系と管理系の分離は SSOT と既存 Rules に従う。
-- TODO: 参照先の差分があれば記録する。
+- UX/管理の分離・append-only・家庭境界の要件は `FirestoreSecurityRules.md` と SSOT 4-4 に固定する。
+- 本ファイルは参照導線のみを持ち、Rules の本文を複製しない。
 
 ## 結論
 - Rules の正は既存ドキュメントに固定する。
 
 ## 補足
-- TODO: 運用上の参照導線を整理する。
+- 参照導線は `FirestoreSecurityRules.md` に統一する。

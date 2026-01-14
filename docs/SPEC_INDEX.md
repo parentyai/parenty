@@ -20,6 +20,7 @@
 - 中核マトリクス: `matrix/policy_x_ux_x_adminui.md`
 - 運用フロー（reasonCode駆動）: `ops/reasoncode_driven_runbook.md`
 - ログ・嗜好・判断DB仕様: `ops/logs_preference_decision_db_spec.md`
+- Phase 1 ロードマップ: `PHASE1_ROADMAP.md`
 - 変更統制: `CHANGE_POLICY.md`
 - 受入条件: `ACCEPTANCE_CHECKLIST.md`
 - 仕様テンプレ: `_templates/spec-template.md`
