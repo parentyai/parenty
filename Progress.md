@@ -40,7 +40,7 @@
 | Phase | 内容 | Status |
 | --- | --- | --- |
 | Phase 0 | 設計固定・ドキュメント整備 | DONE |
-| Phase 1 | 基盤（Auth / Firestore / Security Rules） | NOT_STARTED |
+| Phase 1 | 基盤（Auth / Firestore / Security Rules） | IN_PROGRESS |
 | Phase 2 | Policy Engine | NOT_STARTED |
 | Phase 3 | Delivery / UX（LINE導線・送信口一本化） | NOT_STARTED |
 | Phase 4 | Admin UI / Admin API | NOT_STARTED |
@@ -118,3 +118,7 @@
 
 - 2026-01-09:
   - SSOT_INDEX に基盤6原則を追加（責務・失敗・権限・データ・外部依存・将来予約）
+
+- 2026-01-14:
+  - Firestore Rules / Index の参照導線を実装成果物に接続（`firestore.rules` / `firestore.indexes.json`）
+  - LINE webhook ログのPIIをマスキング（hash + text length）

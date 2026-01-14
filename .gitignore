@@ -5,3 +5,4 @@ backend/node_modules/
 !.env.example
 !backend/.env.example
 .DS_Store
+image-1.png

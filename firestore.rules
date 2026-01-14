@@ -1,0 +1,165 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isGuardian() {
+      return isSignedIn() && request.auth.token.role == "guardian";
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.isAdmin == true;
+    }
+
+    function isSystem() {
+      return isSignedIn() && request.auth.token.role == "system";
+    }
+
+    function belongsToHousehold(householdId) {
+      return isSignedIn() && request.auth.token.householdId == householdId;
+    }
+
+    function isGuardianSelf(guardianId) {
+      return isGuardian() && (
+        request.auth.uid == guardianId ||
+        request.auth.token.guardianId == guardianId
+      );
+    }
+
+    match /households/{householdId} {
+      allow read: if (isGuardian() && belongsToHousehold(householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /guardians/{guardianId} {
+      allow read: if isGuardianSelf(guardianId) || isAdmin();
+      allow create: if isSystem();
+      allow update: if isGuardianSelf(guardianId)
+        && request.resource.data.householdId == resource.data.householdId
+        && request.resource.data.diff(resource.data).changedKeys().hasOnly([
+          "displayName",
+          "notificationPrefs"
+        ]);
+      allow delete: if false;
+    }
+
+    match /children/{childId} {
+      allow read: if isGuardian() && belongsToHousehold(resource.data.householdId);
+      allow create: if isGuardian()
+        && belongsToHousehold(request.resource.data.householdId);
+      allow update: if isGuardian()
+        && belongsToHousehold(resource.data.householdId);
+      allow delete: if false;
+    }
+
+    match /consents/{consentId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /subscriptions/{subscriptionId} {
+      allow read: if isAdmin() || isSystem();
+      allow write: if isSystem();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /notification_deliveries/{deliveryId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /faq_logs/{logId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /scenario_states/{stateId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /roadmaps/{roadmapId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /audit_logs/{auditId} {
+      allow read: if isAdmin();
+      allow create: if isSystem();
+      allow update, delete: if false;
+    }
+
+    match /data_requests/{requestId} {
+      allow read: if (isGuardian() && belongsToHousehold(resource.data.householdId)) || isAdmin();
+      allow create: if isGuardian()
+        && belongsToHousehold(request.resource.data.householdId);
+      allow update, delete: if false;
+    }
+
+    match /admin_users/{adminId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /templates/{templateId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /global_flags/{flagId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /sources/{sourceId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /experience_sources/{sourceId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /experience_fragments/{fragmentId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /experience_usage_logs/{usageId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /review_sources/{sourceId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /ops_configs/{configId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /incident_records/{incidentId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /admin_views/{docId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+  }
+}

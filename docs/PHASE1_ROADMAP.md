@@ -36,6 +36,7 @@ Phase 1 はデータ層と権限制御の基盤を固める工程であり、SSO
 - **Firestore Index**: SSOT 4-3
 - **Security Rules**: SSOT 4-4
 - **監査・保持・PII**: SSOT 7-3 / 4-2-a（ログはマスキング）
+- **実装成果物**: `firestore.rules` / `firestore.indexes.json`
 
 ### 2) 作業順序（参照導線）
 
