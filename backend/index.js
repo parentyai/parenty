@@ -4,6 +4,7 @@ const { verifySignature } = require('./src/line/verifySignature');
 const { normalizeEvents, logEvents } = require('./src/line/handler');
 const { replyToLine } = require('./src/line/reply');
 const { getFirestoreStatus } = require('./src/firestore/preflight');
+const { createAuthMiddleware } = require('./src/auth/middleware');
 
 const env = loadEnv();
 
@@ -41,6 +42,16 @@ app.post('/line/webhook', (req, res) => {
   logEvents(events);
 
   return res.status(200).json({ ok: true, count: events.length });
+});
+
+const { requireAuth } = createAuthMiddleware(env);
+const PUBLIC_PATHS = new Set(['/health', '/line/webhook']);
+
+app.use((req, res, next) => {
+  if (PUBLIC_PATHS.has(req.path)) {
+    return next();
+  }
+  return requireAuth(req, res, next);
 });
 
 app.use((err, req, res, next) => {

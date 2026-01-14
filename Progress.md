@@ -124,3 +124,4 @@
   - LINE webhook ログのPIIをマスキング（hash + text length）
   - Firestore Rules / Index を Firebase へ反映（default database）
   - Firestore Index 監査：Firebase 上の定義が `firestore.indexes.json` と一致
+  - Auth 適用開始：非公開エンドポイントは Firebase ID Token 必須

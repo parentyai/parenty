@@ -7,6 +7,7 @@
 - Secret は必ず Secret Manager に保管し、Cloud Run には参照のみを設定する。
 - ローカルは `.env` を使用するが、値は共有しない。
 - ログはイベント要約のみを出力し、秘密情報や署名値は出力しない。
+- 公開エンドポイントは `/health` と `/line/webhook` のみ。その他は Firebase ID Token が必要。
 
 ## Secret の置き場所
 - LINE_CHANNEL_SECRET: Secret Manager
