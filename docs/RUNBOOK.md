@@ -48,6 +48,16 @@ gcloud logging read \
   --limit 50
 ```
 
+## Firestore Rules / Indexes 反映
+
+前提
+- `firebase.json` / `.firebaserc` がリポジトリに存在すること
+
+反映コマンド
+```
+firebase deploy --only firestore:rules,firestore:indexes
+```
+
 ## 実作業ログ（運用記録）
 
 - 2026-01-13: Cloud Run 環境変数を整理（LINE_REPLY_TEXT / GCP_PROJECT_ID / FIRESTORE_DATABASE_ID / PUBLIC_BASE_URL）、/health で `firestore.configured: true` を確認。
