@@ -763,6 +763,44 @@ AI の許可範囲（SHOULD）：
   - `templateId`（任意、付録C参照キー）
   - `nextAction`（任意、6-2Z準拠。実行は constraints を強制）
 
+---
+
+### 1-6. Content Artifact / Content Lifecycle（基盤定義）
+
+#### 背景
+
+- ユーザー可視物が分散すると、文言揺れ・承認漏れ・監査欠落が発生する。
+- 送信・再発信の判断主体を固定し、承認ゲートと停止導線を一体化する必要がある。
+
+#### 説明
+
+**Content Artifact 定義（固定）**
+
+- 個別会話（LLM即時応答）を除き、ユーザーが目にする Parenty 発信物すべて。
+- 例: LINE通知 / シナリオ配信 / ブロードキャスト / 固定メッセージ / リッチメニュー / SNS編集再発信 / LP・告知・運営メッセージ。
+- 原則: **コード直書き禁止**。必ず `contentId` を介して参照する。
+
+**Content Lifecycle（固定）**
+
+- `draft → review → approved → active → retired`
+- 全 artifact は **kill-switch（killFlag）**を持つ。
+- 状態遷移は **監査ログ（audit_logs）に必ず記録**する。
+
+**共通拘束**
+
+- 承認なしに本番反映しない（Human 承認が必須）。
+- 児童データ/PIIを生成・巡回・編集・承認フローに混入させない。
+- 送信/表示/再発信は `contentId` 経由で行い、送信ログは `contentId` で追跡可能にする。
+
+#### 結論
+
+- 個別会話を除く全発信物は Content Artifact として統制し、`contentId` を唯一の参照点とする。
+
+#### 補足
+
+- 詳細な運用仕様は `docs/ops/content_registry_spec.md` を参照する。
+- 編集再発信の運用仕様は `docs/ops/editorial_engine_spec.md` を参照する。
+
 ## 2️⃣ 全体アーキテクチャ
 
 ### 2-1. システム全体像（概念）
@@ -1937,6 +1975,7 @@ UXの語り手・同意主体。
 | childId | string | 任意 | 子起点通知 | system | Low |
 | type | string | 必須 | birthday / school_event 等 | system | Low |
 | templateId | string | 必須 | 使用テンプレ | system | Low |
+| contentId | string | 必須 | Content Artifact 参照 | system | Low |
 | status | string | 必須 | scheduled / sent / failed / canceled | system | Low |
 | policyDecision | map | 必須 | 判定結果 | system | Low |
 | sentAt | timestamp | 任意 | 送信時刻 | system | Low |
@@ -1973,6 +2012,7 @@ UX品質・再現性・監査。
 | householdId | string | 必須 | 対象家庭 | system | Low |
 | scenarioId | string | 必須 | シナリオID | system | Low |
 | stepId | string | 必須 | 現在ステップ | system | Low |
+| contentId | string | 任意 | Content Artifact 参照 | system | Low |
 | status | string | 必須 | active / paused / completed | system | Low |
 | policyDecision | map | 必須 | 判定結果 | system | Low |
 
@@ -2131,7 +2171,7 @@ UX品質・再現性・監査。
 | action | string | 必須 | STOP_ALL / DISABLE_TEMPLATE 等 |
 | operation | string | 任意 | 6-2X.Operation |
 | runbookLabel | string | 必須 | [7-2-x] / [7-3-x] |
-| target.kind | string | 必須 | household / template / source |
+| target.kind | string | 必須 | household / template / source / content / city_pack |
 | target.id | string | 任意 | 対象ID |
 | diff | map | 任意 | 変更差分 |
 | reason | string | 任意 | 操作理由 |
@@ -2535,6 +2575,118 @@ UXの「注意喚起・判断補助（Insight）」に対する反応のみを�
 
 ---
 
+## 11️⃣ content_registry（全発信物台帳 / SSOT拡張：v1導入）
+
+### 目的
+
+ユーザーに見える **全発信物（個別会話除く）** を contentId で統制する。
+
+### フィールド（最小）
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| contentId | string | 必須 | 不変ID（コード直書き禁止） |
+| type | string | 必須 | notification / scenario / broadcast / fixed_message / rich_menu / sns_editorial / lp |
+| status | string | 必須 | draft / review / approved / active / retired |
+| locale | string | 必須 | ja-JP 等 |
+| city | string | 必須 | city_code / GLOBAL |
+| plan | string | 必須 | free / solo / family / extended / all |
+| version | string | 必須 | vX.Y |
+| approvals | array | 必須 | 承認履歴 |
+| approvals[].approverId | string | 必須 | 承認者ID |
+| approvals[].decision | string | 必須 | approved / rejected |
+| approvals[].reasonCode | string | 任意 | 却下理由（付録B準拠） |
+| approvals[].decidedAt | timestamp | 必須 | 決裁時刻 |
+| startAt | timestamp | 必須 | 有効化開始 |
+| endAt | timestamp | 任意 | 有効化終了 |
+| killFlag | boolean | 必須 | true で即時無効 |
+| lastUpdatedBy | string | 必須 | 最終更新者 |
+
+### R/W（固定）
+
+- read: admin
+- write: admin / system（状態遷移は audit_logs 必須）
+
+---
+
+## 12️⃣ city_pack_generation_logs（City Pack 監査 / SSOT拡張：v1導入）
+
+### 目的
+
+City Pack 生成・検証・承認・有効化の **監査証跡**を残す。
+
+### フィールド（最小）
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| requestId | string | 必須 | リクエストID |
+| cityCode | string | 必須 | city_code |
+| state | string | 必須 | REQUESTED / DISCOVERY / DRAFT_BUILT / VALIDATED / HUMAN_REVIEW / APPROVED / ACTIVATED / REJECTED / ROLLED_BACK |
+| discoverySources | array | 必須 | URL/カテゴリ/取得方法 |
+| llmModel | string | 任意 | 使用モデル |
+| promptVersion | string | 任意 | プロンプト版 |
+| safetyFlags | array | 任意 | 禁止検知 |
+| validationResults | map | 必須 | pass/fail と理由 |
+| humanReview | map | 任意 | approver/decision/reasonCode |
+| activation | map | 任意 | env/startAt/rollbackReason |
+| createdAt | timestamp | 必須 | 記録時刻 |
+
+### R/W（固定）
+
+- read: admin
+- write: **systemのみ**（append-only）
+
+---
+
+## 13️⃣ content_publication_logs（編集再発信ログ / SSOT拡張：v1導入）
+
+### 目的
+
+編集再発信（SNS/外部）の **露出記録**を contentId 単位で残す。
+
+### フィールド（最小）
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| contentId | string | 必須 | Content Artifact 参照 |
+| channel | string | 必須 | x / instagram / other |
+| status | string | 必須 | draft / published / failed / rolled_back |
+| sourceUrl | string | 必須 | 出典URL |
+| postedAt | timestamp | 必須 | 投稿日時 |
+| summaryLabel | string | 任意 | 要約ラベル（原文不可） |
+
+### R/W（固定）
+
+- read: admin
+- write: **systemのみ**（append-only）
+
+---
+
+## 14️⃣ city_pack_watch_states（Failure Mode Watch State / SSOT拡張：v1導入）
+
+### 目的
+
+City Pack の **状態のみ** を保持し、raw本文を保存しない。
+
+### フィールド（最小）
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| cityCode | string | 必須 | city_code |
+| failureCode | string | 必須 | F01..（Failure Mode） |
+| state | string | 必須 | ok / risk / unknown |
+| confidence | string | 必須 | low / mid / high |
+| lastCheckedAt | timestamp | 必須 | 最終確認 |
+| provenance | string | 必須 | 抽象名（URL本文不可） |
+| expiresAt | timestamp | 必須 | 再確認期限 |
+
+### R/W（固定）
+
+- read: admin / system
+- write: **systemのみ**
+
+---
+
 ## 管理系データと運用章の対応
 
 | データ | 主対応章 |
@@ -2555,6 +2707,10 @@ UXの「注意喚起・判断補助（Insight）」に対する反応のみを�
 | insight_reactions | 7-1 / 7-3 |
 | reviews | 7-1 / 7-3 |
 | ops_configs | 7-1 |
+| content_registry | 7-1 / 7-3 |
+| city_pack_generation_logs | 7-3 |
+| content_publication_logs | 7-3 |
+| city_pack_watch_states | 7-1 / 7-3 |
 
 ---
 
@@ -3774,6 +3930,79 @@ UX制約：
   - 例：DEGRADED 相当（制限/不確実性）→ `CONTEXT_RATE_LIMIT` / `SOURCE_UNVERIFIED` / `SOURCE_OUTDATED`
 - `CONTEXT_PROVIDER_OUTAGE` の場合、運用導線は 6-2X により `nextAction.action=CREATE_INCIDENT` に接続する。
 
+### 5-8. City Pack Failure Mode Watch（正式定義）
+
+#### 背景
+
+- City Pack は都市情報の集約ではなく、失敗型の監視仕様として固定する。
+- DB膨張と規約逸脱を避けるため、保持は状態のみとする。
+
+#### 説明
+
+**正式定義**
+
+- City Pack = Failure Mode Watch Set。
+- 監視対象は失敗型のみで、都市/学校/制度/イベントの正規化は行わない。
+- 保持するのは `ok / risk / unknown` と再確認時刻のみ。raw本文は保存しない。
+
+**Failure Mode 辞書（上限15）**
+
+- フィールド: `failure_code / label / description / applies_to / default_watch_frequency / risk_definition / unknown_allowed`
+- 初期セット（10）:
+
+| failure_code | label | description | applies_to | default_watch_frequency | risk_definition | unknown_allowed |
+| --- | --- | --- | --- | --- | --- | --- |
+| F01_OFFICIAL_UNREACHABLE | 公式到達不可 | 公式導線に到達不可 | all | weekly | 公式確認不可 | true |
+| F02_TERMS_UNREACHABLE | 規約不明 | terms/privacy 到達不可 | all | monthly | 規約確認不能 | true |
+| F03_UPDATE_CADENCE_UNKNOWN | 更新周期不明 | 更新周期が判別不能 | all | monthly | 更新確認不能 | true |
+| F04_SCHEDULE_SHIFT | 予定変動 | 公的予定の変更通知 | age_0_18 | weekly | 予定変更あり | false |
+| F05_SAFETY_ALERT | 安全注意 | 公的注意喚起 | all | daily | 注意喚起あり | false |
+| F06_SERVICE_CLOSURE | 窓口停止 | 公式窓口の休止/終了 | all | weekly | 提供停止 | false |
+| F07_SOURCE_CONFLICT | 公式不一致 | 公式情報の不一致 | all | weekly | 不一致あり | true |
+| F08_LICENSE_RISK | 規約リスク | 利用条件に制限疑義 | all | monthly | 制限疑義 | true |
+| F09_SOURCE_REMOVED | 参照失効 | 監視対象の消失 | all | weekly | 参照不能 | true |
+| F10_ONLY_COMMUNITY | 公的根拠不足 | 公的根拠が不足 | all | weekly | 根拠不足 | true |
+
+- 追加/変更は SSOT 改定のみで行う。
+
+**Watch State（保存最小）**
+
+- 必須: `city_code / failure_code / state / confidence / last_checked_at / provenance / expires_at`
+- provenance は抽象名のみ。詳細は管理UIで参照する。
+
+**UNKNOWN の扱い**
+
+- UNKNOWN は失敗でもエラーでもない。
+- 「責任範囲外 / 確認不能」の正常状態として扱う。
+
+**UX表示ルール**
+
+- ユーザー表示は結果と最終確認日のみ。
+- 理由・根拠・探索過程は管理UIのみ参照可。
+
+**LLM利用範囲**
+
+- 許可: 差分要約 / failure_code へのマッピング / 状態判定補助
+- 禁止: 自由探索 / 自由検索 / 常時クロール / 正解断定
+
+**マーケティング表現**
+
+- 使用可: 「よくある見落としを確認しています」「重要な変更があるかを定期的にチェックしています」
+- 禁止: 「すべて把握しています」「完全にカバーしています」
+
+**スケーラビリティ**
+
+- ストレージは O(C×F) で固定（C=city数、F=failure_mode数）。
+- 更新は city_code 単位で O(F)、`expires_at` 到達で上書き/失効。
+
+#### 結論
+
+- City Pack は Failure Mode Watch Set として定義し、状態のみを保持する。
+
+#### 補足
+
+- 詳細運用は `docs/ops/city_pack_auto_generation_spec.md` を参照する。
+
 ## 6️⃣ 管理UI仕様
 
 ## 6-0. Policy Engine × UX × 管理UI マトリクス（SSOT）
@@ -3955,11 +4184,12 @@ UX制約：
 
 | イベント | 保存先 | 必須フィールド |
 | --- | --- | --- |
-| 通知判定 | notifications / notification_deliveries | result, primaryReason, reasonCodes, dedupeKey, runId, templateId |
+| 通知判定 | notifications / notification_deliveries | result, primaryReason, reasonCodes, dedupeKey, runId, templateId, contentId |
 | FAQ判定 | faq_logs | result, primaryReason, reasonCodes, model, requestId |
 | シナリオ判定 | scenario_states | result, primaryReason, reasonCodes, scenarioId, stepId, runId |
 | 停止操作 | audit_logs | actorId, actorType, action, target, diff, reason, runbookLabel |
 | 訂正 | notification_deliveries + audit_logs | correctionId, correctedAt, correctionReason |
+| 編集再発信 | content_publication_logs + audit_logs | contentId, channel, sourceUrl, postedAt |
 
 ---
 
@@ -4642,6 +4872,9 @@ components:
 | insight_reactions | 1年 | 示唆（判断補助）への反応追跡・UX改善 |
 | policyTrace | 1年 | 判断再現 |
 | incident_records | 7年 | 事故履歴 |
+| content_publication_logs | [仮説] 2年 | 外部再発信の説明責任 |
+| city_pack_generation_logs | [仮説] 7年 | 出典・承認の説明責任 |
+| city_pack_watch_states | expires_at到達で削除 | Watch State の上書き運用 |
 
 ---
 

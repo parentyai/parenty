@@ -78,6 +78,18 @@
 
 ---
 
+### SSOT: 5-8. City Pack Failure Mode Watch（Watch Set）
+
+- **Affects**:
+  - Data: `city_pack_watch_states` / `city_pack_generation_logs`
+  - Admin UI: City Pack review/activate/rollback の導線
+  - UX: watch 結果表示（結果＋最終確認日）
+  - Docs: `docs/ops/city_pack_auto_generation_spec.md` / `docs/policy_engine/watch_rules.md`
+- **Forbidden**:
+  - （参照）SSOT 5-8
+
+---
+
 ### SSOT: 6-0 / 6-2X / 6-2Z（Policy×UX×管理UI / nextAction拘束）
 
 - **Affects**:
@@ -151,4 +163,3 @@
 ## 補足
 
 - （特になし）
-

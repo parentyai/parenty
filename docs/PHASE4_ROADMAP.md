@@ -34,6 +34,10 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 - **Admin UI / Admin API**: SSOT 6-0
 - **nextAction の正**: SSOT 6-2Z
 - **nextAction マッピング**: SSOT 6-2X / 6-2Y
+- **Content Artifact / Content Registry**: SSOT 1-6 / 4-2-b
+- **編集再発信（Editorial Engine）**: SSOT 1-6 / 4-2-b / 7-3
+- **City Pack 承認ログ**: SSOT 4-2-b / 7-3
+- **City Pack Watch State**: SSOT 5-8 / 4-2-b
 - **監査ログ**: SSOT 7章（append-only）
 - **参照導線**: `PolicyUxAdminMatrix.md` / `ADMIN_UX_API_DECISION_MAP_7.md`
 
@@ -48,6 +52,15 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 3. **audit_logs の append-only を固定**
    - 参照: `PARENTY_SSOT.md` 7章 / `Runbook.md`
    - 管理操作は必ず監査に残す導線のみを持つ。
+4. **Content Registry の承認ゲート接続**
+   - 参照: `PARENTY_SSOT.md` 1-6 / 4-2-b
+   - `contentId` と `killFlag` の参照導線を固定する。
+5. **編集再発信 / City Pack の監査導線**
+   - 参照: `PARENTY_SSOT.md` 4-2-b / 7-3
+   - `content_publication_logs` / `city_pack_generation_logs` を監査導線に接続する。
+6. **City Pack Watch State の参照導線**
+   - 参照: `PARENTY_SSOT.md` 5-8 / 4-2-b
+   - `city_pack_watch_states` を管理UIの参照導線に接続する。
 
 ### 3) ブロッカー（判断待ち）
 
@@ -62,6 +75,8 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 - 完了確認: incident_records + audit_logs 同時記録入口（`/admin/v1/incidents`）
 - 完了確認: nextAction 生成の決定的マッピング（6-2X / 6-2Y 準拠）
 - 残り: UI接続（表示・操作導線の接続）
+- 残り: Content Registry / 編集再発信 / City Pack 承認ログの導線固定
+- 残り: City Pack Watch State の表示導線固定
 - 注意: nextAction マッピングは一旦撤回し、現状は action=NONE の返却のみ。
 
 ---

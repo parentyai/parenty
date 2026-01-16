@@ -185,6 +185,60 @@
 - UX上の注意（表示・文言・誘導）: 根拠の明示 / 記録の可視化
 - 事故パターン（1行）: 記録不足により原因追跡が不能となる
 
+### admin.contentRegistry.review
+- opId: admin.contentRegistry.review
+- UI Entry: Content Registry のレビュー導線
+- 関連しうるAPI観点: 承認状態の同期 / 差分可視化 / 監査追跡
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 1-6 / 4-2-b の承認ゲート / PolicyUxAdminMatrix の参照導線
+- UX上の注意（表示・文言・誘導）: contentId と status の明示 / 承認主体の明記
+- 事故パターン（1行）: 承認抜けで公開され、訂正導線が失われる
+
+### admin.contentRegistry.activate
+- opId: admin.contentRegistry.activate
+- UI Entry: Content の有効化導線
+- 関連しうるAPI観点: 有効化時刻の整合 / 反映遅延 / 監査記録
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 1-6 の lifecycle / audit_logs 導線
+- UX上の注意（表示・文言・誘導）: 有効化開始時刻の明示 / killFlag の可視化
+- 事故パターン（1行）: 有効化時刻の誤認で誤配信が起きる
+
+### admin.contentRegistry.retire
+- opId: admin.contentRegistry.retire
+- UI Entry: Content の終了/停止導線
+- 関連しうるAPI観点: 停止の即時反映 / 影響範囲の特定
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 1-6 の killFlag / audit_logs 導線
+- UX上の注意（表示・文言・誘導）: 停止理由の明示 / 影響対象の可視化
+- 事故パターン（1行）: 停止漏れで誤表示が継続する
+
+### admin.cityPack.review
+- opId: admin.cityPack.review
+- UI Entry: City Pack のレビュー導線
+- 関連しうるAPI観点: Failure Mode の妥当性 / 差分可視化 / 監査追跡
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 5-8 / 4-2-b の承認導線
+- UX上の注意（表示・文言・誘導）: state の意味と UNKNOWN の位置づけ明示
+- 事故パターン（1行）: UNKNOWN を失敗扱いにして誤停止が発生する
+
+### admin.cityPack.activate
+- opId: admin.cityPack.activate
+- UI Entry: City Pack の有効化導線
+- 関連しうるAPI観点: activation 環境の切替 / 反映遅延 / 監査記録
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 5-8 の watch state / audit_logs 導線
+- UX上の注意（表示・文言・誘導）: 有効化開始時刻の明示 / 影響範囲の可視化
+- 事故パターン（1行）: 反映範囲の誤解で誤配信が起きる
+
+### admin.cityPack.rollback
+- opId: admin.cityPack.rollback
+- UI Entry: City Pack の停止/ロールバック導線
+- 関連しうるAPI観点: 即時停止 / 影響範囲 / 監査追跡
+- 要求されるRole: operator / admin
+- 事前に満たされているべき前提: SSOT 5-8 の rollback 条件 / audit_logs 導線
+- UX上の注意（表示・文言・誘導）: 停止理由の明示 / 復旧条件の可視化
+- 事故パターン（1行）: 停止理由が曖昧で再発防止ができない
+
 ---
 
 ## Section 3：統一レスポンス観点（概念レベル）

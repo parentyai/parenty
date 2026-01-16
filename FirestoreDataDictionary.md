@@ -68,6 +68,7 @@
 | admin_users | SSOT 4-2-b | RBAC（viewer/editor/operator/admin） |
 | global_flags | SSOT 4-2-b | 全体停止/feature stop（最優先） |
 | templates | SSOT 4-2-b | テンプレ管理（公開/停止は監査必須） |
+| content_registry | SSOT 4-2-b | 全発信物の台帳（contentId参照） |
 | data_requests | SSOT 4-2-b | 権利行使 |
 | sources | SSOT 4-2-b | 管理系辞書（更新主体はsystem 等） |
 | reviews | SSOT 4-2-b | 管理系辞書（更新主体はsystem 等） |
@@ -80,6 +81,9 @@
 | review_usage_logs | SSOT 7-3 / 4-2-b | RAES利用ログ（監査） |
 | insight_reactions | SSOT 7-3 / 4-2-b | IRS反応ログ（監査） |
 | audit_logs | SSOT 4-2-b / 7-3 | 監査一次情報（append-only） |
+| content_publication_logs | SSOT 4-2-b / 7-3 | 編集再発信ログ（監査） |
+| city_pack_generation_logs | SSOT 4-2-b / 7-3 | City Pack監査ログ |
+| city_pack_watch_states | SSOT 4-2-b / 7-3 | Failure Mode Watch State |
 | incident_records | SSOT 4-2-b / 7-2 | インシデント記録 |
 | admin_views/* | SSOT 4-3 | 派生ビュー（意思決定に使わない） |
 

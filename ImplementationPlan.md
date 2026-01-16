@@ -108,7 +108,7 @@ SSOT参照: 2章（レイヤー）/ 5章（UX）/ 付録C
 
 ## Phase 4: Admin UI / Admin API（運用可能化）
 
-SSOT参照: 6-0 / 6-2X / 6-2Y / 6-2Z / 7章
+SSOT参照: 1-6 / 4-2-b / 6-0 / 6-2X / 6-2Y / 6-2Z / 7章
 
 ### 開始条件
 
@@ -118,6 +118,10 @@ SSOT参照: 6-0 / 6-2X / 6-2Y / 6-2Z / 7章
 
 - nextActionが常時返却され、UIが解釈せずに動ける
 - 操作が audit_logs（append-only）に必ず残る
+- content_registry の承認ゲート/killFlag が運用導線に接続されている（SSOT 1-6 / 4-2-b）
+- 編集再発信が contentId 経由で記録できる（SSOT 4-2-b / 7-3）
+- City Pack の承認ログが監査対象として記録できる（SSOT 4-2-b / 7-3）
+- City Pack Watch State が state のみで保持される（SSOT 5-8 / 4-2-b）
 
 ---
 
@@ -134,6 +138,7 @@ SSOT参照: 7章 / 8章
 - 日次運用（7-1）が回せる
 - 障害対応（7-2）が runbookLabel で再現可能
 - 保存期間/監査（7-3）が定義どおり
+- content_publication_logs / city_pack_generation_logs が 7-3 の監査対象として継続監視できる
 
 ---
 

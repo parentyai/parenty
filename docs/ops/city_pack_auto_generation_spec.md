@@ -11,10 +11,12 @@
 - City Pack は「都市追加のためのデータ定義パッケージ」とする。
 - 共通ロジック（巡回/分類/再編集/配信）は都市非依存とし、都市差分は City Pack のみで表現する。
 - City Pack は **管理UI承認済みのみ**が本番参照対象となる。
+- City Pack は Failure Mode Watch Set として扱い、都市情報の集約は対象外とする。
 
 **B) City Pack 標準構造（ファイル/スキーマ）**
 - 配置: `city_pack/<city_code>/`
 - 命名: `city_code` は `^[A-Z]{2}_[A-Z0-9]{2,8}$` に固定（例: US_NYC, US_SF, SG_SIN）。衝突禁止。
+- 各JSONは監視設定のみを持ち、raw本文は保持しない。
 
 **meta.json**
 | キー | 型 | 必須 | 制約 |
@@ -74,6 +76,8 @@
 | overrides[].startDate | string | 必須 | YYYY-MM-DD |
 | overrides[].endDate | string | 必須 | YYYY-MM-DD |
 
+- overrides は監視窓の制御のみで使用し、詳細本文は保持しない。
+
 **qa_seed.json**
 | キー | 型 | 必須 | 制約 |
 | --- | --- | --- | --- |
@@ -116,7 +120,7 @@
 - VALIDATED の出力は diff / 要約 / リスク指摘 / 修正提案のみ。
 
 **G) HUMAN_REVIEW（管理UI承認）**
-- レビュー項目: 都市メタ / 巡回先 / SNS公式性 / community_sense再配信禁止 / tone/rules / リスクスコア。
+- レビュー項目: 都市メタ / 巡回先の公式性 / SNS公式性 / 再発信禁止ソースの有無 / community_sense再配信禁止 / tone/rules / リスクスコア。
 - 承認必須入力: 承認者ID / 承認理由 / 有効化開始日（即時/予約）。
 - 却下必須入力: reasonCode / 修正指示（次のDRAFTへ引継）。
 
@@ -135,6 +139,13 @@
 **J) Fail-safe（UX）**
 - City Pack が欠落/未承認/検証失敗の場合、本番は既存都市のみ稼働する。
 - 巡回先が落ちた場合は secondary にフォールバックし、必要なら沈黙を選ぶ。
+
+**K) Failure Mode Watch Model（参照）**
+- 監視対象は失敗型のみで、保持するのは状態と再確認時刻のみ。
+- Watch State は `city_code / failure_code / state / confidence / last_checked_at / provenance / expires_at` を最小とする。
+- raw本文は保存しない。provenance は抽象名のみを扱う。
+- UNKNOWN は失敗でもエラーでもなく、責任範囲外/確認不能の正常状態として扱う。
+- LLM の役割は差分要約/失敗型マッピング/状態判定補助に限定する。
 
 ## 結論
 - City Pack は「都市差分の唯一の定義単位」とし、承認なしの本番反映を禁止する。

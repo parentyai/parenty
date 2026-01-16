@@ -16,13 +16,14 @@
 - Open Questions（未決）: なし
 - Acceptance（受入条件）: 参照導線がリンク切れなし
 - 参照元: `docs/SPEC_INDEX.md`
-- 参照先: `decision_model.md` / `reason_codes.md`
+- 参照先: `decision_model.md` / `reason_codes.md` / `watch_rules.md`
 
 ### 本文
 - Policy Engine の判断モデルは `decision_model.md` に集約する。
 - reasonCode の再整形は `reason_codes.md` に集約する。
 - reasonCodeIndex の導線は `reason_code_index.md` に集約する。
 - runPolicy context の導線は `run_policy_context.md` に集約する。
+- Watch Rules の導線は `watch_rules.md` に集約する。
 
 ## 結論
 - Policy Engine の仕様入口は本ファイルに固定する。

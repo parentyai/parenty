@@ -31,9 +31,12 @@
 - `ImplementationPlan.md`
   - `Progress.md`
   - `Todo.md`
-  - `docs/INTEGRITY_CHECKLIST.md`
-  - `Runbook.md`
-  - `docs/ops/city_pack_auto_generation_spec.md`
+- `docs/INTEGRITY_CHECKLIST.md`
+- `Runbook.md`
+- `docs/ops/city_pack_auto_generation_spec.md`
+- `docs/ops/content_registry_spec.md`
+- `docs/ops/editorial_engine_spec.md`
+- `docs/policy_engine/watch_rules.md`
 
 ---
 
@@ -75,6 +78,9 @@
 | 9 | `RESERVED_FEATURES_GATE.md` | 付録G（予約機能）の着手ゲート（Reserved固定） | SSOT 付録G |
 | 10 | `UX_STATE_MAP_7.md` | UX文面モード（7状態）契約書（Policy結果3値は置き換えない） | SSOT 5章 / 付録C / 1-5 / 3-4 / 5-7 |
 | 11 | `docs/ops/city_pack_auto_generation_spec.md` | City Pack 自動生成運用仕様（承認ゲート含む） | SSOT 5-7 / 7章 / 8-4-2B |
+| 12 | `docs/ops/content_registry_spec.md` | 全発信物統制の運用導線（contentId / 承認ゲート） | SSOT 1-6 / 4-2-b / 7章 |
+| 13 | `docs/ops/editorial_engine_spec.md` | 巡回・編集再発信の運用導線（監査必須） | SSOT 1-6 / 4-2-b / 7章 |
+| 14 | `docs/policy_engine/watch_rules.md` | City Pack Failure Mode Watch の参照導線 | SSOT 5-8 / 3章 |
 
 `PolicyUxAdminMatrix.md` は Policy / UX / 管理UI を横断する統合参照点である。ドメイン横断の仕様確認は必ず `PolicyUxAdminMatrix.md` を起点とする。
 `UX_STATE_MAP_7.md` は UX レイヤの使用仕様である。`policyDecision.result` / `reasonCode` / `nextAction` を参照はするが、定義・追加・変更はしない。Policy / reasonCode 側から 7状態を追加・変更することは禁止する。
@@ -94,6 +100,11 @@
 - **MUST**: 状態（state）変更・例外（override）・公開/停止などの決定は **Human または System** のみが行う（AIは提案まで）。
 - **詳細（正）**: SSOT `PARENTY_SSOT.md` **1-5**
 
+#### 1-6. Content Artifact / Content Lifecycle（全発信物統制）
+
+- **MUST**: 個別会話を除く全発信物は contentId で統制し、承認ゲートと kill-switch を必須とする。
+- **詳細（正）**: SSOT `PARENTY_SSOT.md` **1-6**
+
 #### 3-4. 失敗時の既定動作（Fail-safe / Fail-open / Fail-close）
 
 - **MUST**: 沈黙せず、失敗は reasonCode に正規化し、必要なら `incident_records` に接続する。誤配信より抑制（fail-close）を優先する。
@@ -103,6 +114,11 @@
 
 - **MUST**: ベンダー名/内部事情の露出を避けつつ、ユーザーに「できること」と公式導線を提示する。断定禁止、縮退は付録C参照のみ。
 - **詳細（正）**: SSOT `PARENTY_SSOT.md` **5-7** / 付録F
+
+#### 5-8. City Pack Failure Mode Watch（Watch Set）
+
+- **MUST**: City Pack は Failure Mode Watch Set とし、状態のみを保持する。
+- **詳細（正）**: SSOT `PARENTY_SSOT.md` **5-8**
 
 #### 6-4. 権限モデル（RBAC）
 

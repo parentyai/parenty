@@ -15,6 +15,7 @@
 - reasonCode 整形（再配置先）: `policy_engine/reason_codes.md`
 - reasonCodeIndex 生成導線: `policy_engine/reason_code_index.md`
 - runPolicy context 導線: `policy_engine/run_policy_context.md`
+- Watch Rules（City Pack）導線: `policy_engine/watch_rules.md`
 - UX系データ辞書 導線: `data_dictionary/ux/README.md`
 - 管理系データ辞書 導線: `data_dictionary/admin/README.md`
 - UX仕様（状態別）導線: `ux_spec/state_based/README.md`
@@ -23,6 +24,8 @@
 - 運用フロー（reasonCode駆動）: `ops/reasoncode_driven_runbook.md`
 - ログ・嗜好・判断DB仕様: `ops/logs_preference_decision_db_spec.md`
 - City Pack 自動生成仕様: `ops/city_pack_auto_generation_spec.md`
+- Content Registry 仕様: `ops/content_registry_spec.md`
+- 編集再発信（Editorial Engine）仕様: `ops/editorial_engine_spec.md`
 - Phase 1 ロードマップ: `PHASE1_ROADMAP.md`
 - Phase 1 Auth 適用範囲: `PHASE1_AUTH_SCOPE.md`
 - Phase 2 ロードマップ: `PHASE2_ROADMAP.md`
