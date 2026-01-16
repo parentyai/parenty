@@ -4872,8 +4872,8 @@ components:
 | insight_reactions | 1年 | 示唆（判断補助）への反応追跡・UX改善 |
 | policyTrace | 1年 | 判断再現 |
 | incident_records | 7年 | 事故履歴 |
-| content_publication_logs | [仮説] 2年 | 外部再発信の説明責任 |
-| city_pack_generation_logs | [仮説] 7年 | 出典・承認の説明責任 |
+| content_publication_logs | 2年 | 外部再発信の説明責任 |
+| city_pack_generation_logs | 7年 | 出典・承認の説明責任 |
 | city_pack_watch_states | expires_at到達で削除 | Watch State の上書き運用 |
 
 ---

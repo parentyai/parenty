@@ -41,6 +41,10 @@ const DOC_FILES = [
   "README.md",
   "ImplementationPlan.md",
   "docs/ops/logs_preference_decision_db_spec.md",
+  "docs/ops/city_pack_auto_generation_spec.md",
+  "docs/ops/content_registry_spec.md",
+  "docs/ops/editorial_engine_spec.md",
+  "docs/policy_engine/watch_rules.md",
   "docs/INTEGRITY_CHECKLIST.md",
 ];
 
