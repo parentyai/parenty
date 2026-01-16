@@ -62,6 +62,7 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 - 完了確認: incident_records + audit_logs 同時記録入口（`/admin/v1/incidents`）
 - 完了確認: nextAction 生成の決定的マッピング（6-2X / 6-2Y 準拠）
 - 残り: UI接続（表示・操作導線の接続）
+- 注意: nextAction マッピングは一旦撤回し、現状は action=NONE の返却のみ。
 
 ---
 

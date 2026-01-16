@@ -217,3 +217,4 @@
   - Admin API の最小入口を追加（`/admin/v1/views/:viewId` / `/admin/v1/audit-logs` / `/admin/v1/incidents`）
   - admin_views の最小データ辞書を追加（`PARENTY_SSOT.md` 4-2-b）
   - Admin nextAction マッピングを 6-2X/6-2Y で固定（`backend/src/admin/next_action_map.js`）
+  - Admin nextAction マッピングを一旦撤回（現状は action=NONE のみ返却）

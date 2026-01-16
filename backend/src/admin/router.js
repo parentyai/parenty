@@ -4,7 +4,7 @@ const { createRepository } = require('../firestore/repository');
 const { createAuditLogStore } = require('../firestore/audit_logs');
 const { createIncidentRecordStore } = require('../firestore/incident_records');
 const { createIncidentWithAudit } = require('../firestore/system_ops');
-const { buildNextActionFromReason } = require('./next_action');
+const { buildNextActionNone } = require('./next_action');
 
 function createAdminRouter({ env, requireAdmin }) {
   const router = express.Router();
@@ -44,7 +44,7 @@ function createAdminRouter({ env, requireAdmin }) {
       const data = snapshot ? snapshot.data : null;
       const nextAction = data && data.nextAction
         ? data.nextAction
-        : buildNextActionFromReason({
+        : buildNextActionNone({
             primaryReason: data && data.primaryReason,
             reasonCodes: data && data.reasonCodes
           });
@@ -66,7 +66,7 @@ function createAdminRouter({ env, requireAdmin }) {
         createdAt: payload.createdAt || now
       };
       const ref = await store.createAuditLog(auditLog);
-      const nextAction = buildNextActionFromReason({
+      const nextAction = buildNextActionNone({
         primaryReason: payload.primaryReason,
         reasonCodes: payload.reasonCodes,
         runbookLabel: payload.runbookLabel,
@@ -112,7 +112,7 @@ function createAdminRouter({ env, requireAdmin }) {
         }
       });
 
-      const nextAction = buildNextActionFromReason({
+      const nextAction = buildNextActionNone({
         primaryReason: incidentRecord.triggerReasonCode,
         reasonCodes: incidentRecord.triggerReasonCode ? [incidentRecord.triggerReasonCode] : undefined,
         runbookLabel: incidentRecord.runbookLabel,
