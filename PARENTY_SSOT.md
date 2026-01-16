@@ -50,7 +50,7 @@ Parentyが提供するのは「答え」ではなく、以下の価値である�
 
 - 国・州・学区・年齢・時期ごとに分断された情報を整理
 - 情報を「結論 → 根拠 → 補足」の形で提示
-- 判断が分かれる点を明示し、選択肢を並列で提示
+- 判断が分かれる点を明示し、**選択肢列挙＋注意点は「補足」に含める**
 
 ##### 2. 時間軸を持った情報提示
 
@@ -573,7 +573,7 @@ Parentyは、利用者に対して
 ##### 実装上の拘束
 
 - 通知テンプレートに **断定表現ガード** を必須化
-- LLM出力は「選択肢列挙＋注意点」形式を基本とする
+- LLM出力は「結論 → 根拠 → 補足」形式を基本とし、選択肢列挙＋注意点は補足に含める
 - 管理UIで断定的文言を自動検知し警告表示
 
 ---
@@ -1542,14 +1542,19 @@ function evaluatePolicy(input) {
 
 ### 3-3-1A. ランタイム最小エンドポイント（Cloud Run / v1固定）
 
-本項は、実装前の予約枠（Extension Point）である。  
-paths/operations を確定する前に、必ず `Todo.md`（T-API-002）で SSOTとして確定すること。
+- 公開（認証不要）
+  - `GET /health`
+  - `POST /line/webhook`（LINE署名検証必須）
+- UX API
+  - Base Path: `/ux/v1/*`（Firebase ID Token 必須）
+- 管理UI API
+  - Base Path: `/admin/v1/*`（RBAC/監査は 6-3 に従う）
 
 ### Firestore への焼き込み（必須）
 
 - reasonCodes：必須、配列、min 1
 - primaryReason：必須、reasonCodes[] の中から必ず1つ
-- templateId：任意（DEGRADED/DENYで付録Cテンプレを使った場合のみ）
+- templateId：必須（DEGRADED/DENYは付録Cテンプレ参照のため必須）
 - nextAction：任意（管理UI用途。6-2Zに一致）
 
 ---
@@ -2121,7 +2126,7 @@ UX品質・再現性・監査。
 
 | フィールド | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
-| actorType | string | 必須 | admin / system |
+| actorType | string | 必須 | admin / system / guardian |
 | actorId | string | 必須 | admin email / service |
 | action | string | 必須 | STOP_ALL / DISABLE_TEMPLATE 等 |
 | operation | string | 任意 | 6-2X.Operation |
@@ -3776,6 +3781,20 @@ UX制約：
 | ALLOW | 通常表現。個別情報OK（同意前提）。 | 監視のみ。閾値でアラート。 | featureログ（必須） |
 | DEGRADED | 付録Cテンプレのみ。粒度制限。子ども個別は原則省略。 | 理由可視化＋件数集計＋改善導線。 | featureログ＋reasonCodes（必須） |
 | DENY | 出力しない/拒否。ただし沈黙禁止（説明カード/短文）。 | 即時対応対象。停止/訂正/同意導線。 | featureログ＋必要時audit（必須） |
+
+---
+
+### 6-0M1-1. 管理UIアラート対象 reasonCode 範囲（MVP固定）
+
+管理UIのアラート表示対象は、付録Bの reasonCode のうち以下の接頭辞に固定する。
+
+- RISK_*
+- LLM_*
+- SOURCE_*
+- SYSTEM_*
+- DELIVERY_FAILURE_*
+
+上記以外は監視・集計のみとし、アラート行には載せない。
 
 ---
 

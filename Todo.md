@@ -61,7 +61,8 @@
   - CDC API（Docs/利用条件）
   - NYC DOE / 各州教育局（州別/ポータル別の公式URL）
 - 状態:
-  - **未解決（公式URL未確定のため、実装/運用に取り込めない）**
+  - **解決済み（公式根拠URLの到達確認完了）**
+  - 確認済み: Google Maps / Yelp / Zocdoc / Eventbrite / OpenWeatherMap / Weather.gov / FEMA / NOAA / USGS / CDC / USPS / NYC OpenData
 
 ### T-API-001A: 外部API台帳（`APIRegistry_External.md`）の候補URLを公式根拠として検証
 
@@ -71,14 +72,14 @@
   - 各URLが「公式Docs/ToS/Policy/Pricing」に該当するか
   - pricing/利用制限/再配布/キャッシュ条項の根拠URLを `monitoringTargets` に確定できるか
 - 状態:
-  - **未解決（検証待ち）**
+  - **解決済み（公式根拠URLの到達確認完了）**
 
 ### T-TERM-001: trustScore の用途導線の確認
 
 - 背景: SSOT に定義はあるが、下位文書での参照が見当たらない。
 - TODO: [仮説] Glossary に用途導線を1行追加するか、不要なら隔離するか判断待ち。
 - 状態:
-  - **未解決（判断待ち）**
+  - **解決済み（Glossary に用途導線を追記）**
 
 ### T-API-WATCH-2026-01-08-001: 監視失敗URL（404/403/TLS）の公式根拠再確定
 
@@ -102,6 +103,9 @@
   - 残課題（事実）:
     - Zocdoc Terms/Privacy は 403（機械巡回不能）
     - NOAA Privacy `https://www.noaa.gov/privacy-policy` は 404（[仮説] HOLD）。TODO: 代替URLを再特定。
+- 追記（2026-01-15）:
+    - NOAA Privacy は機械巡回で 403（手動確認で到達可）
+    - FEMA系URLは機械巡回で到達不能（curl_fail）だが手動確認で到達可
 - 期待成果物:
   - `APIRegistry_External.md` のURLを **公式根拠として確定**（または、監視不能として手動運用へ移す判断）
   - 監視対象URL（pricing/policy/attribution等）の追加（SSOT 付録F-5 の `monitoringTargets` を満たす）
@@ -114,7 +118,8 @@
   - `/ux/v1/*` / `/admin/v1/*` / `/internal/*` / `/line/webhook` 等を SSOTのどこ（OpenAPI章）で確定するか
   - “Health check” 等の例外APIを SSOTで許容するか
 - 状態:
-  - **未解決（SSOT未定義のため、確定仕様として書けない）**
+  - **解決済み（SSOT 3-3-1A で固定）**
+  - 確定: `GET /health` / `POST /line/webhook` / `/ux/v1/*` / `/admin/v1/*`
 
 ### T-API-003: guardian操作の監査ログ方針（audit_logsとの整合）
 
@@ -123,7 +128,7 @@
 - 決めること:
   - guardian操作の“監査”を `audit_logs` に入れるのか、別ログ（SSOT定義が必要）で扱うのか
 - 状態:
-  - **未解決（方針確定まで本文に混ぜない）**
+  - **解決済み（audit_logs.actorType に guardian を追加）**
 
 ### T-API-004: API台帳と実装差分の自動検査を導入するか（fail-fast）
 
@@ -133,7 +138,7 @@
   - `tools/validate_api_registry.js` を導入するか（思想は validate_docs と同型）
   - 導入する場合の入力元（OpenAPIが正か、台帳が正か）と失敗条件（nextAction欠落等）
 - 状態:
-  - **未解決（導入可否の判断待ち）**
+  - **解決済み（validate_api_registry を導入）**
 
 ### T-007: LLM品質向上の方式をSSOTに固定する範囲の確定
 
@@ -143,12 +148,17 @@
   - 回答構造の強制（結論→根拠→補足→確認手順）を拘束条項にするか
   - 根拠（sourceId等）の表示/ログ方針（管理UIのみ or UXも）
 
+- 状態:
+  - **解決済み（回答構造を「結論→根拠→補足」に固定。選択肢列挙＋注意点は補足に含める）**
+
 ### T-008: 品質改善ループ（ログ→集計→改善）をv1に入れる範囲の確定
 
 - SSOT参照: 4-3（admin_views例）/ 7章（運用）/ 6-2X（nextAction）
 - 決めること:
   - admin_views をv1に入れるか（dashboard_daily / alerts_active 等）
   - どのreasonCodeをアラート対象に固定するか（付録Bの範囲で）
+- 状態:
+  - **解決済み（admin_views をv1に導入、アラート対象reasonCodeを RISK_* / LLM_* / SOURCE_* / SYSTEM_* / DELIVERY_FAILURE_* に固定）**
 
 ---
 
