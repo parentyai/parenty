@@ -2236,7 +2236,7 @@ GDPR/CCPA 等の **説明責任を担保**。
 | sourceId | string | 必須 | 不変ID（NextActionTargets.sourceIdと共通） |
 | status | string | 必須 | active / disabled |
 | region.country | string | 推奨 | 居住国（粒度制御） |
-| region.city | string | 任意 | 都市（粒度制御、UXでの露出は別途規約） |
+| region.city | string | 任意 | 都市（**UX非表示、管理UIのみ**） |
 | genres | array | 推奨 | 生活 / 教育 / 医療体験 等（分類） |
 | commercialFlag | boolean | 必須 | 商業関係の可能性（UX非表示、運用判断用） |
 | trustScore | number | 任意 | 内部スコア（UX非表示） |
@@ -2266,12 +2266,18 @@ GDPR/CCPA 等の **説明責任を担保**。
 | status | string | 必須 | active / disabled |
 | topic | string | 推奨 | テーマ（例: 学校/医療/生活） |
 | region.country | string | 推奨 | 居住国（粒度制御） |
-| region.city | string | 任意 | 都市（粒度制御） |
+| region.city | string | 任意 | 都市（**UX非表示、管理UIのみ**） |
 | text | string | 必須 | 素材（個人名/特定可能情報の除去を前提） |
 | extractedAt | timestamp | 推奨 | 抽出日時 |
 | freshnessAt | timestamp | 推奨 | 鮮度の基点 |
 | rawLinks | array | 任意 | アフィリエイトURL・SNS誘導等（**保存可だがUX非表示**） |
 | updatedAt | timestamp | 必須 | 更新時刻 |
+
+### 運用規約（固定）
+
+- text に **個人名 / 連絡先 / 具体住所 / 子ども固有情報**が含まれる場合、UX利用は禁止する。
+- 上記に該当する場合は **DISABLE_SOURCE**（7-2-4）へ接続し、管理UIでレビュー必須とする。
+- rawLinks は **source/fragment の無効化時に削除対象**とする（audit_logs で記録）。
 
 ### R/W（固定）
 
@@ -2489,7 +2495,7 @@ UXの「注意喚起・判断補助（Insight）」に対する反応のみを�
 
 | フィールド | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
-| configKey | string | 必須 | 不変キー（例: alert_thresholds） |
+| configKey | string | 必須 | 不変キー（例: alert_thresholds / vendor_tiers） |
 | scope | string | 必須 | global / feature |
 | featureKey | string | 任意 | notification / faq / scenario（scope=featureの場合） |
 | payload | map | 必須 | 設定値（PII禁止） |
@@ -3855,8 +3861,12 @@ UX制約：
 
 | 観点 | UX | 管理UI | ログ |
 | --- | --- | --- | --- |
-| 期待結果 | 原則ALLOW（推奨/広告/成約誘導ではなく「橋渡し」） | 件数・偏りの可視化（判断はしない） | vendor系ログ（後述の最小モデル） |
+| 期待結果 | 原則ALLOW（推奨/広告/成約誘導ではなく「橋渡し」） | 件数・偏りの可視化（判断はしない） | 既存ログの reasonCodes で追跡 |
 | 表現 | “推奨/広告”に見えないUI構造（文言は別途定義しない） | 監査可能に可視化 | 監査/保存期間は7-3に従う |
+
+- VENDOR_* は **追跡用reasonCodes** として保持する（vendor専用ログは作らない）。
+- primaryReason は **VENDOR以外が存在する場合はそちらを採用**する（VENDORは最後）。
+- Vendor Tier は `ops_configs.configKey=vendor_tiers` で管理する（systemのみ更新、audit必須）。
 
 #### G) EXPERIENCE_SOURCE（体験情報源）
 

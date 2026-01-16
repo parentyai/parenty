@@ -213,3 +213,4 @@
   - v1に admin_views 最小実装を含める決定（`Progress.md` v1 MUST）
   - 管理UIアラート対象 reasonCode を固定（`PARENTY_SSOT.md` 6-0M1-1）
   - 外部APIの公式根拠URLを確定（403等は手動監視へ移行）
+  - Vendor/Experience Source の運用決定を固定（T-009/T-010）

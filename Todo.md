@@ -179,6 +179,16 @@
   - inquiry/selection/outcome の **保存方針（PII/マスキング/保存期間）**
   - Vendor関連トラブル時の運用導線（runbookLabel追加の要否、nextAction追加の要否）
 
+- 決定（確定）:
+   - `VENDOR_*` は Policy reasonCodes に含める（result=ALLOW、nextAction=NONE）
+   - primaryReason は **他カテゴリがあればそちら優先**（VENDORは最後）
+   - Vendor Tier は `ops_configs.configKey=vendor_tiers` で管理（systemのみ更新、audit必須）
+   - vendor専用ログは作らず、既存ログの reasonCodes で追跡する
+   - 新規runbook/nextActionは追加しない
+
+- 状態:
+  - **解決済み（SSOTへ反映済み）**
+
 ---
 
 ### T-010: Experience Source（体験情報源）統合（SSOTと全レイヤーの整合に必要な決定）
@@ -196,6 +206,14 @@
   - `region.city` をUXに出す条件（粒度の線引き）
   - フラグメント `text` の「個人特定リスク」判定の運用基準（管理UIでのレビュー観点）
   - `rawLinks` をどこまで保持するか（保存期間/削除要求との整合）
+
+- 決定（確定）:
+   - `region.city` は **UX非表示（管理UIのみ）**
+   - `text` に **個人名/連絡先/具体住所/子ども固有情報**が含まれる場合はUX利用禁止＋`DISABLE_SOURCE`（7-2-4）で運用
+   - `rawLinks` は保存可だがUX非表示を固定し、source/fragment無効化時に削除対象とする
+
+- 状態:
+  - **解決済み（SSOTへ反映済み）**
 
 ---
 
