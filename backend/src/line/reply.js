@@ -1,4 +1,4 @@
-const https = require('https');
+const { sendLineReply } = require('../delivery/send_line');
 
 function buildReplyMessage(event, replyText) {
   if (!event || event.type !== 'message') {
@@ -11,35 +11,6 @@ function buildReplyMessage(event, replyText) {
     type: 'text',
     text: replyText
   };
-}
-
-function sendReply(replyToken, messages, accessToken) {
-  return new Promise((resolve, reject) => {
-    const body = JSON.stringify({ replyToken, messages });
-    const options = {
-      hostname: 'api.line.me',
-      path: '/v2/bot/message/reply',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Length': Buffer.byteLength(body)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      res.resume();
-      if (res.statusCode && res.statusCode >= 400) {
-        const error = new Error(`[line.reply] status ${res.statusCode}`);
-        return reject(error);
-      }
-      return resolve();
-    });
-
-    req.on('error', reject);
-    req.write(body);
-    req.end();
-  });
 }
 
 async function replyToLine(events, accessToken, replyText) {
@@ -59,7 +30,11 @@ async function replyToLine(events, accessToken, replyText) {
     if (!message) {
       continue;
     }
-    tasks.push(sendReply(event.replyToken, [message], accessToken));
+    tasks.push(sendLineReply({
+      replyToken: event.replyToken,
+      messages: [message],
+      accessToken
+    }));
   }
 
   if (!tasks.length) {

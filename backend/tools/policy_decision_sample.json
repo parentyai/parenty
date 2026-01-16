@@ -1,0 +1,23 @@
+{
+  "result": "DENY",
+  "reasonCodes": ["UNKNOWN_REASON"],
+  "primaryReason": "UNKNOWN_REASON",
+  "templateId": "tpl_deny_unknown_reason",
+  "nextAction": {
+    "action": "CREATE_INCIDENT",
+    "severity": "high",
+    "targets": {},
+    "constraints": {
+      "requiresRole": [],
+      "requiresReason": true,
+      "auditRequired": true
+    },
+    "links": {}
+  },
+  "policyTrace": {
+    "traceId": "pending",
+    "ruleVersion": "pe:v0.0.0",
+    "inputsDigest": "pending",
+    "evaluatedAt": "2026-01-14T00:00:00.000Z"
+  }
+}

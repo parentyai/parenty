@@ -1,0 +1,317 @@
+{
+  "CONSENT_CHILD_SCOPE_MISSING": {
+    "category": "CONSENT",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_consent_child_scope_missing"
+  },
+  "CONSENT_MISSING_FAQ": {
+    "category": "CONSENT",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_consent_missing_faq"
+  },
+  "CONSENT_MISSING_NOTIFY": {
+    "category": "CONSENT",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_consent_missing_notify"
+  },
+  "CONSENT_SCOPE_LIMITED": {
+    "category": "CONSENT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_consent_scope_limited"
+  },
+  "CONSENT_VERSION_OUTDATED": {
+    "category": "CONSENT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_consent_outdated"
+  },
+  "CONTEXT_DEDUPE_SUPPRESSED": {
+    "category": "CONTEXT",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "CONTEXT_PROVIDER_OUTAGE": {
+    "category": "CONTEXT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_provider_outage"
+  },
+  "CONTEXT_QUIET_HOURS_DELAYED": {
+    "category": "CONTEXT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_quiet_hours"
+  },
+  "CONTEXT_RATE_LIMIT": {
+    "category": "CONTEXT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_rate_limit"
+  },
+  "CONTEXT_RETRY_EXCEEDED": {
+    "category": "CONTEXT",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_internal_error"
+  },
+  "CONTEXT_SYSTEM_HEALTH_RED": {
+    "category": "SYSTEM",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_system_health_red"
+  },
+  "DATA_REQUEST_OPEN": {
+    "category": "DATA",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "DELIVERY_FAILURE": {
+    "category": "SYSTEM",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_retry_exceeded"
+  },
+  "DELIVERY_FAILURE_SPIKE": {
+    "category": "SYSTEM",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_retry_exceeded"
+  },
+  "EVENT_TOO_SOON": {
+    "category": "CONTEXT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_quiet_hours"
+  },
+  "EXPERIENCE_SOURCE_CONFLICT": {
+    "category": "EXPERIENCE_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "EXPERIENCE_SOURCE_LOW_CONFIDENCE": {
+    "category": "EXPERIENCE_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "EXPERIENCE_SOURCE_OUTDATED": {
+    "category": "EXPERIENCE_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_stale"
+  },
+  "EXPERIENCE_SOURCE_USED": {
+    "category": "EXPERIENCE_SOURCE",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "FEATURE_DISABLED_FAQ": {
+    "category": "STOP",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_feature"
+  },
+  "FEATURE_DISABLED_NOTIFICATION": {
+    "category": "STOP",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_feature"
+  },
+  "FEATURE_DISABLED_SCENARIO": {
+    "category": "STOP",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_feature"
+  },
+  "GLOBAL_STOP_ACTIVE": {
+    "category": "STOP",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_global"
+  },
+  "HOUSEHOLD_DELETION_IN_PROGRESS": {
+    "category": "DATA",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_provider_outage"
+  },
+  "HOUSEHOLD_STOP_NOTIFICATIONS": {
+    "category": "STOP",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_household_notifications"
+  },
+  "INCIDENT_UNDER_INVESTIGATION": {
+    "category": "INCIDENT",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_provider_outage"
+  },
+  "INSIGHT_CAUSED_FLOW_CHANGE": {
+    "category": "INSIGHT",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "INSIGHT_PRESENTED": {
+    "category": "INSIGHT",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "INSIGHT_REACTION_CAPTURED": {
+    "category": "INSIGHT",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "INTERNAL_ERROR": {
+    "category": "SYSTEM",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_internal_error"
+  },
+  "LLM_HIGH_RISK_QUERY": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_high_risk"
+  },
+  "LLM_LEGAL_GUARD": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_legal_guard"
+  },
+  "LLM_LOW_CONFIDENCE": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_hallucination_suspect"
+  },
+  "LLM_MEDICAL_GUARD": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_medical_guard"
+  },
+  "LLM_REFUSAL_TRIGGERED": {
+    "category": "RISK",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_unknown_reason"
+  },
+  "PLAN_FEATURE_LOCKED": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_feature_locked"
+  },
+  "PLAN_LIMITED_DEPTH": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_limited_depth"
+  },
+  "PLAN_LIMIT_FAMILY": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_feature_locked"
+  },
+  "PLAN_LIMIT_FREE": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_feature_locked"
+  },
+  "PLAN_LIMIT_SOLO": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_feature_locked"
+  },
+  "PLAN_RATE_LIMIT": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_rate_limited"
+  },
+  "PLAN_STATUS_CANCELED": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_canceled"
+  },
+  "PLAN_STATUS_PAST_DUE": {
+    "category": "PLAN",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_plan_past_due"
+  },
+  "REVIEW_SOURCE_BIAS_SUSPECT": {
+    "category": "REVIEW_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "REVIEW_SOURCE_LOW_CONFIDENCE": {
+    "category": "REVIEW_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "REVIEW_SOURCE_MEDICAL_CAUTION": {
+    "category": "REVIEW_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_review_medical_caution"
+  },
+  "REVIEW_SOURCE_OUTDATED": {
+    "category": "REVIEW_SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_stale"
+  },
+  "REVIEW_SOURCE_USED": {
+    "category": "REVIEW_SOURCE",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "RISK_LLM_HALLUCINATION_SUSPECT": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_hallucination_suspect"
+  },
+  "RISK_LLM_HIGH": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_llm_high_risk"
+  },
+  "RISK_POLICY_PROHIBITED": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_policy_prohibited"
+  },
+  "RISK_SOURCE_LOW_CONFIDENCE": {
+    "category": "SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "RISK_TEMPLATE_HIGH": {
+    "category": "RISK",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_template_high"
+  },
+  "SOURCE_CONFLICT": {
+    "category": "SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "SOURCE_OUTDATED": {
+    "category": "SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_stale"
+  },
+  "SOURCE_UNVERIFIED": {
+    "category": "SOURCE",
+    "defaultResult": "DEGRADED",
+    "templateId": "tpl_deg_risk_source_low_conf"
+  },
+  "SYSTEM_ERROR": {
+    "category": "SYSTEM",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_internal_error"
+  },
+  "TEMPLATE_DEPRECATED": {
+    "category": "TEMPLATE",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "TEMPLATE_DISABLED": {
+    "category": "TEMPLATE",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_stop_feature"
+  },
+  "UNKNOWN_REASON": {
+    "category": "CATCHALL",
+    "defaultResult": "DENY",
+    "templateId": "tpl_deny_unknown_reason"
+  },
+  "VENDOR_EXPOSURE": {
+    "category": "VENDOR",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "VENDOR_FEEDBACK": {
+    "category": "VENDOR",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  },
+  "VENDOR_INQUIRY": {
+    "category": "VENDOR",
+    "defaultResult": "ALLOW",
+    "templateId": null
+  }
+}

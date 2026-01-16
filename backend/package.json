@@ -11,7 +11,9 @@
     "test": "node tools/test.js",
     "firestore:preflight": "node tools/firestore_preflight.js",
     "firestore:index-audit": "node tools/firestore_index_audit.js",
-    "firestore:rules-audit": "node tools/firestore_rules_audit.js"
+    "firestore:rules-audit": "node tools/firestore_rules_audit.js",
+    "firestore:incident-audit": "node tools/incident_with_audit.js",
+    "policy:decision-validate": "node tools/policy_decision_validate.js"
   },
   "dependencies": {
     "@google-cloud/firestore": "^8.1.0",

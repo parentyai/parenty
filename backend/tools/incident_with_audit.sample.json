@@ -1,0 +1,21 @@
+{
+  "incidentRecord": {
+    "incidentId": "inc_20260114_0001",
+    "severity": "high",
+    "triggerReasonCode": "SYSTEM_ERROR",
+    "summary": "Cloud Run deploy validation failed",
+    "runbookLabel": "[7-2-1]",
+    "startedAt": "2026-01-14T04:00:00Z"
+  },
+  "auditLog": {
+    "actorType": "system",
+    "actorId": "ops:api_watch",
+    "action": "INCIDENT_CREATED",
+    "runbookLabel": "[7-2-1]",
+    "target": {
+      "kind": "incident_records",
+      "id": "inc_20260114_0001"
+    },
+    "createdAt": "2026-01-14T04:00:00Z"
+  }
+}

@@ -142,7 +142,22 @@ service cloud.firestore {
       allow write: if isSystem();
     }
 
+    match /review_fragments/{fragmentId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /review_usage_logs/{usageId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
     match /reviews/{reviewId} {
+      allow read: if isAdmin();
+      allow write: if isSystem();
+    }
+
+    match /insight_reactions/{reactionId} {
       allow read: if isAdmin();
       allow write: if isSystem();
     }

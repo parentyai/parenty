@@ -1,6 +1,7 @@
 const { loadEnv } = require('../src/config/env');
 const { getFirestoreStatus } = require('../src/firestore/preflight');
 const { createFirestoreClient } = require('../src/firestore/client');
+const { createRepository } = require('../src/firestore/repository');
 
 async function main() {
   let env;
@@ -18,6 +19,8 @@ async function main() {
   }
 
   const firestore = createFirestoreClient(env);
+  const repository = createRepository(firestore);
+  repository.collection('audit_logs');
 
   const start = Date.now();
   try {

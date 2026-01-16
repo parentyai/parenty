@@ -72,12 +72,36 @@ function reviewSourceDoc(db, sourceId) {
   return docRef(db, 'review_sources', sourceId);
 }
 
+function reviewFragmentsCollection(db) {
+  return collectionRef(db, 'review_fragments');
+}
+
+function reviewFragmentDoc(db, fragmentId) {
+  return docRef(db, 'review_fragments', fragmentId);
+}
+
+function reviewUsageLogsCollection(db) {
+  return collectionRef(db, 'review_usage_logs');
+}
+
+function reviewUsageLogDoc(db, usageId) {
+  return docRef(db, 'review_usage_logs', usageId);
+}
+
 function reviewsCollection(db) {
   return collectionRef(db, 'reviews');
 }
 
 function reviewDoc(db, reviewId) {
   return docRef(db, 'reviews', reviewId);
+}
+
+function insightReactionsCollection(db) {
+  return collectionRef(db, 'insight_reactions');
+}
+
+function insightReactionDoc(db, reactionId) {
+  return docRef(db, 'insight_reactions', reactionId);
 }
 
 function opsConfigsCollection(db) {
@@ -131,8 +155,14 @@ module.exports = {
   experienceUsageLogDoc,
   reviewSourcesCollection,
   reviewSourceDoc,
+  reviewFragmentsCollection,
+  reviewFragmentDoc,
+  reviewUsageLogsCollection,
+  reviewUsageLogDoc,
   reviewsCollection,
   reviewDoc,
+  insightReactionsCollection,
+  insightReactionDoc,
   opsConfigsCollection,
   opsConfigDoc,
   auditLogsCollection,
