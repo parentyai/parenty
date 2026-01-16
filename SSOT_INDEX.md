@@ -33,6 +33,7 @@
   - `Todo.md`
   - `docs/INTEGRITY_CHECKLIST.md`
   - `Runbook.md`
+  - `docs/ops/city_pack_auto_generation_spec.md`
 
 ---
 
@@ -73,6 +74,7 @@
 | 8 | `SSOT_LINK_MAP.md` | SSOT条番号→影響範囲（参照強制レイヤー） | SSOT 1-5 / 3-3-1 / 3-4 / 5-7 / 6-4 / 8-5 / 付録B/C/F/G |
 | 9 | `RESERVED_FEATURES_GATE.md` | 付録G（予約機能）の着手ゲート（Reserved固定） | SSOT 付録G |
 | 10 | `UX_STATE_MAP_7.md` | UX文面モード（7状態）契約書（Policy結果3値は置き換えない） | SSOT 5章 / 付録C / 1-5 / 3-4 / 5-7 |
+| 11 | `docs/ops/city_pack_auto_generation_spec.md` | City Pack 自動生成運用仕様（承認ゲート含む） | SSOT 5-7 / 7章 / 8-4-2B |
 
 `PolicyUxAdminMatrix.md` は Policy / UX / 管理UI を横断する統合参照点である。ドメイン横断の仕様確認は必ず `PolicyUxAdminMatrix.md` を起点とする。
 `UX_STATE_MAP_7.md` は UX レイヤの使用仕様である。`policyDecision.result` / `reasonCode` / `nextAction` を参照はするが、定義・追加・変更はしない。Policy / reasonCode 側から 7状態を追加・変更することは禁止する。

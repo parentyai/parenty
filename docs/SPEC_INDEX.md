@@ -22,6 +22,7 @@
 - 中核マトリクス: `matrix/policy_x_ux_x_adminui.md`
 - 運用フロー（reasonCode駆動）: `ops/reasoncode_driven_runbook.md`
 - ログ・嗜好・判断DB仕様: `ops/logs_preference_decision_db_spec.md`
+- City Pack 自動生成仕様: `ops/city_pack_auto_generation_spec.md`
 - Phase 1 ロードマップ: `PHASE1_ROADMAP.md`
 - Phase 1 Auth 適用範囲: `PHASE1_AUTH_SCOPE.md`
 - Phase 2 ロードマップ: `PHASE2_ROADMAP.md`
