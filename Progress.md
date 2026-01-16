@@ -212,3 +212,4 @@
   - LLM出力構造を「結論→根拠→補足」に固定（`PARENTY_SSOT.md`）
   - v1に admin_views 最小実装を含める決定（`Progress.md` v1 MUST）
   - 管理UIアラート対象 reasonCode を固定（`PARENTY_SSOT.md` 6-0M1-1）
+  - 外部APIの公式根拠URLを確定（403等は手動監視へ移行）

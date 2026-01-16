@@ -95,20 +95,24 @@
     - USPS Terms: `https://www.usps.com/business/web-tools-terms-of-use.htm`（404）→ `https://developers.usps.com/terms-and-conditions`
     - FEMA Terms: `https://www.fema.gov/about/openfema/terms`（404）→ `https://www.fema.gov/about/openfema/terms-conditions`
     - OpenWeatherMap: 旧スナップショットでTLS失敗（取得手段の問題）→ curlで到達可能を確認（URLは維持）
-  - **未解決（監視手段/公式根拠の確定が必要）**:
-    - Zocdoc: `https://www.zocdoc.com/about/api` / `https://www.zocdoc.com/about/terms`（HTTP 403：機械巡回不能）
-    - Yelp Terms: `https://www.yelp.com/developers/api_terms` が UA無しだと取得不能になる場合あり（監視実装にUA固定が必要）
+  - **監視手段: 手動監視へ移行（公式根拠URL確定済み）**:
+    - Zocdoc: `https://www.zocdoc.com/about/terms` / `https://www.zocdoc.com/about/privacy`（HTTP 403：機械巡回不能）
+    - NOAA Privacy: `https://www.noaa.gov/privacy-policy`（HTTP 403：機械巡回不能）
+  - **監視手段: UA固定で機械監視を継続**:
+    - Yelp Terms: `https://www.yelp.com/developers/api_terms`（UA無しだと取得不能になる場合あり）
 - 追記（2026-01-08）:
   - 台帳のURL分離（Docs/Terms/Privacy/Pricing）を反映し、監視対象URLの到達性を大幅改善（`docs/api_watch/snapshot.json` を参照）
   - 残課題（事実）:
     - Zocdoc Terms/Privacy は 403（機械巡回不能）
-    - NOAA Privacy `https://www.noaa.gov/privacy-policy` は 404（[仮説] HOLD）。TODO: 代替URLを再特定。
+    - NOAA Privacy `https://www.noaa.gov/privacy-policy` は 403（機械巡回不能）
 - 追記（2026-01-15）:
     - NOAA Privacy は機械巡回で 403（手動確認で到達可）
     - FEMA系URLは機械巡回で到達不能（curl_fail）だが手動確認で到達可
 - 期待成果物:
-  - `APIRegistry_External.md` のURLを **公式根拠として確定**（または、監視不能として手動運用へ移す判断）
+  - `APIRegistry_External.md` のURLを **公式根拠として確定**（403等は手動監視へ移行する判断を明記）
   - 監視対象URL（pricing/policy/attribution等）の追加（SSOT 付録F-5 の `monitoringTargets` を満たす）
+- 状態:
+  - **解決済み（公式根拠URLを確定。403等は手動監視へ移行）**
 
 ### T-API-002: API Path/Operation のSSOT確定（OpenAPIのpaths）
 
