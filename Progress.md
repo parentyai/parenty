@@ -214,3 +214,4 @@
   - 管理UIアラート対象 reasonCode を固定（`PARENTY_SSOT.md` 6-0M1-1）
   - 外部APIの公式根拠URLを確定（403等は手動監視へ移行）
   - Vendor/Experience Source の運用決定を固定（T-009/T-010）
+  - Admin API の最小入口を追加（`/admin/v1/views/:viewId` / `/admin/v1/audit-logs` / `/admin/v1/incidents`）

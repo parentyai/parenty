@@ -5,6 +5,7 @@ const { normalizeEvents, logEvents } = require('./src/line/handler');
 const { replyToLine } = require('./src/line/reply');
 const { getFirestoreStatus } = require('./src/firestore/preflight');
 const { createAuthMiddleware } = require('./src/auth/middleware');
+const { createAdminRouter } = require('./src/admin/router');
 
 const env = loadEnv();
 
@@ -44,7 +45,7 @@ app.post('/line/webhook', (req, res) => {
   return res.status(200).json({ ok: true, count: events.length });
 });
 
-const { requireAuth } = createAuthMiddleware(env);
+const { requireAuth, requireAdmin } = createAuthMiddleware(env);
 const PUBLIC_PATHS = new Set(['/health', '/line/webhook']);
 
 app.use((req, res, next) => {
@@ -53,6 +54,9 @@ app.use((req, res, next) => {
   }
   return requireAuth(req, res, next);
 });
+
+const adminRouter = createAdminRouter({ env, requireAdmin });
+app.use('/admin/v1', adminRouter);
 
 app.use((err, req, res, next) => {
   console.error('[request.error]', { message: err.message });

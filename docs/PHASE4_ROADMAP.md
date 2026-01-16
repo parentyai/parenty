@@ -57,7 +57,10 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 
 ## 進捗メモ（非仕様）
 
-- 残り: すべて
+- 完了確認: Admin API の最小入口（`/admin/v1/views/:viewId`）
+- 完了確認: audit_logs の追加入口（`/admin/v1/audit-logs`）
+- 完了確認: incident_records + audit_logs 同時記録入口（`/admin/v1/incidents`）
+- 残り: UI接続と nextAction 連携の本実装
 
 ---
 
