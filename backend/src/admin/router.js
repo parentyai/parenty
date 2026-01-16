@@ -4,7 +4,7 @@ const { createRepository } = require('../firestore/repository');
 const { createAuditLogStore } = require('../firestore/audit_logs');
 const { createIncidentRecordStore } = require('../firestore/incident_records');
 const { createIncidentWithAudit } = require('../firestore/system_ops');
-const { buildNextActionNone } = require('./next_action');
+const { buildNextActionFromReason } = require('./next_action');
 
 function createAdminRouter({ env, requireAdmin }) {
   const router = express.Router();
@@ -44,7 +44,7 @@ function createAdminRouter({ env, requireAdmin }) {
       const data = snapshot ? snapshot.data : null;
       const nextAction = data && data.nextAction
         ? data.nextAction
-        : buildNextActionNone({
+        : buildNextActionFromReason({
             primaryReason: data && data.primaryReason,
             reasonCodes: data && data.reasonCodes
           });
@@ -66,10 +66,13 @@ function createAdminRouter({ env, requireAdmin }) {
         createdAt: payload.createdAt || now
       };
       const ref = await store.createAuditLog(auditLog);
-      const nextAction = buildNextActionNone({
+      const nextAction = buildNextActionFromReason({
         primaryReason: payload.primaryReason,
         reasonCodes: payload.reasonCodes,
-        runbookLabel: payload.runbookLabel
+        runbookLabel: payload.runbookLabel,
+        targets: {
+          auditId: ref.id
+        }
       });
       return res.status(201).json({ ok: true, auditId: ref.id, nextAction });
     } catch (error) {
@@ -109,10 +112,13 @@ function createAdminRouter({ env, requireAdmin }) {
         }
       });
 
-      const nextAction = buildNextActionNone({
+      const nextAction = buildNextActionFromReason({
         primaryReason: incidentRecord.triggerReasonCode,
         reasonCodes: incidentRecord.triggerReasonCode ? [incidentRecord.triggerReasonCode] : undefined,
-        runbookLabel: incidentRecord.runbookLabel
+        runbookLabel: incidentRecord.runbookLabel,
+        targets: {
+          incidentId: incidentRecord.incidentId
+        }
       });
 
       return res.status(201).json({

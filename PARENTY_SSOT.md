@@ -2509,6 +2509,32 @@ UXの「注意喚起・判断補助（Insight）」に対する反応のみを�
 
 ---
 
+## 🔟 admin_views（派生ビュー / SSOT拡張：v1導入）
+
+### 目的（固定）
+
+管理UIの**表示専用**の派生ビューを保持する。意思決定に使わない。
+
+### フィールド（最小）
+
+| フィールド | 型 | 必須 | 説明 |
+| --- | --- | --- | --- |
+| viewId | string | 必須 | `dashboard_daily` / `alerts_active` |
+| generatedAt | timestamp | 必須 | 生成時刻 |
+| payload | map | 必須 | view固有のデータ（PII禁止） |
+| payload.byPrimaryReason | map | 任意 | `dashboard_daily` 用（key=primaryReason, value=count） |
+| payload.items | array | 任意 | `alerts_active` 用 |
+| payload.items[].nextAction | map | 必須 | SSOT 6-2Z（UIは解釈禁止） |
+| payload.items[].count | number | 必須 | 件数 |
+| payload.items[].lastSeenAt | timestamp | 必須 | 最終発生 |
+
+### R/W（固定）
+
+- read: admin
+- write: **systemのみ**（adminは提案→systemが反映、audit_logs必須）
+
+---
+
 ## 管理系データと運用章の対応
 
 | データ | 主対応章 |
