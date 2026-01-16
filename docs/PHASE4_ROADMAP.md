@@ -1,0 +1,72 @@
+# PHASE4_ROADMAP（Admin UI / Admin API）
+
+## 派生文書共通宣言（固定）
+
+- 本書は定義文書ではない。
+- 本書は仕様の正・権威を持たない。
+- Policy / UX / 権限 / 判定の正は SSOT および `PolicyUxAdminMatrix.md` にのみ存在する。
+- 本書の記述が SSOT / Matrix と矛盾した場合、常に SSOT / Matrix が優先される。
+- 本書の「例」「列挙」「手順」は実装・仕様のテンプレではない。
+- 本書を根拠に Policy / UX / 権限 / 判定を変更してはならない。
+
+本書単体で仕様判断してはならず、判断起点は PolicyUxAdminMatrix にあり、SSOT/Matrix が常に優先される。
+
+## メタ（固定）
+
+- **SSoT責務**: Phase 4 の実装順序を、SSOT参照で固定する（新仕様は追加しない）。
+- **想定読者**: Engineer / Ops
+- **依存SSoT**: `PARENTY_SSOT.md`（6-0 / 6-2X / 6-2Y / 6-2Z / 7章）
+- **参照導線**: `PolicyUxAdminMatrix.md` / `ADMIN_UX_API_DECISION_MAP_7.md` / `Runbook.md`
+- **更新ルール**: 判断が必要なら `Todo.md` に記録して停止する。
+
+---
+
+## 背景
+
+Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデルと監査導線に固定する工程である。
+
+---
+
+## 説明
+
+### 1) 対象スコープ（固定）
+
+- **Admin UI / Admin API**: SSOT 6-0
+- **nextAction の正**: SSOT 6-2Z
+- **nextAction マッピング**: SSOT 6-2X / 6-2Y
+- **監査ログ**: SSOT 7章（append-only）
+- **参照導線**: `PolicyUxAdminMatrix.md` / `ADMIN_UX_API_DECISION_MAP_7.md`
+
+### 2) 作業順序（参照導線）
+
+1. **Admin 操作の接続点を固定**
+   - 参照: `PolicyUxAdminMatrix.md`
+   - 6-2X / 6-2Y の RowId と整合していることを確認する。
+2. **nextAction の常時返却を固定**
+   - 参照: `PARENTY_SSOT.md` 6-2Z
+   - UI側で解釈しない前提で接続する。
+3. **audit_logs の append-only を固定**
+   - 参照: `PARENTY_SSOT.md` 7章 / `Runbook.md`
+   - 管理操作は必ず監査に残す導線のみを持つ。
+
+### 3) ブロッカー（判断待ち）
+
+- `Todo.md` の未解決事項が残る場合は作業を停止する。
+
+---
+
+## 進捗メモ（非仕様）
+
+- 残り: すべて
+
+---
+
+## 結論
+
+Phase 4 は SSOT 6章 / 7章を正とし、Admin UI / Admin API の運用導線を固定する。
+
+---
+
+## 補足
+
+- 完了条件は `ImplementationPlan.md` の Phase 4 に従う。

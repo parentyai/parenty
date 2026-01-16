@@ -290,7 +290,7 @@
 | フィールド名 | 型 | 例 | 保存可否 | PII分類 | 保持期限 | 参照権限 |
 |---|---|---|---|---|---|---|
 | auditId | string | aud_20260110_001 | 可 | Pseudo | 7年（SSOT 7-3-3 に従う） | Admin |
-| actorType | string | admin/system | 可 | None | 7年 | Admin |
+| actorType | string | admin/system/guardian | 可 | None | 7年 | Admin |
 | actionType | string | TEMPLATE_DISABLE | 可 | None | 7年 | Admin |
 | targetId | string | tpl_123 | 可 | None | 7年 | Admin |
 | reasonCode | string | RISK_TEMPLATE_HIGH | 可 | None | 7年 | Admin |

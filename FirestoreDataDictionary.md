@@ -59,6 +59,7 @@
 | notification_deliveries | SSOT 4-2-a | 配送結果ログ（policyDecision必須） |
 | faq_logs | SSOT 4-2-a | FAQログ（マスキング後のみ保存） |
 | scenario_states | SSOT 4-2-a | シナリオ状態ログ |
+| roadmaps | SSOT 4-2-a | 家庭年間ロードマップ |
 
 #### 管理系（代表）
 
@@ -67,7 +68,17 @@
 | admin_users | SSOT 4-2-b | RBAC（viewer/editor/operator/admin） |
 | global_flags | SSOT 4-2-b | 全体停止/feature stop（最優先） |
 | templates | SSOT 4-2-b | テンプレ管理（公開/停止は監査必須） |
-| sources / reviews / ops_configs | SSOT 4-2-b | 管理系辞書（更新主体はsystem 等） |
+| data_requests | SSOT 4-2-b | 権利行使 |
+| sources | SSOT 4-2-b | 管理系辞書（更新主体はsystem 等） |
+| reviews | SSOT 4-2-b | 管理系辞書（更新主体はsystem 等） |
+| ops_configs | SSOT 4-2-b | 運用設定（systemのみ） |
+| experience_sources | SSOT 7-1 / 4-2-b | 体験情報源 |
+| experience_fragments | SSOT 7-1 / 4-2-b | 体験フラグメント |
+| experience_usage_logs | SSOT 7-3 / 4-2-b | 体験利用ログ（監査） |
+| review_sources | SSOT 7-1 / 4-2-b | RAES情報源 |
+| review_fragments | SSOT 7-1 / 4-2-b | RAESフラグメント |
+| review_usage_logs | SSOT 7-3 / 4-2-b | RAES利用ログ（監査） |
+| insight_reactions | SSOT 7-3 / 4-2-b | IRS反応ログ（監査） |
 | audit_logs | SSOT 4-2-b / 7-3 | 監査一次情報（append-only） |
 | incident_records | SSOT 4-2-b / 7-2 | インシデント記録 |
 | admin_views/* | SSOT 4-3 | 派生ビュー（意思決定に使わない） |
@@ -93,4 +104,3 @@
 ## 矛盾候補（隔離）
 
 - （現時点なし）
-

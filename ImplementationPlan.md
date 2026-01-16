@@ -70,6 +70,10 @@ SSOT参照: 4章（データ/Rules）
 - Firestore構造がSSOTに一致（collection/権限/append-only）
 - PII保護（ログのマスキング方針）が実装に落ちる見通しが立つ
 
+### 進捗メモ（非仕様）
+
+- Phase 1 は完了確認済み（詳細は `docs/PHASE1_ROADMAP.md` と `Progress.md` を参照）
+
 ---
 
 ## Phase 2: Policy Engine（最優先）

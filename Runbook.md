@@ -89,6 +89,7 @@ SSOT: 6-2Y / 6-2Z / 7-3
 - `auditRequired=true` の操作は **必ず audit_logs 記録**
 - `requiresReason=true` の操作は **理由必須**
 - audit_logs は append-only（更新/削除禁止）
+- 最小確認: Firestore Console で `audit_logs` を `runbookLabel` / `actorId` で検索し、`target.kind` と `target.id` が対象件に一致していることを確認する。
 
 ---
 
@@ -106,11 +107,47 @@ SSOT: 付録F-6 / 7-2-1
 - **頻度**: 週次（固定）
 - **検知時（自動更新禁止）**:
   - `incident_records` を作成（RunbookLabel=[7-2-1]）
+  - incident_records と audit_logs は同時記録が前提（実運用入口: `backend/tools/incident_with_audit.js`）
   - `Todo.md` に起票（対象apiId / URL / 検知日 / 影響）
   - 人間承認があるまで SSOT/実装を更新しない
 - **スナップショット/レポート格納**:
   - `docs/api_watch/snapshot.json`（常に上書き）
-  - `docs/api_watch/report.md`（常に上書き）
+- `docs/api_watch/report.md`（常に上書き）
+
+---
+
+## 6. 保持・PII運用チェック（参照導線）
+
+SSOT: 7-3-3 / 8-5 / 4-2-a
+
+- 保存期間は SSOT 7-3-3 を正として確認する。
+- ログ本文は SSOT 8-5 / 4-2-a のマスキング要件に従う。
+- audit_logs は append-only（SSOT 7-3）。
+- 破棄/匿名化の実施記録は audit_logs に残す（SSOT 8-5）。
+- チェック対象（最小）:
+  - notifications / notification_deliveries / faq_logs / scenario_states
+  - audit_logs / incident_records
+  - experience_usage_logs / review_usage_logs
+- TTL運用チェック:
+  - Firestore の TTL 設定画面で対象コレクションの TTL が設定済みか確認する。
+  - TTL の対象・保持期間は SSOT 7-3-3 に従う（運用の独自変更は禁止）。
+  - 変更が必要な場合は SSOT 7-3-3 に戻し、`Todo.md` に記録して停止する。
+  - 実施手順（最小）:
+    1. Firebase Console → Firestore Database → TTL を開く。
+    2. 「保持期限があるコレクション」だけを対象にする（SSOT 7-3-3 を正）。
+    3. TTLフィールド名・保持期間は設計資料の該当章を参照する（SSOTが正、設計資料は導線）。
+    4. 不明点が出た場合は設定せず、`Todo.md` に起票して停止する。
+
+---
+
+## 7. reasonCodeIndex 生成・配置（参照導線）
+
+SSOT: 付録B / 3-0-1
+
+- reasonCodeIndex は付録Bから生成した参照データとして保持する。
+- 配置例: `backend/reason_code_index.json`
+- 参照パスは `POLICY_REASON_CODE_INDEX_PATH` を用いる。
+- 詳細導線は `docs/policy_engine/reason_code_index.md` に固定する。
 
 ---
 
@@ -139,4 +176,3 @@ SSOT: 付録F-6 / 7-2-1
 - 現行SSOTとの整合性チェック（記述）:
   - vendor関連 reasonCode が付録Bに無い状態で実装すると fail-safe で incident 化される
   - runbookLabelを増やす場合は 6-2Y の表示/埋め込み規約にも影響する
-

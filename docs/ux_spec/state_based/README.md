@@ -13,22 +13,23 @@
 - Dependencies（依存）: `UX_STATE_MAP_7.md` / `PolicyUxAdminMatrix.md`
 - Invariants（不変条件）: 状態数・名称を変更しない
 - Change Impact（変更波及）: matrix / ops / templates
-- Open Questions（未決）: TODO
+- Open Questions（未決）: なし
 - Acceptance（受入条件）: 状態別の参照導線がある
 - 参照元: `docs/SPEC_INDEX.md`
 - 参照先: `UX_STATE_MAP_7.md`
 
 ### 状態別導線（参照のみ）
-- 状態1: TODO
-- 状態2: TODO
-- 状態3: TODO
-- 状態4: TODO
-- 状態5: TODO
-- 状態6: TODO
-- 状態7: TODO
+- 文言の正は `PARENTY_SSOT.md` 付録C に固定する。
+- 状態1: `UX_STATE_MAP_7.md`（状態1）
+- 状態2: `UX_STATE_MAP_7.md`（状態2）
+- 状態3: `UX_STATE_MAP_7.md`（状態3）
+- 状態4: `UX_STATE_MAP_7.md`（状態4）
+- 状態5: `UX_STATE_MAP_7.md`（状態5）
+- 状態6: `UX_STATE_MAP_7.md`（状態6）
+- 状態7: `UX_STATE_MAP_7.md`（状態7）
 
 ## 結論
 - UX仕様は状態別に整理し、参照導線のみを持つ。
 
 ## 補足
-- TODO: 状態別の参照先を確定する。
+- 状態別の正は `UX_STATE_MAP_7.md` に固定する。

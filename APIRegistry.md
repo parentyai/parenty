@@ -64,30 +64,30 @@ SSOT参照: 2章 / 3章 / B-1 / 6-2Z / 7-3
 
 | 項目 | 固定ルール |
 |---|---|
-| Base | `[仮説]` `/v1`（または `/admin/v1`）で系統分離（※SSOTでpaths未確定） |
+| Base | `/ux/v1/*` と `/admin/v1/*` で系統分離（SSOT 3-3-1A/6-3）。`/health` と `/line/webhook` は公開 |
 | Auth | UX: LINE user/household 紐付け / Admin: `admin_users`（SSOT準拠） |
 | Policy | すべて `policyDecision` を生成（SSOT 付録B-1-1）。`policyTrace` を埋め込み（SSOT 付録B-1-2） |
-| policyDecision | `{ result, reasonCodes[], primaryReason, templateId?, nextAction?, policyTrace }`（SSOT B-1-1/B-1-2） |
+| policyDecision | `{ result, reasonCodes[], primaryReason, templateId, nextAction?, policyTrace }`（DEGRADED/DENYはtemplateId必須、SSOT B-1-1/B-1-2） |
 | Logs | `notifications` / `notification_deliveries` / `faq_logs` / `scenario_states` / `audit_logs` / `incident_records`（SSOT B-2） |
 | Error | 未定義 reason → `UNKNOWN_REASON` に正規化し `DENY` + `nextAction.action=CREATE_INCIDENT`（SSOT fail-safe） |
 
 注記:
 
 - `policyTrace` は **ログコレクション名ではなく**、各ログへ埋め込む「再現性メタ」（PII禁止）である（SSOT B-1-2）。
-- `audit_logs` は **append-only** かつ `actorType=admin/system` 前提（SSOT 4️⃣ audit_logs）。UX（guardian）操作の監査扱いは **未確定**（`Todo.md`: T-API-003）。
+- `audit_logs` は **append-only** かつ `actorType=admin/system/guardian`（SSOT 4️⃣ audit_logs）。
 
 ---
 
 ## 2) UX（ユーザー側）API 台帳（v1案）
 
-※ `Path` は SSOTで未確定のため、**すべて `[仮説]`** として扱う（`Todo.md`: T-API-002）。
+※ `/health` と `/line/webhook` は SSOT 3-3-1A で確定。その他の `Path` は **`[仮説]`** として扱う。
 
 | ID | 種別 | Method | Path | 目的 | Policy対象 | 主ログ | 備考 |
 |---|---|---|---|---|---|---|---|
-| UX-001 | Health | GET | `[仮説]` `/health` | 稼働確認 | なし | なし | `[仮説]` 既存運用（Cloud Run/CI） |
-| UX-010 | Webhook入口 | POST | `[仮説]` `/line/webhook` | LINEイベント受信 | 必須 | `faq_logs` / `notifications` | 入口はUX、判断はPolicyへ委譲 |
+| UX-001 | Health | GET | `/health` | 稼働確認 | なし | なし | 既存運用（Cloud Run/CI） |
+| UX-010 | Webhook入口 | POST | `/line/webhook` | LINEイベント受信 | 必須 | `faq_logs` / `notifications` | 入口はUX、判断はPolicyへ委譲 |
 | UX-020 | FAQ要求 | POST | `[仮説]` `/ux/v1/faq` | メッセージ→回答生成 | 必須 | `faq_logs` | LLMはComposer内、Policy外出禁止（SSOT 3章） |
-| UX-030 | 通知購読/設定 | POST/PUT | `[仮説]` `/ux/v1/settings` | 地域/子ども年齢帯/希望の更新 | 必須 | `[仮説]`（要確定） | “更新”の監査扱い（audit_logs含む）は未確定（T-API-003） |
+| UX-030 | 通知購読/設定 | POST/PUT | `[仮説]` `/ux/v1/settings` | 地域/子ども年齢帯/希望の更新 | 必須 | `audit_logs` | 監査は actorType=guardian を使用（SSOT 5-6G / 4️⃣ audit_logs） |
 | UX-040 | ロードマップ取得 | GET | `[仮説]` `/ux/v1/roadmap` | 家庭の年間俯瞰 | 必須 | `[仮説]` 参照ログ | 表示もPolicyを通す（沈黙禁止UXと整合） |
 
 ---
@@ -179,4 +179,3 @@ SSOT参照: 6-2Z（nextActionは常時返却）/ 6-2Y（RunbookLabel表示）/ 4
 
 - UX設定更新を `audit_logs` に書くかは、`audit_logs.actorType=admin/system` 固定（SSOT）と整合が必要
 - 対応: `Todo.md` **T-API-003**
-

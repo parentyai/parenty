@@ -13,14 +13,15 @@
 - Dependencies（依存）: `PARENTY_SSOT.md` 付録B / `PolicyUxAdminMatrix.md`
 - Invariants（不変条件）: reasonCode の追加・変更をここで行わない
 - Change Impact（変更波及）: matrix / ops / templates
-- Open Questions（未決）: TODO
-- Acceptance（受入条件）: SSOT 参照が明示される
+- Open Questions（未決）: なし
+- Acceptance（受入条件）: SSOT 付録Bの参照が明示される
 - 参照元: `docs/policy_engine/README.md`
 - 参照先: `docs/matrix/policy_x_ux_x_adminui.md`
 
 ### 本文
-- [仮説] 整形は SSOT 付録Bの参照導線としてのみ使う。
-- TODO: reasonCode の分類軸を SSOT 参照で確定する。
+- 整形は SSOT 付録Bの参照導線としてのみ使う。
+- 分類軸は SSOT 付録Bの category に固定する。
+- nextAction / templateId / runbookLabel は SSOT 6-2X / 付録C / 7章の参照のみを許容する。
 
 ### 整形マトリクス（枠）
 | reasonCode | category | primaryReason | nextAction | templateId | runbookLabel |
@@ -31,4 +32,4 @@
 - reasonCode の正は SSOT 付録Bに固定する。
 
 ## 補足
-- TODO: matrix との接続点を明示する。
+- matrix との接続点は `PolicyUxAdminMatrix.md` に固定する。

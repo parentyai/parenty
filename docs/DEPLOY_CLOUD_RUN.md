@@ -39,7 +39,7 @@ gcloud builds submit --tag gcr.io/<YOUR_PROJECT_ID>/parenty-backend
 gcloud run deploy parenty-backend \
   --image gcr.io/<YOUR_PROJECT_ID>/parenty-backend \
   --allow-unauthenticated \
-  --set-env-vars ENV_NAME=stg,PUBLIC_BASE_URL=https://<CLOUD_RUN_URL> \
+  --set-env-vars ENV_NAME=stg,PUBLIC_BASE_URL=https://<CLOUD_RUN_URL>,GCP_PROJECT_ID=<YOUR_PROJECT_ID>,FIRESTORE_DATABASE_ID=(default),POLICY_REASON_CODE_INDEX_PATH=backend/reason_code_index.json \
   --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 ```
 

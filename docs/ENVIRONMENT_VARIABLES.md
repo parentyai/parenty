@@ -38,3 +38,4 @@
 | STRIPE_SECRET_KEY | stg / prod | Secret Manager | 決済 | 課金/漏洩 | 実装後に確認 | Owner |
 | STRIPE_WEBHOOK_SECRET | stg / prod | Secret Manager | Webhook検証 | 401固定・誤受信 | 実装後に確認 | Owner |
 | STRIPE_PRICE_SOLO_MONTHLY | stg / prod | Stripe dashboard | 価格ID | 誤課金 | 実装後に確認 | Owner |
+| POLICY_REASON_CODE_INDEX_PATH | stg / prod | Cloud Run: env | reasonCodeIndex の参照パス（付録B由来、例: backend/reason_code_index.json） | 正規化不可 | 実装後に確認 | EngAI |

@@ -73,6 +73,26 @@ Phase 1 はデータ層と権限制御の基盤を固める工程であり、SSO
 
 ---
 
+## 進捗メモ（非仕様）
+
+- 完了確認: コレクション入口の整合（辞書/refs）
+- 完了確認: Firestore Rules / Index の反映と監査（deploy + audit）
+- 完了確認: PIIマスキングとrawText/rawPrompt拒否
+- 完了確認: TTLポリシー設定（audit_logs / notification_deliveries / faq_logs / experience_usage_logs / review_usage_logs / insight_reactions / incident_records）
+- 完了確認: Firestore preflight OK（projectId=parenty / databaseId=(default)）
+- 完了確認: incident/audit 同時記録の実行確認
+
+- 残り: なし（Phase 1 の範囲は完了）
+
+---
+
+## 次フェーズ接続
+
+- 入口: `docs/PHASE2_ROADMAP.md`
+- 参照元: `Progress.md`（Phase 1 完了の記録）
+
+---
+
 ## 結論
 
 Phase 1 の実装は、SSOT 4章と 7-3 の要求仕様を順番どおりに移植することが目的である。

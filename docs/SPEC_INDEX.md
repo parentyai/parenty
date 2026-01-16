@@ -13,6 +13,8 @@
 - Policy Engine 導線: `policy_engine/README.md`
 - Policy Engine 判断モデル: `policy_engine/decision_model.md`
 - reasonCode 整形（再配置先）: `policy_engine/reason_codes.md`
+- reasonCodeIndex 生成導線: `policy_engine/reason_code_index.md`
+- runPolicy context 導線: `policy_engine/run_policy_context.md`
 - UX系データ辞書 導線: `data_dictionary/ux/README.md`
 - 管理系データ辞書 導線: `data_dictionary/admin/README.md`
 - UX仕様（状態別）導線: `ux_spec/state_based/README.md`
@@ -22,6 +24,8 @@
 - ログ・嗜好・判断DB仕様: `ops/logs_preference_decision_db_spec.md`
 - Phase 1 ロードマップ: `PHASE1_ROADMAP.md`
 - Phase 1 Auth 適用範囲: `PHASE1_AUTH_SCOPE.md`
+- Phase 2 ロードマップ: `PHASE2_ROADMAP.md`
+- Policy Decision 形状検証: `POLICY_DECISION_VALIDATE.md`
 - 変更統制: `CHANGE_POLICY.md`
 - 受入条件: `ACCEPTANCE_CHECKLIST.md`
 - 仕様テンプレ: `_templates/spec-template.md`

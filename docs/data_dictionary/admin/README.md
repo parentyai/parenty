@@ -28,7 +28,10 @@
 - experience_fragments
 - experience_usage_logs
 - review_sources
+- review_fragments
+- review_usage_logs
 - reviews
+- insight_reactions
 - ops_configs
 - audit_logs
 - incident_records
