@@ -5,14 +5,14 @@
   "type": "commonjs",
   "scripts": {
     "lint:docs": "node tools/validate_docs.js",
+    "lint:api-registry": "node tools/validate_api_registry.js",
     "lint:policy": "node tools/policy_lint.js",
     "lint:schema": "node tools/schema_check.js",
-    "lint:all": "npm run lint:docs && npm run lint:policy && npm run lint:schema && npm run test",
+    "lint:all": "npm run lint:docs && npm run lint:api-registry && npm run lint:policy && npm run lint:schema && npm run test",
     "test": "node tools/tests/run_tests.js"
   },
   "engines": {
     "node": ">=18"
   }
 }
-
 

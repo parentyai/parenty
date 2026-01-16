@@ -43,6 +43,7 @@
 ### 実行コマンド
 
 - `npm run lint:docs`
+- `npm run lint:api-registry`
 - `npm run lint:policy`
 - `npm run lint:schema`
 - `npm run lint:all`
@@ -84,6 +85,10 @@
 - **External API Compliance Watch（監視の基盤）**（`tools/api_watch.js`）
   - `APIRegistry_External.md` の backtick URL を巡回し、`docs/api_watch/snapshot.json` を生成（常に上書き）
   - 監視結果（ok/fail）と `Last-Modified/ETag/Content-Type` を最小限保存（自動更新は禁止）
+
+- **API Registry Path検証**（`tools/validate_api_registry.js`）
+  - `/health` と `/line/webhook` が SSOT確定パスとして明示されていることを確認
+  - その他の Path が `[仮説]` なしで確定されていないことを検出
 
 ---
 
