@@ -11,7 +11,8 @@ function loadEnv() {
     'ENV_NAME',
     'PUBLIC_BASE_URL',
     'LINE_CHANNEL_SECRET',
-    'LINE_CHANNEL_ACCESS_TOKEN'
+    'LINE_CHANNEL_ACCESS_TOKEN',
+    'LINE_REPLY_CONTENT_ID'
   ];
 
   const missing = required.filter((key) => {
@@ -32,7 +33,7 @@ function loadEnv() {
     PUBLIC_BASE_URL: process.env.PUBLIC_BASE_URL,
     LINE_CHANNEL_SECRET: process.env.LINE_CHANNEL_SECRET,
     LINE_CHANNEL_ACCESS_TOKEN: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-    LINE_REPLY_TEXT: process.env.LINE_REPLY_TEXT || '',
+    LINE_REPLY_CONTENT_ID: process.env.LINE_REPLY_CONTENT_ID || '',
     GCP_PROJECT_ID: process.env.GCP_PROJECT_ID || '',
     FIRESTORE_DATABASE_ID: process.env.FIRESTORE_DATABASE_ID || '',
     FIRESTORE_LOCATION: process.env.FIRESTORE_LOCATION || '',

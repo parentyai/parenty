@@ -42,6 +42,8 @@ function assertNotificationDeliveryShape(payload) {
   requireString(payload.notificationId, 'notificationId');
   requireString(payload.dedupeKey, 'dedupeKey');
   requireString(payload.status, 'status');
+  requireString(payload.contentId, 'contentId');
+  requireString(payload.templateId, 'templateId');
   requireValue(payload.policyDecision, 'policyDecision');
   assertPolicyDecisionShape(payload.policyDecision);
   requireValue(payload.sentAt, 'sentAt');

@@ -2,12 +2,21 @@ const express = require('express');
 const { loadEnv } = require('./src/config/env');
 const { verifySignature } = require('./src/line/verifySignature');
 const { normalizeEvents, logEvents } = require('./src/line/handler');
-const { replyToLine } = require('./src/line/reply');
+const { sendLineReplyWithPolicy } = require('./src/line/delivery');
+const { evaluateLinePolicy } = require('./src/line/policy');
+const { runPolicy } = require('./src/policy');
 const { getFirestoreStatus } = require('./src/firestore/preflight');
+const { createFirestoreClient } = require('./src/firestore');
 const { createAuthMiddleware } = require('./src/auth/middleware');
 const { createAdminRouter } = require('./src/admin/router');
 
 const env = loadEnv();
+let firestore = null;
+try {
+  firestore = createFirestoreClient(env);
+} catch (error) {
+  console.error('[firestore] unavailable', { message: error.message });
+}
 
 const app = express();
 
@@ -36,10 +45,72 @@ app.post('/line/webhook', (req, res) => {
     return res.status(401).json({ ok: false, error: 'invalid signature' });
   }
 
+  if (!firestore) {
+    console.error('[line.webhook] firestore not configured');
+    return res.status(503).json({ ok: false, error: 'firestore not configured' });
+  }
+
   const events = normalizeEvents(req.body);
-  replyToLine(events, env.LINE_CHANNEL_ACCESS_TOKEN, env.LINE_REPLY_TEXT).catch((error) => {
-    console.error('[line.reply] error', { message: error.message });
+  const replyTasks = [];
+
+  const isReplyableEvent = (event) => Boolean(
+    event
+    && event.type === 'message'
+    && event.message
+    && event.message.type === 'text'
+    && event.replyToken
+  );
+
+  events.forEach((event) => {
+    const replyable = isReplyableEvent(event);
+    try {
+      const { decision } = evaluateLinePolicy(event, env);
+      if (decision) {
+        console.log('[policy.line]', {
+          result: decision.result,
+          primaryReason: decision.primaryReason,
+          reasonCodes: decision.reasonCodes,
+          traceId: decision.policyTrace && decision.policyTrace.traceId
+        });
+      }
+      if (replyable && decision) {
+        replyTasks.push(sendLineReplyWithPolicy({
+          event,
+          policyDecision: decision,
+          env,
+          firestore
+        }));
+      }
+    } catch (error) {
+      console.error('[policy.line] error', { message: error.message });
+      if (replyable) {
+        try {
+          const decision = runPolicy({}, {
+            reasonCodeIndexPath: env.POLICY_REASON_CODE_INDEX_PATH
+          });
+          replyTasks.push(sendLineReplyWithPolicy({
+            event,
+            policyDecision: decision,
+            env,
+            firestore
+          }));
+        } catch (fallbackError) {
+          console.error('[policy.line] fallback error', { message: fallbackError.message });
+        }
+      }
+    }
   });
+
+  if (replyTasks.length) {
+    Promise.allSettled(replyTasks).then((results) => {
+      const failed = results.filter((result) => result.status === 'rejected');
+      if (failed.length) {
+        console.error('[line.reply] failures', { count: failed.length });
+      }
+    }).catch((error) => {
+      console.error('[line.reply] error', { message: error.message });
+    });
+  }
   logEvents(events);
 
   return res.status(200).json({ ok: true, count: events.length });

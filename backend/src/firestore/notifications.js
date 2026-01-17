@@ -32,6 +32,7 @@ function assertNotificationShape(payload) {
   requireString(payload.householdId, 'householdId');
   requireString(payload.type, 'type');
   requireString(payload.templateId, 'templateId');
+  requireString(payload.contentId, 'contentId');
   requireString(payload.status, 'status');
   requireValue(payload.policyDecision, 'policyDecision');
   assertPolicyDecisionShape(payload.policyDecision);

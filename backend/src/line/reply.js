@@ -13,13 +13,14 @@ function buildReplyMessage(event, replyText) {
   };
 }
 
-async function replyToLine(events, accessToken, replyText) {
+async function replyToLine(events, accessToken, replyText, options = {}) {
   if (!accessToken) {
     console.error('[line.reply] missing access token');
     return;
   }
 
   const text = replyText && replyText.trim() ? replyText.trim() : 'OK';
+  const getMeta = typeof options.getMeta === 'function' ? options.getMeta : null;
   const tasks = [];
 
   for (const event of events) {
@@ -30,10 +31,13 @@ async function replyToLine(events, accessToken, replyText) {
     if (!message) {
       continue;
     }
+    const meta = getMeta ? getMeta(event) : {};
     tasks.push(sendLineReply({
       replyToken: event.replyToken,
       messages: [message],
-      accessToken
+      accessToken,
+      dedupeKey: meta && meta.dedupeKey,
+      traceId: meta && meta.traceId
     }));
   }
 

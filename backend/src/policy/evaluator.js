@@ -42,7 +42,7 @@ function enforceTemplateId(decision, reasonCodeIndex) {
   };
 }
 
-function buildFailSafeDecision(inputs, reasonCodeIndex) {
+function buildFailSafeDecision(inputs, reasonCodeIndex, traceOverrides = {}) {
   const reasonCodes = normalizeReasonCodes([UNKNOWN_REASON], reasonCodeIndex);
   return {
     result: 'DENY',
@@ -60,47 +60,129 @@ function buildFailSafeDecision(inputs, reasonCodeIndex) {
       },
       links: {}
     },
-    policyTrace: buildPolicyTrace(inputs)
+    policyTrace: buildPolicyTrace(inputs, traceOverrides)
   };
 }
 
-function applyPolicyStep(step, reasonCodeIndex) {
-  if (!step || !step.value || typeof step.value !== 'object') {
+function extractRawReasonCodes(stepValue) {
+  if (!stepValue || typeof stepValue !== 'object') {
     return null;
   }
-  const candidate = step.value.__shortCircuitDecision;
-  if (!candidate) {
-    return null;
+  const candidate = stepValue.__shortCircuitDecision;
+  if (candidate && Array.isArray(candidate.reasonCodes)) {
+    return candidate.reasonCodes;
   }
-  if (candidate.__shortCircuitStop !== true) {
-    return null;
+  if (Array.isArray(stepValue.reasonCodes)) {
+    return stepValue.reasonCodes;
   }
-  if (!Array.isArray(candidate.reasonCodes) || candidate.reasonCodes.length === 0) {
-    return null;
+  return null;
+}
+
+function normalizeStepReasonCodes(stepValue, reasonCodeIndex) {
+  const raw = extractRawReasonCodes(stepValue);
+  if (!raw || raw.length === 0) {
+    return [];
   }
-  if (candidate.reasonCodes.some((code) => !code || typeof code !== 'string')) {
-    return null;
+  return normalizeReasonCodes(raw, reasonCodeIndex);
+}
+
+function shouldShortCircuit(stepValue, reasonCodes, reasonCodeIndex) {
+  if (!stepValue || typeof stepValue !== 'object') {
+    return false;
   }
-  if (!hasStopCategory(candidate.reasonCodes, reasonCodeIndex)) {
-    return null;
+  const candidate = stepValue.__shortCircuitDecision;
+  if (!candidate || candidate.__shortCircuitStop !== true) {
+    return false;
   }
-  return candidate;
+  if (!reasonCodes || reasonCodes.length === 0) {
+    return false;
+  }
+  return hasStopCategory(reasonCodes, reasonCodeIndex);
+}
+
+function dedupeReasonCodes(reasonCodes) {
+  const seen = new Set();
+  const unique = [];
+  for (const code of reasonCodes) {
+    if (!code || typeof code !== 'string') {
+      continue;
+    }
+    if (seen.has(code)) {
+      continue;
+    }
+    seen.add(code);
+    unique.push(code);
+  }
+  return unique;
+}
+
+function resolveDecisionResult(primaryReason, reasonCodeIndex) {
+  if (!primaryReason || !reasonCodeIndex || typeof reasonCodeIndex !== 'object') {
+    return 'DENY';
+  }
+  const entry = reasonCodeIndex[primaryReason];
+  if (entry && entry.defaultResult) {
+    return entry.defaultResult;
+  }
+  return 'DENY';
+}
+
+function buildDecision({ reasonCodes, inputs, context, traceOverrides, nextAction }) {
+  const normalized = normalizeReasonCodes(reasonCodes, context.reasonCodeIndex);
+  const unique = dedupeReasonCodes(normalized);
+  const primaryReason = resolvePrimaryReason(unique, context.reasonCodeIndex) || UNKNOWN_REASON;
+  const result = resolveDecisionResult(primaryReason, context.reasonCodeIndex);
+  const decision = {
+    result,
+    reasonCodes: unique,
+    primaryReason,
+    templateId: null,
+    nextAction: nextAction || null,
+    policyTrace: buildPolicyTrace(inputs, traceOverrides)
+  };
+  return enforceTemplateId(decision, context.reasonCodeIndex);
 }
 
 function evaluatePolicy(inputs, context = {}) {
   const steps = orderedPolicyInputs(inputs);
+  const reasonCodeIndex = context.reasonCodeIndex;
+  const traceOverrides = {
+    traceId: context.traceId,
+    ruleVersion: context.ruleVersion,
+    inputsDigest: context.inputsDigest,
+    evaluatedAt: context.evaluatedAt
+  };
+  const collected = [];
+
   for (const step of steps) {
-    const decision = applyPolicyStep(step, context.reasonCodeIndex);
-    if (decision) {
-      const reasonCodes = normalizeReasonCodes(decision.reasonCodes, context.reasonCodeIndex);
-      return enforceTemplateId({
-        ...decision,
+    const reasonCodes = normalizeStepReasonCodes(step.value, reasonCodeIndex);
+    if (reasonCodes.length) {
+      collected.push(...reasonCodes);
+    }
+    if (shouldShortCircuit(step.value, reasonCodes, reasonCodeIndex)) {
+      return buildDecision({
         reasonCodes,
-        primaryReason: resolvePrimaryReason(reasonCodes, context.reasonCodeIndex)
-      }, context.reasonCodeIndex);
+        inputs,
+        context,
+        traceOverrides,
+        nextAction: step.value.__shortCircuitDecision && step.value.__shortCircuitDecision.nextAction
+      });
     }
   }
-  return enforceTemplateId(buildFailSafeDecision(inputs, context.reasonCodeIndex), context.reasonCodeIndex);
+
+  if (collected.length === 0) {
+    return enforceTemplateId(
+      buildFailSafeDecision(inputs, reasonCodeIndex, traceOverrides),
+      reasonCodeIndex
+    );
+  }
+
+  return buildDecision({
+    reasonCodes: collected,
+    inputs,
+    context,
+    traceOverrides
+  });
 }
 
 module.exports = { evaluatePolicy };
