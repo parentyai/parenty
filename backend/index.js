@@ -37,7 +37,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.post('/line/webhook', (req, res) => {
+app.post('/line/webhook', async (req, res) => {
   const signature = req.get('x-line-signature') || '';
   const rawBody = req.rawBody || Buffer.from('');
 
@@ -102,14 +102,15 @@ app.post('/line/webhook', (req, res) => {
   });
 
   if (replyTasks.length) {
-    Promise.allSettled(replyTasks).then((results) => {
+    try {
+      const results = await Promise.allSettled(replyTasks);
       const failed = results.filter((result) => result.status === 'rejected');
       if (failed.length) {
         console.error('[line.reply] failures', { count: failed.length });
       }
-    }).catch((error) => {
+    } catch (error) {
       console.error('[line.reply] error', { message: error.message });
-    });
+    }
   }
   logEvents(events);
 
