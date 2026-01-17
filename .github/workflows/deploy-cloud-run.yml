@@ -61,7 +61,7 @@ jobs:
             --region "$GCP_REGION" \
             --source backend \
             --allow-unauthenticated \
-            --set-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local \
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local \
             --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 
           SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
@@ -72,7 +72,7 @@ jobs:
           gcloud run services update "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
-            --set-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL"
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL"
 
           echo "SERVICE_URL=$SERVICE_URL" >> "$GITHUB_ENV"
           echo "Deployed: $SERVICE_URL"
