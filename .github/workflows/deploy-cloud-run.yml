@@ -40,6 +40,7 @@ jobs:
           CLOUD_RUN_SERVICE_PROD: ${{ secrets.CLOUD_RUN_SERVICE_PROD }}
           CLOUD_RUN_SERVICE: ${{ secrets.CLOUD_RUN_SERVICE }}
           LINE_REPLY_CONTENT_ID: ${{ secrets.LINE_REPLY_CONTENT_ID }}
+          FIRESTORE_DATABASE_ID: ${{ secrets.FIRESTORE_DATABASE_ID }}
           DEPLOY_ENV: ${{ github.event.inputs.deploy_env || 'stg' }}
         run: |
           set -euo pipefail
@@ -60,13 +61,17 @@ jobs:
             echo "LINE_REPLY_CONTENT_ID is missing"
             exit 1
           fi
+          if [ -z "${FIRESTORE_DATABASE_ID:-}" ]; then
+            echo "FIRESTORE_DATABASE_ID is missing"
+            exit 1
+          fi
 
           gcloud run deploy "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
             --source backend \
             --allow-unauthenticated \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local,LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID" \
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local,LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID" \
             --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 
           SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
@@ -77,7 +82,7 @@ jobs:
           gcloud run services update "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL",LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID"
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL",LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
 
           echo "SERVICE_URL=$SERVICE_URL" >> "$GITHUB_ENV"
           echo "Deployed: $SERVICE_URL"
