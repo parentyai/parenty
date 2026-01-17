@@ -39,6 +39,7 @@ jobs:
           CLOUD_RUN_SERVICE_STG: ${{ secrets.CLOUD_RUN_SERVICE_STG }}
           CLOUD_RUN_SERVICE_PROD: ${{ secrets.CLOUD_RUN_SERVICE_PROD }}
           CLOUD_RUN_SERVICE: ${{ secrets.CLOUD_RUN_SERVICE }}
+          LINE_REPLY_CONTENT_ID: ${{ secrets.LINE_REPLY_CONTENT_ID }}
           DEPLOY_ENV: ${{ github.event.inputs.deploy_env || 'stg' }}
         run: |
           set -euo pipefail
@@ -55,13 +56,17 @@ jobs:
               exit 1
             fi
           fi
+          if [ -z "${LINE_REPLY_CONTENT_ID:-}" ]; then
+            echo "LINE_REPLY_CONTENT_ID is missing"
+            exit 1
+          fi
 
           gcloud run deploy "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
             --source backend \
             --allow-unauthenticated \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local \
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local,LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID" \
             --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 
           SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
@@ -72,7 +77,7 @@ jobs:
           gcloud run services update "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL"
+            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL",LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID"
 
           echo "SERVICE_URL=$SERVICE_URL" >> "$GITHUB_ENV"
           echo "Deployed: $SERVICE_URL"
