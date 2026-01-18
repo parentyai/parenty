@@ -154,6 +154,39 @@ Firestore Console で対象 templateId の `status` を `active` に変更する
 - `status=draft/disabled` のまま配信しようとしていないか確認
 - templates に `body` が存在するか確認
 
+---
+
+## Phase4.1 Trigger（Admin API）
+
+### 1) Admin Trigger（active）
+
+```
+POST /admin/v1/trigger/send
+{
+  "contentId": "cp_nyc_optin_prompt_v1",
+  "targetScope": { "userId": "Uxxxx" },
+  "reason": "phase4_1 smoke"
+}
+```
+
+期待結果
+- HTTP 200
+- `notification_deliveries` に `contentId/templateId/policyDecision` が残る
+
+### 2) Admin Trigger（draft/disabled）
+
+```
+POST /admin/v1/trigger/send
+{
+  "contentId": "cp_nyc_optin_prompt_v1",
+  "targetScope": { "userId": "Uxxxx" }
+}
+```
+
+期待結果
+- 対象テンプレは配信されず、DEGRADED/DENY テンプレで返信される
+- `notification_deliveries` に必須3点が残る
+
 実施記録（prod）
 - 2026-01-18: `tpl_cp_nyc_optin_prompt_v1` の `active → disabled → active` を確認し、`notification_deliveries` に `contentId/templateId/policyDecision` が記録されることを確認。
 

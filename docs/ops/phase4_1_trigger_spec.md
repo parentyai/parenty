@@ -22,7 +22,7 @@
 - Admin UI はボタン操作で Admin API を呼び出すだけの構成とする。
 
 **エンドポイント（Admin API）**
-- [仮説] `POST /admin/v1/city-pack/trigger`
+- [仮説] `POST /admin/v1/trigger/send`
 - 入力: `contentId` / `householdId`
 - 送信: `sendLine` 経由のみ
 - 承認条件: `templates.status = active` のみ送信対象
