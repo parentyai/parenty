@@ -1,6 +1,8 @@
 const https = require('https');
 const crypto = require('crypto');
 
+const LINE_REQUEST_TIMEOUT_MS = 10000;
+
 function requireString(value, fieldName) {
   if (!value || typeof value !== 'string' || value.trim() === '') {
     const error = new Error(`[delivery] ${fieldName} is required`);
@@ -55,6 +57,9 @@ function sendLineRequest(path, body, accessToken) {
       return resolve();
     });
 
+    req.setTimeout(LINE_REQUEST_TIMEOUT_MS, () => {
+      req.destroy(new Error('[line.send] timeout'));
+    });
     req.on('error', reject);
     req.write(payload);
     req.end();
