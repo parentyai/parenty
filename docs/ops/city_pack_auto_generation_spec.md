@@ -1,5 +1,15 @@
 # City Pack Auto-Generation Spec（厳密版 / SSOT従属）
 
+## メタ（固定）
+
+- **SSoT責務**: City Pack 自動生成の運用導線を固定し、SSOTの定義を上書きしない。
+- **想定読者**: Engineer / Ops / Admin
+- **依存SSoT**: `PARENTY_SSOT.md`（5-8 / 5-7 / 7章 / 8-4-2B）
+- **参照導線**: `SSOT_INDEX.md` / `docs/policy_engine/watch_rules.md`
+- **更新ルール**: 不確実な項目は本文に混ぜず `[仮説]` として隔離し、`Todo.md` に記録して停止する。
+
+---
+
 ## 背景
 - 都市追加をコード変更ではなくデータ定義として扱い、都市差分は City Pack に集約する。
 - 自動化は 80% / 人間承認 20% を固定し、承認なしで本番に影響させない。
@@ -88,13 +98,13 @@
 **C) 生成フロー（状態機械）**
 | State | 入力 | 出力 | 必須ログ | エラー時の次状態 |
 | --- | --- | --- | --- | --- |
-| REQUESTED | 管理UIの都市追加要求 | discoveryキック | request_id, city_code | DISCOVERY |
-| DISCOVERY | 公開ソース収集 | sources候補 | discovery_sources | REJECTED |
+| REQUESTED | 管理UIの都市追加要求 | discoveryキック | requestId, cityCode | DISCOVERY |
+| DISCOVERY | 公開ソース収集 | sources候補 | discoverySources | REJECTED |
 | DRAFT_BUILT | LLM生成 | city_pack draft | llm_model, prompt_version | REJECTED |
-| VALIDATED | 機械検証 | diff/リスク/提案 | validation_results | REJECTED |
+| VALIDATED | 機械検証 | diff/リスク/提案 | validationResults | REJECTED |
 | HUMAN_REVIEW | 管理UIレビュー | 承認/却下 | approver, decision | REJECTED |
 | APPROVED | 承認済み | 有効化待ち | approval_reason | ROLLED_BACK |
-| ACTIVATED | 本番参照 | 有効化ログ | activation_env | ROLLED_BACK |
+| ACTIVATED | 本番参照 | 有効化ログ | activation | ROLLED_BACK |
 | REJECTED | 却下 | 再提案待ち | reject_reason | REQUESTED |
 | ROLLED_BACK | 無効化 | 停止ログ | rollback_reason | REQUESTED |
 
@@ -110,6 +120,7 @@
 - 原文コピー禁止。説明は要約/ラベル化に限定する。
 - SNSは公式/準公式のみ候補とし、個人アカウントは除外する。
 - community_sense は「検知目的のみ」、再配信対象に含めない。
+- LLM の役割は 差分有無の要約 / Failure Mode へのマッピング / 状態判定補助 に限定する。
 
 **F) VALIDATED（機械検証ゲート）**
 1) JSONスキーマ検証（必須キー/型/制約）
@@ -132,7 +143,7 @@
 
 **I) 監査ログ要件**
 - 対象ログ: `city_pack_generation_logs`。
-- 最小項目: request_id / city_code / state / timestamps / discovery_sources / llm_model / prompt_version / safety_flags / validation_results / human_review / activation。
+- 最小項目: requestId / cityCode / state / timestamps / discoverySources / llmModel / promptVersion / safetyFlags / validationResults / humanReview / activation。
 - 監査ログは個人情報を含めない。
 - 保存先は SSOT 7章の監査ログ方針に従い、**新規collectionの追加は SSOT 改定が必要**とする。
 
@@ -142,10 +153,11 @@
 
 **K) Failure Mode Watch Model（参照）**
 - 監視対象は失敗型のみで、保持するのは状態と再確認時刻のみ。
-- Watch State は `city_code / failure_code / state / confidence / last_checked_at / provenance / expires_at` を最小とする。
+- Watch State は `cityCode / failureCode / state / confidence / lastCheckedAt / provenance / expiresAt` を最小とする。
+- state は `ok / risk / unknown` の3値のみを許容する。
 - raw本文は保存しない。provenance は抽象名のみを扱う。
 - UNKNOWN は失敗でもエラーでもなく、責任範囲外/確認不能の正常状態として扱う。
-- LLM の役割は差分要約/失敗型マッピング/状態判定補助に限定する。
+- LLM の役割は 差分有無の要約 / Failure Mode へのマッピング / 状態判定補助 に限定する。
 
 ## 結論
 - City Pack は「都市差分の唯一の定義単位」とし、承認なしの本番反映を禁止する。

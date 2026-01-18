@@ -33,6 +33,7 @@
   - `Todo.md`
 - `docs/INTEGRITY_CHECKLIST.md`
 - `Runbook.md`
+- `docs/ops/logs_preference_decision_db_spec.md`
 - `docs/ops/city_pack_auto_generation_spec.md`
 - `docs/ops/content_registry_spec.md`
 - `docs/ops/editorial_engine_spec.md`
@@ -77,10 +78,12 @@
 | 8 | `SSOT_LINK_MAP.md` | SSOT条番号→影響範囲（参照強制レイヤー） | SSOT 1-5 / 3-3-1 / 3-4 / 5-7 / 6-4 / 8-5 / 付録B/C/F/G |
 | 9 | `RESERVED_FEATURES_GATE.md` | 付録G（予約機能）の着手ゲート（Reserved固定） | SSOT 付録G |
 | 10 | `UX_STATE_MAP_7.md` | UX文面モード（7状態）契約書（Policy結果3値は置き換えない） | SSOT 5章 / 付録C / 1-5 / 3-4 / 5-7 |
-| 11 | `docs/ops/city_pack_auto_generation_spec.md` | City Pack 自動生成運用仕様（承認ゲート含む） | SSOT 5-7 / 7章 / 8-4-2B |
+| 11 | `docs/ops/city_pack_auto_generation_spec.md` | City Pack 自動生成運用仕様（承認ゲート含む） | SSOT 5-8 / 5-7 / 7章 / 8-4-2B |
 | 12 | `docs/ops/content_registry_spec.md` | 全発信物統制の運用導線（contentId / 承認ゲート） | SSOT 1-6 / 4-2-b / 7章 |
 | 13 | `docs/ops/editorial_engine_spec.md` | 巡回・編集再発信の運用導線（監査必須） | SSOT 1-6 / 4-2-b / 7章 |
 | 14 | `docs/policy_engine/watch_rules.md` | City Pack Failure Mode Watch の参照導線 | SSOT 5-8 / 3章 |
+| 15 | `docs/ops/spec_guard_hard_fail.md` | Spec Guard（HARD FAIL）仕様 | SSOT 1-6 / 5-8 / 7章 |
+| 16 | `docs/ops/logs_preference_decision_db_spec.md` | ログ/嗜好/判断DB設計（FROZEN参照） | SSOT 4-2-a / 4-2-b / 7章 / 8-5 |
 
 `PolicyUxAdminMatrix.md` は Policy / UX / 管理UI を横断する統合参照点である。ドメイン横断の仕様確認は必ず `PolicyUxAdminMatrix.md` を起点とする。
 `UX_STATE_MAP_7.md` は UX レイヤの使用仕様である。`policyDecision.result` / `reasonCode` / `nextAction` を参照はするが、定義・追加・変更はしない。Policy / reasonCode 側から 7状態を追加・変更することは禁止する。

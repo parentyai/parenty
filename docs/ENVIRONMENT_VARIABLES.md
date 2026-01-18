@@ -13,21 +13,16 @@
 | ENV_NAME | local / stg / prod | ローカル: `.env` / Cloud Run: env | 環境識別 | 誤運用 | `/health` の envName | EngAI |
 | PUBLIC_BASE_URL | local / stg / prod | ローカル: `.env` / Cloud Run: env | Webhook/外部導線の基準URL | Webhook不一致 | `/health` の baseUrl | EngAI |
 | LINE_CHANNEL_SECRET | local / stg / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE署名検証用 | 401固定・誤受信 | Webhook署名テスト | Owner |
-| LINE_CHANNEL_ACCESS_TOKEN | local / stg / prod | ローカル: `.env` / Cloud Run: Secret Manager | 将来の返信/Push用 | 返信不能 | 未使用（Phase0） | Owner |
-
-## 任意（LINE返信テンプレ）
-
-| var_name | required_in | source | purpose | risk | validation | owner |
-|---|---|---|---|---|---|---|
-| LINE_REPLY_TEXT | local / stg / prod | ローカル: `.env` / Cloud Run: env | 返信文の固定テキスト | 誤返信 | LINE送信テスト | Owner |
-
-## 追加（Firestore導入時）
-
-| var_name | required_in | source | purpose | risk | validation | owner |
-|---|---|---|---|---|---|---|
-| GCP_PROJECT_ID | stg / prod | Cloud Run: env | GCPプロジェクト識別 | 誤プロジェクトアクセス | Cloud Run env | Owner |
-| FIRESTORE_DATABASE_ID | stg / prod | Cloud Run: env | Firestore DB識別 | 読み書き失敗 | 実装後に確認 | Owner |
+| LINE_CHANNEL_ACCESS_TOKEN | local / stg / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE返信/Push送信用 | 返信不能 | LINE送信テスト | Owner |
+| LINE_REPLY_CONTENT_ID | local / stg / prod | ローカル: `.env` / Cloud Run: env | LINE返信テンプレの参照ID（templates / Content Artifact） | 文言不整合/送信失敗 | LINE送信テスト | Owner |
+| GCP_PROJECT_ID | stg / prod | Cloud Run: env | GCPプロジェクト識別（Firestore必須） | 誤プロジェクトアクセス | Cloud Run env | Owner |
+| FIRESTORE_DATABASE_ID | stg / prod | Cloud Run: env | Firestore DB識別（templates/配送ログ必須） | 読み書き失敗 | `/health` の firestore.configured | Owner |
 | FIRESTORE_LOCATION | stg / prod | Cloud Run: env | Firestoreリージョン | 接続不整合 | 実装後に確認 | Owner |
+
+## ローカル補助（認証）
+
+| var_name | required_in | source | purpose | risk | validation | owner |
+|---|---|---|---|---|---|---|
 | GOOGLE_APPLICATION_CREDENTIALS | local | ローカル: ファイルパス | ローカル認証 | 認証失敗 | 実装後に確認 | Owner |
 
 ## 将来候補（雛形で未使用）

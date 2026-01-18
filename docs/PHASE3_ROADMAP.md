@@ -35,6 +35,7 @@ Phase 3 は Delivery と UX の接続点を SSOT に固定し、誤送信・断�
 - **UX状態と文言**: `UX_STATE_MAP_7.md` と 付録C を正とする。
 - **通知/FAQ/ロードマップ**: `PolicyUxAdminMatrix.md` の接続点に従う。
 - **ログ/監査**: `notification_deliveries` と 7-3 を正とする。
+  - 必須項目: `contentId / templateId / policyDecision`（SSOT 7-3 / 6-0M5）
 
 ### 2) 作業順序（参照導線）
 
@@ -57,7 +58,7 @@ Phase 3 は Delivery と UX の接続点を SSOT に固定し、誤送信・断�
 
 ## 進捗メモ（非仕様）
 
-- 完了確認: 送信口の一本化（`backend/src/delivery/send_line.js` / `backend/src/line/reply.js`）
+- 完了確認: 送信口の一本化（`backend/src/delivery/send_line.js` / `backend/src/line/delivery.js`）
 - 完了確認: UX状態と文言の参照固定（`docs/ux_spec/state_based/README.md` / `UX_STATE_MAP_7.md` / `PARENTY_SSOT.md` 付録C）
 - 完了確認: 接続点の参照導線を固定（`docs/matrix/policy_x_ux_x_adminui.md` / `PolicyUxAdminMatrix.md`）
 - 完了確認: 配送ログの整合（`backend/src/firestore/notification_deliveries.js`）

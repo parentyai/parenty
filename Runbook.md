@@ -151,6 +151,18 @@ SSOT: 付録B / 3-0-1
 
 ---
 
+## 8. City Pack 運用（承認/停止/rollback）
+
+SSOT: 5-8 / 7-3 / 6-2Y
+
+- 承認/有効化/停止は `docs/ops/city_pack_auto_generation_spec.md` の状態機械を正とする。
+- 監査ログは `city_pack_generation_logs` と `audit_logs` に必ず記録する（SSOT 7-3）。
+- rollback 条件は SSOT 5-8 と `docs/ops/city_pack_auto_generation_spec.md` の両方に従い、独自条件を追加しない。
+- 管理UIは runbookLabel を常時表示し、承認理由/停止理由を必須入力とする（SSOT 6-2Y）。
+- 例外が必要な場合は `Todo.md` に記録して停止する。
+
+---
+
 ## 結論
 
 - RunbookLabel は SSOT 7章の見出しを正とし、nextAction は 6-2X/6-2Z に従って運用導線を固定する。

@@ -34,6 +34,9 @@ async function resolveTemplateBody(repo, templateId) {
   if (!record || !record.data) {
     return null;
   }
+  if (record.data.status !== 'active') {
+    return null;
+  }
   const body = record.data.body;
   if (!body || typeof body !== 'string') {
     return null;

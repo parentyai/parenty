@@ -68,6 +68,7 @@ curl -sS -X POST http://localhost:3000/line/webhook \
 期待結果
 - HTTP 200
 - コンソールにイベント要約が出力される
+- Firestore が未設定の場合は 503（LINE返信の監査ログが必須のため）
 
 ---
 
@@ -96,12 +97,65 @@ curl -sS https://parenty-backend-prod-920294176726.us-east1.run.app/health
 ### LINE 実メッセージ疎通（返信あり）
 
 1) LINEアプリからボットに `ping` を送信  
-2) ボットから `OK` または `LINE_REPLY_TEXT` の返信が返ることを確認
+2) ボットから返信が返ることを確認  
+3) `templates` に `LINE_REPLY_CONTENT_ID` の本文が存在することを確認
 
 期待結果
-- 返信が `OK` または `LINE_REPLY_TEXT` である
+- 返信が `LINE_REPLY_CONTENT_ID` のテンプレ本文である
 - Cloud Run ログに `line.webhook` の記録が出る
 - ログ内の userId はハッシュ化され、message.text は長さのみ表示される
+
+---
+
+## Phase4 v1 Ops-Ready（テンプレ運用/監査）
+
+### 1) templates 状態の初期確認（一覧）
+
+対象 templateId（6件）
+- tpl_cp_nyc_school_calendar_v1
+- tpl_cp_nyc_emergency_alert_v1
+- tpl_cp_nyc_admin_update_v1
+- tpl_editorial_nyc_update_v1
+- tpl_cp_nyc_optin_prompt_v1
+- tpl_cp_nyc_update_digest_v1
+
+期待結果
+- 初期は `draft`
+
+### 2) 承認＝active の切替（1件のみ）
+
+Firestore Console で対象 templateId の `status` を `active` に変更する。
+推奨: `tpl_cp_nyc_optin_prompt_v1`（Opt-in 文面）
+
+期待結果
+- `status=active` のみが配信対象になる
+
+### 3) ロールバック確認（停止/復帰）
+
+同一 templateId を `active → disabled → active` の順で切り替える。
+
+期待結果
+- `disabled` では配信されない
+- `active` で配信が復帰する
+
+### 4) 配信・監査ログ確認（1回だけ）
+
+1) STG もしくは自分のみの限定ユーザーで送信を1回実行  
+2) Firestore の `notification_deliveries` を確認
+
+期待結果（必須）
+- contentId
+- templateId
+- policyDecision（ALLOW/DENY/DEGRADED）
+- timestamps（createdAt / sentAt）
+- 宛先識別（householdId など）
+
+失敗時
+- `status=draft/disabled` のまま配信しようとしていないか確認
+- templates に `body` が存在するか確認
+
+実施記録（prod）
+- 2026-01-18: `tpl_cp_nyc_optin_prompt_v1` の `active → disabled → active` を確認し、`notification_deliveries` に `contentId/templateId/policyDecision` が記録されることを確認。
 
 ---
 

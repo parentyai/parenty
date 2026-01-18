@@ -52,7 +52,7 @@ const STRUCTURE_REQUIRED_FILES = DOC_FILES.filter((f) => f !== "PARENTY_SSOT.md"
 
 const FROZEN_DOC = "docs/ops/logs_preference_decision_db_spec.md";
 const FROZEN_DOC_HASH =
-  "165ba5d1c18c3ec2bcd6a3ef9ba7914dd8f23671de36ae42dbe446461e4c5f58";
+  "a989480e9aebe0780816c08969d4f8a115b993c786f6b713ed92ab0b77a7b6eb";
 const FROZEN_DOC_STATUS = "Status: FROZEN (2026-01-10)";
 const INTEGRITY_CHECKLIST = "docs/INTEGRITY_CHECKLIST.md";
 

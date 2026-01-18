@@ -41,7 +41,7 @@
 | --- | --- | --- |
 | Phase 0 | 設計固定・ドキュメント整備 | DONE |
 | Phase 1 | 基盤（Auth / Firestore / Security Rules） | DONE |
-| Phase 2 | Policy Engine | IN_PROGRESS |
+| Phase 2 | Policy Engine | DONE |
 | Phase 3 | Delivery / UX（LINE導線・送信口一本化） | DONE |
 | Phase 4 | Admin UI / Admin API | IN_PROGRESS |
 | Phase 5 | 監査・障害対応・ローンチ手順 | NOT_STARTED |

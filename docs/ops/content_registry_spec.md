@@ -1,5 +1,15 @@
 # Content Registry Spec（全発信物統制 / SSOT従属）
 
+## メタ（固定）
+
+- **SSoT責務**: Content Registry の運用導線を固定し、SSOTの定義を上書きしない。
+- **想定読者**: Engineer / Ops / Admin
+- **依存SSoT**: `PARENTY_SSOT.md`（1-6 / 4-2-b / 7章）
+- **参照導線**: `SSOT_INDEX.md` / `docs/ops/editorial_engine_spec.md`
+- **更新ルール**: 変更は SSOT の参照導線に限定し、独自状態/独自承認は追加しない。
+
+---
+
 ## 背景
 - ユーザー可視物が分散すると、文言揺れ・承認漏れ・監査欠落が発生する。
 - 個別会話（LLM即時応答）以外の発信物は、統制台帳で一元管理する必要がある。

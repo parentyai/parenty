@@ -116,6 +116,7 @@
 ### admin.dashboard.view
 - opId: admin.dashboard.view
 - UI Entry: 管理ダッシュボードの閲覧導線
+- links/uiPath: /admin/dashboard
 - 関連しうるAPI観点: 取得頻度 / 更新遅延 / 表示一貫性
 - 要求されるRole: viewer / editor / operator / admin
 - 事前に満たされているべき前提: SSOT の監査・可視化原則 / PolicyUxAdminMatrix の参照導線
@@ -125,6 +126,7 @@
 ### admin.template.createOrEditDraft
 - opId: admin.template.createOrEditDraft
 - UI Entry: テンプレ草案の作成・編集導線
+- links/uiPath: /admin/templates/draft
 - 関連しうるAPI観点: 保存整合性 / 差分追跡 / 競合の可視化
 - 要求されるRole: editor / operator / admin
 - 事前に満たされているべき前提: SSOT のテンプレ関連規約 / PolicyUxAdminMatrix の接続点
@@ -134,6 +136,7 @@
 ### admin.template.publish
 - opId: admin.template.publish
 - UI Entry: 公開判断の導線
+- links/uiPath: /admin/templates/publish
 - 関連しうるAPI観点: 公開状態の同期 / 反映遅延 / 監査追跡
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT の公開規約 / PolicyUxAdminMatrix の運用導線
@@ -143,6 +146,7 @@
 ### admin.template.disable
 - opId: admin.template.disable
 - UI Entry: テンプレ無効化の導線
+- links/uiPath: /admin/templates/disable
 - 関連しうるAPI観点: 影響対象の特定 / 状態反映の遅延
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT の停止規約 / PolicyUxAdminMatrix の運用導線
@@ -152,6 +156,7 @@
 ### admin.globalStop.enable
 - opId: admin.globalStop.enable
 - UI Entry: 全体停止の導線
+- links/uiPath: /admin/ops/global-stop/enable
 - 関連しうるAPI観点: 即時反映 / 影響範囲の整合 / 監査記録
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT の停止原則 / PolicyUxAdminMatrix の運用導線
@@ -161,6 +166,7 @@
 ### admin.globalStop.disable
 - opId: admin.globalStop.disable
 - UI Entry: 全体停止解除の導線
+- links/uiPath: /admin/ops/global-stop/disable
 - 関連しうるAPI観点: 復帰状態の同期 / 反映遅延
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT の停止原則 / PolicyUxAdminMatrix の運用導線
@@ -170,6 +176,7 @@
 ### admin.auditLogs.query
 - opId: admin.auditLogs.query
 - UI Entry: 監査ログの閲覧導線
+- links/uiPath: /admin/audit-logs
 - 関連しうるAPI観点: 検索性 / 追跡性 / 表示一貫性
 - 要求されるRole: viewer / editor / operator / admin
 - 事前に満たされているべき前提: SSOT の監査規約 / PolicyUxAdminMatrix の参照導線
@@ -179,6 +186,7 @@
 ### admin.incident.create
 - opId: admin.incident.create
 - UI Entry: 事象記録の作成導線
+- links/uiPath: /admin/incidents/new
 - 関連しうるAPI観点: 記録一貫性 / 参照性 / 追跡性
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT の事象記録規約 / PolicyUxAdminMatrix の運用導線
@@ -188,6 +196,7 @@
 ### admin.contentRegistry.review
 - opId: admin.contentRegistry.review
 - UI Entry: Content Registry のレビュー導線
+- links/uiPath: /admin/content-registry/review
 - 関連しうるAPI観点: 承認状態の同期 / 差分可視化 / 監査追跡
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT 1-6 / 4-2-b の承認ゲート / PolicyUxAdminMatrix の参照導線
@@ -197,6 +206,7 @@
 ### admin.contentRegistry.activate
 - opId: admin.contentRegistry.activate
 - UI Entry: Content の有効化導線
+- links/uiPath: /admin/content-registry/activate
 - 関連しうるAPI観点: 有効化時刻の整合 / 反映遅延 / 監査記録
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT 1-6 の lifecycle / audit_logs 導線
@@ -206,6 +216,7 @@
 ### admin.contentRegistry.retire
 - opId: admin.contentRegistry.retire
 - UI Entry: Content の終了/停止導線
+- links/uiPath: /admin/content-registry/retire
 - 関連しうるAPI観点: 停止の即時反映 / 影響範囲の特定
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT 1-6 の killFlag / audit_logs 導線
@@ -215,6 +226,7 @@
 ### admin.cityPack.review
 - opId: admin.cityPack.review
 - UI Entry: City Pack のレビュー導線
+- links/uiPath: /admin/city-pack/review
 - 関連しうるAPI観点: Failure Mode の妥当性 / 差分可視化 / 監査追跡
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT 5-8 / 4-2-b の承認導線
@@ -224,6 +236,7 @@
 ### admin.cityPack.activate
 - opId: admin.cityPack.activate
 - UI Entry: City Pack の有効化導線
+- links/uiPath: /admin/city-pack/activate
 - 関連しうるAPI観点: activation 環境の切替 / 反映遅延 / 監査記録
 - 要求されるRole: operator / admin
 - 事前に満たされているべき前提: SSOT 5-8 の watch state / audit_logs 導線
@@ -233,9 +246,10 @@
 ### admin.cityPack.rollback
 - opId: admin.cityPack.rollback
 - UI Entry: City Pack の停止/ロールバック導線
+- links/uiPath: /admin/city-pack/rollback
 - 関連しうるAPI観点: 即時停止 / 影響範囲 / 監査追跡
 - 要求されるRole: operator / admin
-- 事前に満たされているべき前提: SSOT 5-8 の rollback 条件 / audit_logs 導線
+- 事前に満たされているべき前提: SSOT 5-8 / docs/ops/city_pack_auto_generation_spec.md の rollback 条件 / audit_logs 導線
 - UX上の注意（表示・文言・誘導）: 停止理由の明示 / 復旧条件の可視化
 - 事故パターン（1行）: 停止理由が曖昧で再発防止ができない
 
