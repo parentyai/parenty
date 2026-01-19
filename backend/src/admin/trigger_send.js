@@ -1,6 +1,39 @@
 const { runPolicy } = require('../policy');
 const { sendLinePushWithPolicy } = require('../line/delivery');
 
+const ADMIN_TRIGGER_TIMEOUT_MS = 12000;
+
+function withTimeout(promise, timeoutMs) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => {
+      const error = new Error(`[admin.trigger] timeout after ${timeoutMs}ms`);
+      error.code = 'ADMIN_TRIGGER_TIMEOUT';
+      reject(error);
+    }, timeoutMs);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
+}
+
+function getTraceId(req) {
+  const header = req && req.headers && req.headers['x-cloud-trace-context'];
+  if (!header || typeof header !== 'string') {
+    return undefined;
+  }
+  return header.split('/')[0];
+}
+
+function makeLogger({ traceId, startedAt }) {
+  return (stage, detail) => {
+    const payload = Object.assign({
+      stage,
+      traceId,
+      elapsedMs: Date.now() - startedAt
+    }, detail || {});
+    console.log('[admin.trigger]', payload);
+  };
+}
+
 function requireString(value, fieldName) {
   if (!value || typeof value !== 'string' || value.trim() === '') {
     const error = new Error(`[admin.trigger] ${fieldName} is required`);
@@ -54,60 +87,85 @@ async function handleAdminTriggerSend({ env, getStores, req, res }) {
   let contentId = null;
   let targetId = null;
   let auditStore = null;
+  const traceId = getTraceId(req);
+  const startedAt = Date.now();
+  const log = makeLogger({ traceId, startedAt });
   try {
+    log('start', { targetKeys: Object.keys(payload.targetScope || {}) });
     contentId = requireString(payload.contentId, 'contentId');
     targetId = resolveTargetId(payload.targetScope);
-    const stores = getStores();
-    const { firestore, repo } = stores;
-    auditStore = stores.auditStore;
+    const timeoutMs = Number.isFinite(Number(env.ADMIN_TRIGGER_TIMEOUT_MS))
+      ? Number(env.ADMIN_TRIGGER_TIMEOUT_MS)
+      : ADMIN_TRIGGER_TIMEOUT_MS;
 
-    let templateId = contentId;
-    let template = await repo.getDocData('templates', templateId);
-    if (!template) {
-      templateId = `tpl_${contentId}`;
-      template = await repo.getDocData('templates', templateId);
-    }
+    const output = await withTimeout((async () => {
+      const stores = getStores();
+      const { firestore, repo } = stores;
+      auditStore = stores.auditStore;
 
-    const status = template && template.data ? template.data.status : null;
-    const hasBody = template && template.data && typeof template.data.body === 'string';
+      let templateId = contentId;
+      let template = await repo.getDocData('templates', templateId);
+      if (!template) {
+        templateId = `tpl_${contentId}`;
+        template = await repo.getDocData('templates', templateId);
+      }
 
-    const reasonCode = status === 'active' && hasBody
-      ? 'INSIGHT_PRESENTED'
-      : 'CONTEXT_PROVIDER_OUTAGE';
-    const decision = buildPolicyDecision(env, reasonCode);
+      const status = template && template.data ? template.data.status : null;
+      const hasBody = template && template.data && typeof template.data.body === 'string';
+      log('template.resolved', { contentId, templateId, status, hasBody });
 
-    const result = await sendLinePushWithPolicy({
-      targetId,
-      contentId,
-      templateIdOverride: templateId,
-      policyDecision: decision,
-      env,
-      firestore
-    });
+      const reasonCode = status === 'active' && hasBody
+        ? 'INSIGHT_PRESENTED'
+        : 'CONTEXT_PROVIDER_OUTAGE';
+      const decision = buildPolicyDecision(env, reasonCode);
+      log('policy.resolved', { result: decision.result, reasonCodes: decision.reasonCodes });
 
-    const now = new Date();
-    await auditStore.createAuditLog({
-      actorType: 'admin',
-      actorId: req.auth.uid,
-      action: 'ADMIN_TRIGGER_SEND',
-      runbookLabel: 'phase4_1_trigger',
-      target: {
-        kind: 'content',
-        id: contentId
-      },
-      reasonCodes: decision.reasonCodes,
-      summary: payload.reason || 'admin trigger send',
-      createdAt: now
-    });
+      const sendStartedAt = Date.now();
+      const result = await sendLinePushWithPolicy({
+        targetId,
+        contentId,
+        templateIdOverride: templateId,
+        policyDecision: decision,
+        env,
+        firestore
+      });
+      log('send.done', { durationMs: Date.now() - sendStartedAt, deliveryOk: result && result.ok });
 
+      const now = new Date();
+      await auditStore.createAuditLog({
+        actorType: 'admin',
+        actorId: req.auth.uid,
+        action: 'ADMIN_TRIGGER_SEND',
+        runbookLabel: 'phase4_1_trigger',
+        target: {
+          kind: 'content',
+          id: contentId
+        },
+        reasonCodes: decision.reasonCodes,
+        summary: payload.reason || 'admin trigger send',
+        createdAt: now
+      });
+
+      return {
+        result,
+        decision,
+        templateId
+      };
+    })(), timeoutMs);
+
+    log('done', { contentId, templateId: output.templateId, decisionResult: output.decision.result });
     return res.status(200).json({
       ok: true,
       contentId,
       targetId,
-      decision,
-      delivery: result
+      decision: output.decision,
+      delivery: output.result
     });
   } catch (error) {
+    if (error && error.code === 'ADMIN_TRIGGER_TIMEOUT') {
+      log('timeout', { message: error.message });
+      return res.status(504).json({ ok: false, error: 'timeout' });
+    }
     if (error && (error.code === 'ADMIN_TRIGGER_INVALID' || error.code === 'ADMIN_TRIGGER_UNSUPPORTED')) {
       return res.status(400).json({ ok: false, error: error.message });
     }
