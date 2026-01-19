@@ -14,6 +14,7 @@ const COLLECTIONS = Object.freeze({
   ADMIN: [
     'admin_users',
     'templates',
+    'debug_line_users',
     'global_flags',
     'data_requests',
     'sources',
