@@ -25,12 +25,6 @@
 |---|---|---|---|---|---|---|
 | GOOGLE_APPLICATION_CREDENTIALS | local | ローカル: ファイルパス | ローカル認証 | 認証失敗 | 実装後に確認 | Owner |
 
-## 一時運用（stg限定・緊急）
-
-| var_name | required_in | source | purpose | risk | validation | owner |
-|---|---|---|---|---|---|---|
-| CAPTURE_LINE_USERID_ONCE | stg | Cloud Run: env | LINE webhookの生userIdを1回だけ保存（運用一時対応） | PII露出/恒久化 | Firestoreに1件のみ作成 | EngAI |
-
 ## 将来候補（雛形で未使用）
 
 | var_name | required_in | source | purpose | risk | validation | owner |

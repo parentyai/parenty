@@ -2,7 +2,6 @@ const express = require('express');
 const { loadEnv } = require('./src/config/env');
 const { verifySignature } = require('./src/line/verifySignature');
 const { normalizeEvents, logEvents } = require('./src/line/handler');
-const { captureLineUserIdOnce } = require('./src/line/capture_userid');
 const { sendLineReplyWithPolicy } = require('./src/line/delivery');
 const { evaluateLinePolicy } = require('./src/line/policy');
 const { runPolicy } = require('./src/policy');
@@ -49,16 +48,6 @@ app.post('/line/webhook', async (req, res) => {
   if (!firestore) {
     console.error('[line.webhook] firestore not configured');
     return res.status(503).json({ ok: false, error: 'firestore not configured' });
-  }
-
-  try {
-    await captureLineUserIdOnce({
-      env,
-      firestore,
-      events: req.body && req.body.events
-    });
-  } catch (error) {
-    console.error('[line.capture] error', { message: error.message });
   }
 
   const events = normalizeEvents(req.body);

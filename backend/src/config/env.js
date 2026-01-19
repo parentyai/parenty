@@ -42,7 +42,6 @@ function loadEnv() {
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
     STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
     POLICY_REASON_CODE_INDEX_PATH: process.env.POLICY_REASON_CODE_INDEX_PATH || '',
-    CAPTURE_LINE_USERID_ONCE: process.env.CAPTURE_LINE_USERID_ONCE || ''
   };
 }
 
