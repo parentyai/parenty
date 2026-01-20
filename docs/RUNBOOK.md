@@ -16,9 +16,8 @@
 - LINE_CHANNEL_ACCESS_TOKEN: Secret Manager
 - 追加予定の Secret も同一方針に揃える
 
-## Service URLs
-- stg: https://parenty-backend-920294176726.us-east1.run.app
-- prod: https://parenty-backend-prod-920294176726.us-east1.run.app
+## Service URL（single-env）
+- https://<CLOUD_RUN_URL>
 
 ## ローテーション
 - Secret 変更時は Cloud Run の参照先を最新版に切り替える。

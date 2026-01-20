@@ -9,15 +9,15 @@
 
 | var_name | required_in | source | purpose | risk | validation | owner |
 |---|---|---|---|---|---|---|
-| PORT | local / stg / prod | ローカル: `.env` / Cloud Run: 自動付与 | 起動ポート | 起動失敗・疎通不可 | 起動ログと `/health` | EngAI |
-| ENV_NAME | local / stg / prod | ローカル: `.env` / Cloud Run: env | 環境識別 | 誤運用 | `/health` の envName | EngAI |
-| PUBLIC_BASE_URL | local / stg / prod | ローカル: `.env` / Cloud Run: env | Webhook/外部導線の基準URL | Webhook不一致 | `/health` の baseUrl | EngAI |
-| LINE_CHANNEL_SECRET | local / stg / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE署名検証用 | 401固定・誤受信 | Webhook署名テスト | Owner |
-| LINE_CHANNEL_ACCESS_TOKEN | local / stg / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE返信/Push送信用 | 返信不能 | LINE送信テスト | Owner |
-| LINE_REPLY_CONTENT_ID | local / stg / prod | ローカル: `.env` / Cloud Run: env | LINE返信テンプレの参照ID（templates / Content Artifact） | 文言不整合/送信失敗 | LINE送信テスト | Owner |
-| GCP_PROJECT_ID | stg / prod | Cloud Run: env | GCPプロジェクト識別（Firestore必須） | 誤プロジェクトアクセス | Cloud Run env | Owner |
-| FIRESTORE_DATABASE_ID | stg / prod | Cloud Run: env | Firestore DB識別（templates/配送ログ必須） | 読み書き失敗 | `/health` の firestore.configured | Owner |
-| FIRESTORE_LOCATION | stg / prod | Cloud Run: env | Firestoreリージョン | 接続不整合 | 実装後に確認 | Owner |
+| PORT | local / prod | ローカル: `.env` / Cloud Run: 自動付与 | 起動ポート | 起動失敗・疎通不可 | 起動ログと `/health` | EngAI |
+| ENV_NAME | local / prod | ローカル: `.env` / Cloud Run: env | 環境識別 | 誤運用 | `/health` の envName | EngAI |
+| PUBLIC_BASE_URL | local / prod | ローカル: `.env` / Cloud Run: env | Webhook/外部導線の基準URL | Webhook不一致 | `/health` の baseUrl | EngAI |
+| LINE_CHANNEL_SECRET | local / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE署名検証用 | 401固定・誤受信 | Webhook署名テスト | Owner |
+| LINE_CHANNEL_ACCESS_TOKEN | local / prod | ローカル: `.env` / Cloud Run: Secret Manager | LINE返信/Push送信用 | 返信不能 | LINE送信テスト | Owner |
+| LINE_REPLY_CONTENT_ID | local / prod | ローカル: `.env` / Cloud Run: env | LINE返信テンプレの参照ID（templates / Content Artifact） | 文言不整合/送信失敗 | LINE送信テスト | Owner |
+| GCP_PROJECT_ID | prod | Cloud Run: env | GCPプロジェクト識別（Firestore必須） | 誤プロジェクトアクセス | Cloud Run env | Owner |
+| FIRESTORE_DATABASE_ID | prod | Cloud Run: env | Firestore DB識別（templates/配送ログ必須） | 読み書き失敗 | `/health` の firestore.configured | Owner |
+| FIRESTORE_LOCATION | prod | Cloud Run: env | Firestoreリージョン | 接続不整合 | 実装後に確認 | Owner |
 
 ## ローカル補助（認証）
 
@@ -29,8 +29,8 @@
 
 | var_name | required_in | source | purpose | risk | validation | owner |
 |---|---|---|---|---|---|---|
-| OPENAI_API_KEY | stg / prod | Secret Manager | LLM利用 | 課金/漏洩 | 実装後に確認 | Owner |
-| STRIPE_SECRET_KEY | stg / prod | Secret Manager | 決済 | 課金/漏洩 | 実装後に確認 | Owner |
-| STRIPE_WEBHOOK_SECRET | stg / prod | Secret Manager | Webhook検証 | 401固定・誤受信 | 実装後に確認 | Owner |
-| STRIPE_PRICE_SOLO_MONTHLY | stg / prod | Stripe dashboard | 価格ID | 誤課金 | 実装後に確認 | Owner |
-| POLICY_REASON_CODE_INDEX_PATH | stg / prod | Cloud Run: env | reasonCodeIndex の参照パス（付録B由来、例: backend/reason_code_index.json） | 正規化不可 | 実装後に確認 | EngAI |
+| OPENAI_API_KEY | prod | Secret Manager | LLM利用 | 課金/漏洩 | 実装後に確認 | Owner |
+| STRIPE_SECRET_KEY | prod | Secret Manager | 決済 | 課金/漏洩 | 実装後に確認 | Owner |
+| STRIPE_WEBHOOK_SECRET | prod | Secret Manager | Webhook検証 | 401固定・誤受信 | 実装後に確認 | Owner |
+| STRIPE_PRICE_SOLO_MONTHLY | prod | Stripe dashboard | 価格ID | 誤課金 | 実装後に確認 | Owner |
+| POLICY_REASON_CODE_INDEX_PATH | prod | Cloud Run: env | reasonCodeIndex の参照パス（付録B由来、例: backend/reason_code_index.json） | 正規化不可 | 実装後に確認 | EngAI |

@@ -72,22 +72,12 @@ curl -sS -X POST http://localhost:3000/line/webhook \
 
 ---
 
-## Cloud Run
+## Cloud Run（single-env）
 
-### stg /health が 200
-
-```bash
-curl -sS https://parenty-backend-920294176726.us-east1.run.app/health
-```
-
-期待結果
-- HTTP 200
-- `envName: "stg"`
-
-### prod /health が 200
+### /health が 200
 
 ```bash
-curl -sS https://parenty-backend-prod-920294176726.us-east1.run.app/health
+curl -sS https://<CLOUD_RUN_URL>/health
 ```
 
 期待結果
@@ -140,7 +130,7 @@ Firestore Console で対象 templateId の `status` を `active` に変更する
 
 ### 4) 配信・監査ログ確認（1回だけ）
 
-1) STG もしくは自分のみの限定ユーザーで送信を1回実行  
+1) single-env で自分のみの限定ユーザーに送信を1回実行  
 2) Firestore の `notification_deliveries` を確認
 
 期待結果（必須）
@@ -187,7 +177,7 @@ POST /admin/v1/trigger/send
 - 対象テンプレは配信されず、DEGRADED/DENY テンプレで返信される
 - `notification_deliveries` に必須3点が残る
 
-実施記録（prod）
+実施記録（single-env）
 - 2026-01-18: `tpl_cp_nyc_optin_prompt_v1` の `active → disabled → active` を確認し、`notification_deliveries` に `contentId/templateId/policyDecision` が記録されることを確認。
 
 ---

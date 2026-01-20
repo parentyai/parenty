@@ -11,4 +11,4 @@
 | CEO作業手順書が完成 | Yes | `docs/CEO_ACTIONS_PHASE0.md` |
 | Smoke testsが文章化済み | Yes | `docs/SMOKE_TESTS.md` |
 | Secretsがコード/ログに出ない（grepで確認） | Yes | `.env` を除外して検索済み（値の混入なし） |
-| STG/PRODの境界が崩れていない（ENV_NAME等） | Yes | `/health` で `envName=stg` を確認済み |
+| single-env の環境識別が一意（ENV_NAME=prod） | No | `/health` で `envName=prod` を確認する |
