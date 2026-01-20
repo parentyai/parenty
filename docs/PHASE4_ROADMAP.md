@@ -62,7 +62,41 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
    - 参照: `PARENTY_SSOT.md` 5-8 / 4-2-b
    - `city_pack_watch_states` を管理UIの参照導線に接続する。
 
-### 3) ブロッカー（判断待ち）
+### 3) Phase4 v1（City Pack / Editorial / Delivery 最小成立）
+
+**City Pack v1（1都市・3項目）**
+- 都市: NYC（検証導線が明確で運用確認しやすい）
+- 項目（contentId / templateId / 本文）
+  1) `cp_nyc_school_calendar_v1` / `tpl_cp_nyc_school_calendar_v1`  
+     本文: 「NYCの学校カレンダーに更新があるかを確認し、必要時は公式導線を案内します。」
+  2) `cp_nyc_emergency_alert_v1` / `tpl_cp_nyc_emergency_alert_v1`  
+     本文: 「NYCの緊急情報に変更があるかを確認し、必要時は公式導線を案内します。」
+  3) `cp_nyc_admin_update_v1` / `tpl_cp_nyc_admin_update_v1`  
+     本文: 「NYCの行政手続きに関する更新があるかを確認し、必要時は公式導線を案内します。」
+- [仮説] 参照元URLは管理UIで登録し、本文には混在させない。
+
+**Editorial v1（下書き→承認→配信）**
+- 下書きテンプレ例（承認前）
+  - `tpl_editorial_nyc_update_v1`  
+    本文: 「NYCで確認された更新を短く整理しました。公式導線のみを案内します。」
+- 送信は `contentId` 経由のみ、承認後に Delivery Engine へ渡す。
+
+**Delivery / UX（最小接続）**
+- Opt-in 文面（contentId / templateId）
+  - `cp_nyc_optin_prompt_v1` / `tpl_cp_nyc_optin_prompt_v1`  
+    本文: 「NYCの都市パックを受け取りますか？」
+- 変更ログ（1行表示）
+  - `cp_nyc_update_digest_v1` / `tpl_cp_nyc_update_digest_v1`  
+    本文: 「最近追加された情報があります。」
+
+### 4) Derived Insight 非実装方針（固定）
+
+- Phase4では Derived Insight を保存しない。
+- スキーマ追加 / Firestore保存 / 実装は行わない。
+- `tools/schema_check.js` の WARN は意図的に維持する（SSOT汚染回避 / 価値線非該当）。
+- 着手フェーズは Phase5 とし、SSOT定義と監査導線確定後にHARD化を検討する。
+
+### 5) ブロッカー（判断待ち）
 
 - `Todo.md` の未解決事項が残る場合は作業を停止する。
 

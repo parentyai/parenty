@@ -2589,7 +2589,7 @@ UXの「注意喚起・判断補助（Insight）」に対する反応のみを�
 | type | string | 必須 | notification / scenario / broadcast / fixed_message / rich_menu / sns_editorial / lp |
 | status | string | 必須 | draft / review / approved / active / retired |
 | locale | string | 必須 | ja-JP 等 |
-| city | string | 必須 | city_code / GLOBAL |
+| city | string | 必須 | cityCode / GLOBAL |
 | plan | string | 必須 | free / solo / family / extended / all |
 | version | string | 必須 | vX.Y |
 | approvals | array | 必須 | 承認履歴 |
@@ -2620,7 +2620,7 @@ City Pack 生成・検証・承認・有効化の **監査証跡**を残す。
 | フィールド | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
 | requestId | string | 必須 | リクエストID |
-| cityCode | string | 必須 | city_code |
+| cityCode | string | 必須 | cityCode |
 | state | string | 必須 | REQUESTED / DISCOVERY / DRAFT_BUILT / VALIDATED / HUMAN_REVIEW / APPROVED / ACTIVATED / REJECTED / ROLLED_BACK |
 | discoverySources | array | 必須 | URL/カテゴリ/取得方法 |
 | llmModel | string | 任意 | 使用モデル |
@@ -3947,10 +3947,10 @@ UX制約：
 
 **Failure Mode 辞書（上限15）**
 
-- フィールド: `failure_code / label / description / applies_to / default_watch_frequency / risk_definition / unknown_allowed`
+- フィールド: `failureCode / label / description / appliesTo / defaultWatchFrequency / riskDefinition / unknownAllowed`
 - 初期セット（10）:
 
-| failure_code | label | description | applies_to | default_watch_frequency | risk_definition | unknown_allowed |
+| failureCode | label | description | appliesTo | defaultWatchFrequency | riskDefinition | unknownAllowed |
 | --- | --- | --- | --- | --- | --- | --- |
 | F01_OFFICIAL_UNREACHABLE | 公式到達不可 | 公式導線に到達不可 | all | weekly | 公式確認不可 | true |
 | F02_TERMS_UNREACHABLE | 規約不明 | terms/privacy 到達不可 | all | monthly | 規約確認不能 | true |
@@ -3967,13 +3967,13 @@ UX制約：
 
 **Watch State（保存最小）**
 
-- 必須: `city_code / failure_code / state / confidence / last_checked_at / provenance / expires_at`
+- 必須: `cityCode / failureCode / state / confidence / lastCheckedAt / provenance / expiresAt`
 - provenance は抽象名のみ。詳細は管理UIで参照する。
 
 **UNKNOWN の扱い**
 
 - UNKNOWN は失敗でもエラーでもない。
-- 「責任範囲外 / 確認不能」の正常状態として扱う。
+- UNKNOWN は「責任範囲外 / 確認不能」の正常状態として扱う。
 
 **UX表示ルール**
 
@@ -3982,7 +3982,7 @@ UX制約：
 
 **LLM利用範囲**
 
-- 許可: 差分要約 / failure_code へのマッピング / 状態判定補助
+- 許可: 差分有無の要約 / Failure Mode へのマッピング / 状態判定補助（ok/risk/unknown）
 - 禁止: 自由探索 / 自由検索 / 常時クロール / 正解断定
 
 **マーケティング表現**
@@ -3993,7 +3993,7 @@ UX制約：
 **スケーラビリティ**
 
 - ストレージは O(C×F) で固定（C=city数、F=failure_mode数）。
-- 更新は city_code 単位で O(F)、`expires_at` 到達で上書き/失効。
+- 更新は cityCode 単位で O(F)、`expiresAt` 到達で上書き/失効。
 
 #### 結論
 
@@ -4874,7 +4874,7 @@ components:
 | incident_records | 7年 | 事故履歴 |
 | content_publication_logs | 2年 | 外部再発信の説明責任 |
 | city_pack_generation_logs | 7年 | 出典・承認の説明責任 |
-| city_pack_watch_states | expires_at到達で削除 | Watch State の上書き運用 |
+| city_pack_watch_states | expiresAt到達で削除 | Watch State の上書き運用 |
 
 ---
 

@@ -62,6 +62,14 @@ UX_STATE_MAP_7 は Policy判定結果を「どう見せるか／どう伝える�
 6. DEGRADED/DENY の UX 文言は SSOT 付録Cのみ（テンプレ参照以外禁止）（参照: [`UX_STATE_MAP_7.md`](UX_STATE_MAP_7.md)）
 7. 未定義値は FAIL-SAFE（UNKNOWN_REASON → DENY + CREATE_INCIDENT + [7-2-1]）（参照: [`PARENTY_SSOT.md`](PARENTY_SSOT.md)）
 
+### 接続サマリ（最小可視化）
+
+| 接続点 | Policy | UX | Delivery / Logs | Admin | SSOT参照 |
+| --- | --- | --- | --- | --- | --- |
+| A) Policy → UX → Delivery | result / reasonCodes / primaryReason | 付録Cテンプレ参照 | `notification_deliveries` に policyDecision | 監査で追跡 | 6-0 / 付録C / 7章 |
+| B) Content → Delivery → Logs | contentId / templateId | 文言はテンプレ経由のみ | `templates` → `notification_deliveries` | template 登録/承認/停止 | 1-6 / 4-2-b / 7-3 |
+| C) Admin → 影響範囲 | 承認・停止の前提 | UX文面は更新可否のみ | 配送ログで影響追跡 | `audit_logs` 参照 | 1-6 / 6-2X / 7章 |
+
 ---
 
 ## 結論
@@ -85,4 +93,3 @@ UX_STATE_MAP_7 は Policy判定結果を「どう見せるか／どう伝える�
 ## 矛盾候補（隔離）
 
 - （自動点検の結果で追記する：例：付録Bにあるが6-2Xに無い primaryReason 等）
-

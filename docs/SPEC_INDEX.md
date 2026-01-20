@@ -26,6 +26,8 @@
 - City Pack 自動生成仕様: `ops/city_pack_auto_generation_spec.md`
 - Content Registry 仕様: `ops/content_registry_spec.md`
 - 編集再発信（Editorial Engine）仕様: `ops/editorial_engine_spec.md`
+- Phase4.1 Trigger 仕様: `ops/phase4_1_trigger_spec.md`
+- Spec Guard（HARD FAIL）仕様: `ops/spec_guard_hard_fail.md`
 - Phase 1 ロードマップ: `PHASE1_ROADMAP.md`
 - Phase 1 Auth 適用範囲: `PHASE1_AUTH_SCOPE.md`
 - Phase 2 ロードマップ: `PHASE2_ROADMAP.md`

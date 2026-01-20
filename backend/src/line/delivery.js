@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { sendLineReply } = require('../delivery/send_line');
+const { sendLineReply, sendLinePush } = require('../delivery/send_line');
 const { createNotificationDeliveryStore } = require('../firestore/notification_deliveries');
 const { createRepository } = require('../firestore/repository');
 const { runPolicy } = require('../policy');
@@ -32,6 +32,9 @@ async function resolveTemplateBody(repo, templateId) {
   }
   const record = await repo.getDocData('templates', templateId);
   if (!record || !record.data) {
+    return null;
+  }
+  if (record.data.status !== 'active') {
     return null;
   }
   const body = record.data.body;
@@ -81,6 +84,10 @@ async function resolveMessageText({ decision, repo, contentId }) {
   const error = new Error('[line.delivery] template body is required');
   error.code = 'LINE_TEMPLATE_MISSING';
   throw error;
+}
+
+function buildDedupeKey(contentId, targetId) {
+  return crypto.createHash('sha256').update(`${contentId}:${targetId}`).digest('hex');
 }
 
 async function sendLineReplyWithPolicy({
@@ -176,4 +183,97 @@ async function sendLineReplyWithPolicy({
   return result;
 }
 
-module.exports = { sendLineReplyWithPolicy };
+async function sendLinePushWithPolicy({
+  targetId,
+  contentId,
+  templateIdOverride,
+  policyDecision,
+  env,
+  firestore
+}) {
+  requireString(targetId, 'targetId');
+  requireString(contentId, 'contentId');
+
+  const decision = policyDecision || runPolicy({}, {
+    reasonCodeIndexPath: env.POLICY_REASON_CODE_INDEX_PATH
+  });
+
+  const repo = createRepository(firestore);
+  const baseContentId = decision.result === 'ALLOW'
+    ? (templateIdOverride || contentId)
+    : decision.templateId || null;
+  requireString(baseContentId, 'contentId');
+
+  const { text, templateId, contentId: resolvedContentId } = await resolveMessageText({
+    decision,
+    repo,
+    contentId: baseContentId
+  });
+
+  const traceId = decision.policyTrace && decision.policyTrace.traceId
+    ? decision.policyTrace.traceId
+    : crypto.randomUUID();
+  const dedupeKey = buildDedupeKey(resolvedContentId, targetId);
+  const message = {
+    type: 'text',
+    text
+  };
+  const store = createNotificationDeliveryStore(firestore);
+  const now = new Date();
+  let result;
+  try {
+    result = await sendLinePush({
+      to: targetId,
+      messages: [message],
+      accessToken: env.LINE_CHANNEL_ACCESS_TOKEN,
+      dedupeKey,
+      traceId
+    });
+  } catch (error) {
+    await store.createNotificationDelivery({
+      householdId: targetId,
+      notificationId: dedupeKey,
+      dedupeKey,
+      status: 'failed',
+      policyDecision: decision,
+      sentAt: now,
+      trace: {
+        runId: traceId
+      },
+      contentId,
+      templateId,
+      channel: 'LINE',
+      mode: 'push',
+      sendOutcome: {
+        success: false,
+        error: error.message
+      }
+    });
+    throw error;
+  }
+
+  await store.createNotificationDelivery({
+    householdId: targetId,
+    notificationId: dedupeKey,
+    dedupeKey: result.dedupeKey || dedupeKey,
+    status: 'sent',
+    policyDecision: decision,
+    sentAt: now,
+    trace: {
+      runId: traceId
+    },
+    contentId,
+    templateId,
+    channel: 'LINE',
+    mode: 'push',
+    sendOutcome: {
+      success: true,
+      messageId: result.messageId,
+      latency: result.latency
+    }
+  });
+
+  return result;
+}
+
+module.exports = { sendLineReplyWithPolicy, sendLinePushWithPolicy };

@@ -1,5 +1,7 @@
 # RUNBOOK（backend最小運用）
 
+本書は backend 最小運用の補助資料であり、運用の正本は `Runbook.md` に固定する。
+
 ## 背景
 - backend は最小の疎通確認を目的とした雛形であり、機能拡張は後続フェーズで行う。
 
@@ -14,9 +16,8 @@
 - LINE_CHANNEL_ACCESS_TOKEN: Secret Manager
 - 追加予定の Secret も同一方針に揃える
 
-## Service URLs
-- stg: https://parenty-backend-920294176726.us-east1.run.app
-- prod: https://parenty-backend-prod-920294176726.us-east1.run.app
+## Service URL（single-env）
+- https://<CLOUD_RUN_URL>
 
 ## ローテーション
 - Secret 変更時は Cloud Run の参照先を最新版に切り替える。
@@ -73,4 +74,5 @@ npm run firestore:rules-audit
 
 ## 実作業ログ（運用記録）
 
-- 2026-01-13: Cloud Run 環境変数を整理（LINE_REPLY_TEXT / GCP_PROJECT_ID / FIRESTORE_DATABASE_ID / PUBLIC_BASE_URL）、/health で `firestore.configured: true` を確認。
+- 2026-01-13: Cloud Run 環境変数を整理（LINE_REPLY_CONTENT_ID / GCP_PROJECT_ID / FIRESTORE_DATABASE_ID / PUBLIC_BASE_URL）、/health で `firestore.configured: true` を確認。
+- 2026-01-18: Phase4 v1 テンプレ運用（prod）を確認。`tpl_cp_nyc_optin_prompt_v1` の `active → disabled → active` を実施し、`notification_deliveries` に `contentId/templateId/policyDecision` が記録されることを確認。

@@ -81,6 +81,7 @@
 
 - **スキーマ雛形**（`tools/schema_check.js`）
   - Derived Insight保存スキーマが導入された場合の必須フィールド検証
+  - Phase4ではWARN維持の方針を `docs/PHASE4_ROADMAP.md` に固定（Derived Insight 非実装）
 
 - **External API Compliance Watch（監視の基盤）**（`tools/api_watch.js`）
   - `APIRegistry_External.md` の backtick URL を巡回し、`docs/api_watch/snapshot.json` を生成（常に上書き）

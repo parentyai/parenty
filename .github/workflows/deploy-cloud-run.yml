@@ -2,15 +2,6 @@ name: deploy-cloud-run
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy_env:
-        description: stg or prod
-        required: true
-        default: stg
-        type: choice
-        options:
-          - stg
-          - prod
   push:
     branches:
       - main
@@ -36,27 +27,16 @@ jobs:
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           GCP_REGION: ${{ secrets.GCP_REGION }}
-          CLOUD_RUN_SERVICE_STG: ${{ secrets.CLOUD_RUN_SERVICE_STG }}
-          CLOUD_RUN_SERVICE_PROD: ${{ secrets.CLOUD_RUN_SERVICE_PROD }}
           CLOUD_RUN_SERVICE: ${{ secrets.CLOUD_RUN_SERVICE }}
           LINE_REPLY_CONTENT_ID: ${{ secrets.LINE_REPLY_CONTENT_ID }}
           FIRESTORE_DATABASE_ID: ${{ secrets.FIRESTORE_DATABASE_ID }}
-          DEPLOY_ENV: ${{ github.event.inputs.deploy_env || 'stg' }}
         run: |
           set -euo pipefail
-          if [ "$DEPLOY_ENV" = "prod" ]; then
-            if [ -z "${CLOUD_RUN_SERVICE_PROD:-}" ]; then
-              echo "CLOUD_RUN_SERVICE_PROD is missing"
-              exit 1
-            fi
-            SERVICE_NAME="$CLOUD_RUN_SERVICE_PROD"
-          else
-            SERVICE_NAME="${CLOUD_RUN_SERVICE_STG:-${CLOUD_RUN_SERVICE:-}}"
-            if [ -z "$SERVICE_NAME" ]; then
-              echo "CLOUD_RUN_SERVICE_STG or CLOUD_RUN_SERVICE is missing"
-              exit 1
-            fi
+          if [ -z "${CLOUD_RUN_SERVICE:-}" ]; then
+            echo "CLOUD_RUN_SERVICE is missing"
+            exit 1
           fi
+          SERVICE_NAME="$CLOUD_RUN_SERVICE"
           if [ -z "${LINE_REPLY_CONTENT_ID:-}" ]; then
             echo "LINE_REPLY_CONTENT_ID is missing"
             exit 1
@@ -71,7 +51,7 @@ jobs:
             --region "$GCP_REGION" \
             --source backend \
             --allow-unauthenticated \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL=https://placeholder.local,LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID" \
+            --update-env-vars ENV_NAME="prod",PUBLIC_BASE_URL=https://placeholder.local,LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID" \
             --set-secrets LINE_CHANNEL_SECRET=LINE_CHANNEL_SECRET:latest,LINE_CHANNEL_ACCESS_TOKEN=LINE_CHANNEL_ACCESS_TOKEN:latest
 
           SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
@@ -82,7 +62,7 @@ jobs:
           gcloud run services update "$SERVICE_NAME" \
             --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" \
-            --update-env-vars ENV_NAME="$DEPLOY_ENV",PUBLIC_BASE_URL="$SERVICE_URL",LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
+            --update-env-vars ENV_NAME="prod",PUBLIC_BASE_URL="$SERVICE_URL",LINE_REPLY_CONTENT_ID="$LINE_REPLY_CONTENT_ID",GCP_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
 
           echo "SERVICE_URL=$SERVICE_URL" >> "$GITHUB_ENV"
           echo "Deployed: $SERVICE_URL"

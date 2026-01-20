@@ -5,22 +5,24 @@ const { createAuditLogStore } = require('../firestore/audit_logs');
 const { createIncidentRecordStore } = require('../firestore/incident_records');
 const { createIncidentWithAudit } = require('../firestore/system_ops');
 const { buildNextActionNone } = require('./next_action');
+const { handleAdminTriggerSend } = require('./trigger_send');
 
 function createAdminRouter({ env, requireAdmin }) {
   const router = express.Router();
 
+  let firestore = null;
   let repo = null;
   let auditStore = null;
   let incidentStore = null;
 
   function getStores() {
     if (!repo || !auditStore || !incidentStore) {
-      const firestore = createFirestoreClient(env);
+      firestore = createFirestoreClient(env);
       repo = createRepository(firestore);
       auditStore = createAuditLogStore(firestore);
       incidentStore = createIncidentRecordStore(firestore);
     }
-    return { repo, auditStore, incidentStore };
+    return { firestore, repo, auditStore, incidentStore };
   }
 
   function handleError(res, error) {
@@ -130,6 +132,10 @@ function createAdminRouter({ env, requireAdmin }) {
     } catch (error) {
       return handleError(res, error);
     }
+  });
+
+  router.post('/trigger/send', async (req, res) => {
+    return handleAdminTriggerSend({ env, getStores, req, res });
   });
 
   return router;
