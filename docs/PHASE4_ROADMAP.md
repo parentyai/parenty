@@ -64,7 +64,7 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
 
 ### 3) Phase4 v1（City Pack / Editorial / Delivery 最小成立）
 
-**City Pack v1（1都市・3項目）**
+**City Pack v1（1都市・5項目）**
 - 都市: NYC（検証導線が明確で運用確認しやすい）
 - 項目（contentId / templateId / 本文）
   1) `cp_nyc_school_calendar_v1` / `tpl_cp_nyc_school_calendar_v1`  
@@ -73,6 +73,10 @@ Phase 4 は Admin UI / Admin API の運用可能化を、SSOTの判断モデル�
      本文: 「NYCの緊急情報に変更があるかを確認し、必要時は公式導線を案内します。」
   3) `cp_nyc_admin_update_v1` / `tpl_cp_nyc_admin_update_v1`  
      本文: 「NYCの行政手続きに関する更新があるかを確認し、必要時は公式導線を案内します。」
+  4) `cp_nyc_events_update_v1` / `tpl_cp_nyc_events_update_v1`  
+     本文: 「NYCの公式イベントに更新があるかを確認し、必要時は公式導線を案内します。」
+  5) `cp_nyc_infrastructure_update_v1` / `tpl_cp_nyc_infrastructure_update_v1`  
+     本文: 「NYCの生活インフラ（図書館・交通など）に更新があるかを確認し、必要時は公式導線を案内します。」
 - [仮説] 参照元URLは管理UIで登録し、本文には混在させない。
 
 **Editorial v1（下書き→承認→配信）**
