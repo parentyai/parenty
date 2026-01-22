@@ -30,6 +30,10 @@ function createAuthMiddleware(env) {
       req.auth = buildAuthContext(decoded);
       return next();
     } catch (error) {
+      if (error && error.code === 'AUTH_VERIFY_TIMEOUT') {
+        console.error('[auth] verifyIdToken timeout');
+        return res.status(503).json({ ok: false, error: 'auth timeout' });
+      }
       return res.status(401).json({ ok: false, error: 'invalid token' });
     }
   }
