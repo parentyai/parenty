@@ -26,6 +26,7 @@ const COLLECTIONS = Object.freeze({
     'reviews',
     'insight_reactions',
     'ops_configs',
+    'debug_line_users',
     'audit_logs',
     'incident_records',
     'admin_views'

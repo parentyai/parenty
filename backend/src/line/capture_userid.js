@@ -7,10 +7,6 @@ function isCaptureEnabled(env) {
   return env && (env.CAPTURE_LINE_USERID_ONCE === '1' || env.CAPTURE_LINE_USERID_ONCE === 'true');
 }
 
-function isStg(env) {
-  return env && env.ENV_NAME === 'stg';
-}
-
 function extractLineUserId(events) {
   if (!Array.isArray(events)) {
     return null;
@@ -25,7 +21,7 @@ function extractLineUserId(events) {
 }
 
 async function captureLineUserIdOnce({ env, firestore, events }) {
-  if (!isStg(env) || !isCaptureEnabled(env) || !firestore) {
+  if (!isCaptureEnabled(env) || !firestore) {
     return false;
   }
   const lineUserId = extractLineUserId(events);
